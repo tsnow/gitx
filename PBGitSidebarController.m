@@ -49,7 +49,11 @@
 	[self populateList];
 
 	historyViewController = [[PBGitHistoryController alloc] initWithRepository:repository superController:superController];
-	commitViewController = [[PBGitCommitController alloc] initWithRepository:repository superController:superController];
+	
+    if(![repository isBareRepository])
+    {
+        commitViewController = [[PBGitCommitController alloc] initWithRepository:repository superController:superController];   
+    }
 
 	[repository addObserver:self forKeyPath:@"currentBranch" options:0 context:@"currentBranchChange"];
 	[repository addObserver:self forKeyPath:@"branches" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:@"branchesModified"];
@@ -65,7 +69,10 @@
 - (void)closeView
 {
 	[historyViewController closeView];
-	[commitViewController closeView];
+	if(commitViewController)
+    {
+        [commitViewController closeView];
+    }
 
 	[repository removeObserver:self forKeyPath:@"currentBranch"];
 	[repository removeObserver:self forKeyPath:@"branches"];
@@ -241,8 +248,11 @@
 	PBSourceViewItem *project = [PBSourceViewItem groupItemWithTitle:[repository projectName]];
 	project.isUncollapsible = YES;
 
-	stage = [PBGitSVStageItem stageItem];
-	[project addChild:stage];
+	if(![repository isBareRepository])
+    {
+        stage = [PBGitSVStageItem stageItem];
+        [project addChild:stage];
+    }
 	
 	branches = [PBSourceViewItem groupItemWithTitle:@"Branches"];
 	remotes = [PBSourceViewItem groupItemWithTitle:@"Remotes"];
