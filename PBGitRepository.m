@@ -944,7 +944,7 @@ NSString* PBGitRepositoryErrorDomain = @"GitXErrorDomain";
 
 	NSString *firstArgument = [arguments objectAtIndex:0];
 
-	if ([firstArgument isEqualToString:@"-c"] || [firstArgument isEqualToString:@"--commit"]) {
+	if (([firstArgument isEqualToString:@"-c"] || [firstArgument isEqualToString:@"--commit"]) && ![self isBareRepository]) {
 		[PBGitDefaults setShowStageView:YES];
 		[self.windowController showCommitView:self];
 		return;

@@ -60,7 +60,7 @@
 
 	[self menuNeedsUpdate:[actionButton menu]];
 
-	if ([PBGitDefaults showStageView])
+	if ([PBGitDefaults showStageView] && ![repository isBareRepository])
 		[self selectStage];
 	else
 		[self selectCurrentBranch];
