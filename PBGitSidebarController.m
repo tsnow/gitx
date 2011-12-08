@@ -288,7 +288,9 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
 		if ([sourceObject isKindOfClass:[PBGitSubmodule class]]) {
 			[[repository.submoduleController defaultCommandForSubmodule:(id)sourceObject] invoke];
 		}
-	}
+    } else if ([item isKindOfClass:[PBGitSVBranchItem class]]) {
+        [repository checkoutRefish:item.ref];
+    }
 }
 
 - (PBSourceViewItem *) itemForRev:(PBGitRevSpecifier *)rev
