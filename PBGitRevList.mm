@@ -148,7 +148,7 @@ using namespace std;
 		}
 
 		git_oid oid;
-		git_oid_mkstr(&oid, sha.c_str());
+		git_oid_fromstr(&oid, sha.c_str());
 		PBGitCommit *newCommit = [PBGitCommit commitWithRepository:repository andSha:[PBGitSHA shaWithOID:oid]];
 
 		string author;
@@ -225,7 +225,7 @@ using namespace std;
 		[self performSelectorOnMainThread:@selector(finishedParsing) withObject:nil waitUntilDone:NO];
 	}
 	else {
-		NSLog(@"[%@ %s] thread has been canceled", [self class], NSStringFromSelector(_cmd));
+		NSLog(@"[%@ %@] thread has been canceled", [self class], NSStringFromSelector(_cmd));
 	}
 
 	[task terminate];

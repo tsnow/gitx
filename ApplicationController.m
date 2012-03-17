@@ -81,16 +81,6 @@
 	if ([launchedDocuments count])
 		hasOpenedDocuments = YES;
 
-    // open any documents that were open the last time the app quit
-    if ([PBGitDefaults openPreviousDocumentsOnLaunch]) {
-        for (NSString *path in [PBGitDefaults previousDocumentPaths]) {
-            NSURL *url = [NSURL fileURLWithPath:path isDirectory:YES];
-            NSError *error = nil;
-            if (url && [[PBRepositoryDocumentController sharedDocumentController] openDocumentWithContentsOfURL:url display:YES error:&error])
-                hasOpenedDocuments = YES;
-        }
-    }
-
 	// Try to find the current directory, to open that as a repository
 	if ([PBGitDefaults openCurDirOnLaunch] && !hasOpenedDocuments) {
 		NSString *curPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"PWD"];

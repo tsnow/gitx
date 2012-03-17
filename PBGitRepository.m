@@ -116,7 +116,7 @@ NSString* PBGitRepositoryErrorDomain = @"GitXErrorDomain";
 	NSURL* gitDirURL = [PBGitRepository gitDirForURL:[self fileURL]];
 	if (!gitDirURL) {
 		if (outError) {
-			NSDictionary* userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@ does not appear to be a git repository.", [self fileName]]
+			NSDictionary* userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@ does not appear to be a git repository.", [self fileURL].absoluteString]
 																 forKey:NSLocalizedRecoverySuggestionErrorKey];
 			*outError = [NSError errorWithDomain:PBGitRepositoryErrorDomain code:0 userInfo:userInfo];
 		}
@@ -944,7 +944,7 @@ NSString* PBGitRepositoryErrorDomain = @"GitXErrorDomain";
 
 	NSString *firstArgument = [arguments objectAtIndex:0];
 
-	if ([firstArgument isEqualToString:@"-c"] || [firstArgument isEqualToString:@"--commit"]) {
+	if (([firstArgument isEqualToString:@"-c"] || [firstArgument isEqualToString:@"--commit"]) && ![self isBareRepository]) {
 		[PBGitDefaults setShowStageView:YES];
 		[self.windowController showCommitView:self];
 		return;

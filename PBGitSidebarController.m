@@ -49,14 +49,18 @@
 	[self populateList];
 
 	historyViewController = [[PBGitHistoryController alloc] initWithRepository:repository superController:superController];
-	commitViewController = [[PBGitCommitController alloc] initWithRepository:repository superController:superController];
+	
+    if(![repository isBareRepository])
+    {
+        commitViewController = [[PBGitCommitController alloc] initWithRepository:repository superController:superController];   
+    }
 
 	[repository addObserver:self forKeyPath:@"currentBranch" options:0 context:@"currentBranchChange"];
 	[repository addObserver:self forKeyPath:@"branches" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:@"branchesModified"];
 
 	[self menuNeedsUpdate:[actionButton menu]];
 
-	if ([PBGitDefaults showStageView])
+	if ([PBGitDefaults showStageView] && ![repository isBareRepository])
 		[self selectStage];
 	else
 		[self selectCurrentBranch];
@@ -65,7 +69,10 @@
 - (void)closeView
 {
 	[historyViewController closeView];
-	[commitViewController closeView];
+	if(commitViewController)
+    {
+        [commitViewController closeView];
+    }
 
 	[repository removeObserver:self forKeyPath:@"currentBranch"];
 	[repository removeObserver:self forKeyPath:@"branches"];
@@ -157,12 +164,6 @@
 
 - (void)addRevSpec:(PBGitRevSpecifier *)rev
 {
-	if (![rev isSimpleRef]) {
-		[others addChild:[PBSourceViewItem itemWithRevSpec:rev]];
-		[sourceView reloadData];
-		return;
-	}
-
 	NSArray *pathComponents = [[rev simpleRef] componentsSeparatedByString:@"/"];
 	if ([pathComponents count] < 2)
 		[branches addChild:[PBSourceViewItem itemWithRevSpec:rev]];
@@ -247,13 +248,15 @@
 	PBSourceViewItem *project = [PBSourceViewItem groupItemWithTitle:[repository projectName]];
 	project.isUncollapsible = YES;
 
-	stage = [PBGitSVStageItem stageItem];
-	[project addChild:stage];
+	if(![repository isBareRepository])
+    {
+        stage = [PBGitSVStageItem stageItem];
+        [project addChild:stage];
+    }
 	
 	branches = [PBSourceViewItem groupItemWithTitle:@"Branches"];
 	remotes = [PBSourceViewItem groupItemWithTitle:@"Remotes"];
 	tags = [PBSourceViewItem groupItemWithTitle:@"Tags"];
-	others = [PBSourceViewItem groupItemWithTitle:@"Other"];
 
 	for (PBGitRevSpecifier *rev in repository.branches)
 		[self addRevSpec:rev];
@@ -262,12 +265,12 @@
 	[items addObject:branches];
 	[items addObject:remotes];
 	[items addObject:tags];
-	[items addObject:others];
 
 	[sourceView reloadData];
 	[sourceView expandItem:project];
 	[sourceView expandItem:branches expandChildren:YES];
 	[sourceView expandItem:remotes];
+    [sourceView expandItem:tags];
 
 	[sourceView reloadItem:nil reloadChildren:YES];
 }

@@ -29,7 +29,7 @@ static NSImage *grip;
 	// Draw bar and grip onto the canvas
 	NSRect gripRect = aRect;
 	gripRect.origin.x = (NSMidX(aRect) - ([grip size].width/2));
-	gripRect.size.width = 8;
+	gripRect.size.width = [grip size].width;
 	
 	[self lockFocus];
 	[bar drawInRect:aRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
@@ -39,7 +39,7 @@ static NSImage *grip;
 
 - (CGFloat)dividerThickness
 {
-	return 10.0;
+	return [grip size].width;
 }
 
 @end

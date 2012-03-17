@@ -57,7 +57,7 @@
 {
 	[super awakeFromNib];
 
-	[commitMessageView setTypingAttributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"Monaco" size:12.0] forKey:NSFontAttributeName]];
+	[commitMessageView setTypingAttributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"Menlo" size:12.0] forKey:NSFontAttributeName]];
 	
 	[unstagedFilesController setFilterPredicate:[NSPredicate predicateWithFormat:@"hasUnstagedChanges == 1"]];
 	[cachedFilesController setFilterPredicate:[NSPredicate predicateWithFormat:@"hasStagedChanges == 1"]];
@@ -73,6 +73,7 @@
 
 	[commitSplitView setHidden:YES];
 	[self performSelector:@selector(restoreCommitSplitViewPositiion) withObject:nil afterDelay:0];
+	[self performSelector:@selector(resizeCommitSplitView) withObject:nil afterDelay:0];
 }
 
 - (void)closeView
@@ -258,6 +259,7 @@
 	NSRect lowerFrame = [lowerView frame];
 	lowerFrame.size.width = newFrame.size.width;
 
+	upperFrame.origin.y = 0;
 	upperFrame.size.height = newFrame.size.height - lowerFrame.size.height - dividerThickness;
 	if (upperFrame.size.height < kCommitSplitViewTopViewMin)
 		upperFrame.size.height = kCommitSplitViewTopViewMin;

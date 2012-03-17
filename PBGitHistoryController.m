@@ -81,7 +81,6 @@
 	// Add a menu that allows a user to select which columns to view
 	[[commitList headerView] setMenu:[self tableColumnMenu]];
 
-	[historySplitView setTopMin:58.0 andBottomMin:100.0];
 	[historySplitView setHidden:YES];
 	[self performSelector:@selector(restoreSplitViewPositiion) withObject:nil afterDelay:0];
 
@@ -144,8 +143,6 @@
 		[selectedBranchFilterItem setState:YES];
 	}
 
-	[selectedBranchFilterItem setTitle:[repository.currentBranch title]];
-	[selectedBranchFilterItem sizeToFit];
 
 	[localRemoteBranchesFilterItem setTitle:[[repository.currentBranch ref] isRemote] ? @"Remote" : @"Local"];
 }
@@ -178,7 +175,7 @@
 - (void) updateStatus
 {
 	self.isBusy = repository.revisionList.isUpdating;
-	self.status = [NSString stringWithFormat:@"%d commits loaded", [[commitController arrangedObjects] count]];
+	self.status = [NSString stringWithFormat:@"%ld commits loaded", [[commitController arrangedObjects] count]];
 }
 
 - (void) restoreFileBrowserSelection
@@ -620,60 +617,13 @@
 
 - (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview
 {
-	return TRUE;
-}
-
-- (BOOL)splitView:(NSSplitView *)splitView shouldCollapseSubview:(NSView *)subview forDoubleClickOnDividerAtIndex:(NSInteger)dividerIndex
-{
-	NSUInteger index = [[splitView subviews] indexOfObject:subview];
-	// this method (and canCollapse) are called by the splitView to decide how to collapse on double-click
-	// we compare our two subviews, so that always the smaller one is collapsed.
-	if([[[splitView subviews] objectAtIndex:index] frame].size.height < [[[splitView subviews] objectAtIndex:((index+1)%2)] frame].size.height) {
-		return TRUE;
-	}
-	return FALSE;
-}
-
-- (CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)dividerIndex
-{
-	return historySplitView.topViewMin;
-}
-
-- (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)dividerIndex
-{
-	return [splitView frame].size.height - [splitView dividerThickness] - historySplitView.bottomViewMin;
-}
-
-// while the user resizes the window keep the upper (history) view constant and just resize the lower view
-// unless the lower view gets too small
-- (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
-{
-	NSRect newFrame = [splitView frame];
-
-	float dividerThickness = [splitView dividerThickness];
-
-	NSView *upperView = [[splitView subviews] objectAtIndex:0];
-	NSRect upperFrame = [upperView frame];
-	upperFrame.size.width = newFrame.size.width;
-
-	if ((newFrame.size.height - upperFrame.size.height - dividerThickness) < historySplitView.bottomViewMin) {
-		upperFrame.size.height = newFrame.size.height - historySplitView.bottomViewMin - dividerThickness;
-	}
-
-	NSView *lowerView = [[splitView subviews] objectAtIndex:1];
-	NSRect lowerFrame = [lowerView frame];
-	lowerFrame.origin.y = upperFrame.size.height + dividerThickness;
-	lowerFrame.size.height = newFrame.size.height - lowerFrame.origin.y;
-	lowerFrame.size.width = newFrame.size.width;
-
-	[upperView setFrame:upperFrame];
-	[lowerView setFrame:lowerFrame];
+	return NO;
 }
 
 // NSSplitView does not save and restore the position of the SplitView correctly so do it manually
 - (void)saveSplitViewPosition
 {
-	float position = [[[historySplitView subviews] objectAtIndex:0] frame].size.height;
+	float position = [[[historySplitView subviews] objectAtIndex:0] frame].size.width;
 	[[NSUserDefaults standardUserDefaults] setFloat:position forKey:kHistorySplitViewPositionDefault];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
