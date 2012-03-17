@@ -39,6 +39,9 @@
 		47DBDBCA0E95016F00671A1E /* PBNSURLPathUserDefaultsTransfomer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DBDBC90E95016F00671A1E /* PBNSURLPathUserDefaultsTransfomer.m */; };
 		551BF11E112F376C00265053 /* gitx_askpasswd_main.m in Sources */ = {isa = PBXBuildFile; fileRef = 551BF11D112F376C00265053 /* gitx_askpasswd_main.m */; };
 		551BF176112F3F4B00265053 /* gitx_askpasswd in Resources */ = {isa = PBXBuildFile; fileRef = 551BF111112F371800265053 /* gitx_askpasswd */; };
+		639FF8A9151530570090359C /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E3B2B710DC9FB2001096A3 /* ScriptingBridge.framework */; };
+		639FF8AA151530740090359C /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E3B2B710DC9FB2001096A3 /* ScriptingBridge.framework */; };
+		639FF8AC151530F70090359C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639FF8AB151530F70090359C /* QuartzCore.framework */; };
 		63D64A5615151DB300D9571D /* PBGitSidebarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F58DB55F10566E3900CFDF4A /* PBGitSidebarView.xib */; };
 		770B37ED0679A11B001EADE2 /* GitTest_DataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 770B37EC0679A11B001EADE2 /* GitTest_DataModel.xcdatamodel */; };
 		77C8280E06725ACE000B614F /* ApplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* ApplicationController.m */; };
@@ -77,17 +80,14 @@
 		D858108411274D28007F254B /* RemoteBranch.png in Resources */ = {isa = PBXBuildFile; fileRef = D858108111274D28007F254B /* RemoteBranch.png */; };
 		D858108511274D28007F254B /* Tag.png in Resources */ = {isa = PBXBuildFile; fileRef = D858108211274D28007F254B /* Tag.png */; };
 		D85B939310E3D8B4007F3C28 /* PBCreateBranchSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = D85B939210E3D8B4007F3C28 /* PBCreateBranchSheet.xib */; };
-		D87127011229A21C00012334 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D87127001229A21C00012334 /* QuartzCore.framework */; };
 		D8712A00122B14EC00012334 /* GitXTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D87129FF122B14EC00012334 /* GitXTextFieldCell.m */; };
 		D889EB3110E6BCBB00F08413 /* PBCreateTagSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = D889EB3010E6BCBB00F08413 /* PBCreateTagSheet.xib */; };
-		D89E9B141218BA260097A90B /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89E9AB21218A9DA0097A90B /* ScriptingBridge.framework */; };
 		D8A4BB6F11337D5C00E92D51 /* PBGitGradientBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A4BB6E11337D5C00E92D51 /* PBGitGradientBarView.m */; };
 		D8A4BD071134AD2900E92D51 /* CherryPickTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = D8A4BD041134AD2900E92D51 /* CherryPickTemplate.png */; };
 		D8A4BD081134AD2900E92D51 /* MergeTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = D8A4BD051134AD2900E92D51 /* MergeTemplate.png */; };
 		D8A4BD091134AD2900E92D51 /* RebaseTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = D8A4BD061134AD2900E92D51 /* RebaseTemplate.png */; };
 		D8B4DC571220D1E4004166D6 /* PBHistorySearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4DC561220D1E4004166D6 /* PBHistorySearchController.m */; };
 		D8E105471157C18200FC28A4 /* PBQLTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E105461157C18200FC28A4 /* PBQLTextView.m */; };
-		D8E3B2B810DC9FB2001096A3 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E3B2B710DC9FB2001096A3 /* ScriptingBridge.framework */; };
 		D8E3B34D10DCA958001096A3 /* PBCreateTagSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E3B34C10DCA958001096A3 /* PBCreateTagSheet.m */; };
 		D8EB616A122F643E00FCCAF4 /* GitXRelativeDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EB6169122F643E00FCCAF4 /* GitXRelativeDateFormatter.m */; };
 		D8F01C4B12182F19007F729F /* GitX.sdef in Resources */ = {isa = PBXBuildFile; fileRef = D8F01C4A12182F19007F729F /* GitX.sdef */; };
@@ -278,6 +278,7 @@
 		47DBDBC90E95016F00671A1E /* PBNSURLPathUserDefaultsTransfomer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBNSURLPathUserDefaultsTransfomer.m; sourceTree = "<group>"; };
 		551BF111112F371800265053 /* gitx_askpasswd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gitx_askpasswd; sourceTree = BUILT_PRODUCTS_DIR; };
 		551BF11D112F376C00265053 /* gitx_askpasswd_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = gitx_askpasswd_main.m; sourceTree = "<group>"; };
+		639FF8AB151530F70090359C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		770B37EC0679A11B001EADE2 /* GitTest_DataModel.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = GitTest_DataModel.xcdatamodel; sourceTree = "<group>"; };
 		77C82804067257F0000B614F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		77C8280B06725ACE000B614F /* ApplicationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationController.h; sourceTree = "<group>"; };
@@ -333,10 +334,8 @@
 		D858108111274D28007F254B /* RemoteBranch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RemoteBranch.png; path = Images/RemoteBranch.png; sourceTree = "<group>"; };
 		D858108211274D28007F254B /* Tag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tag.png; path = Images/Tag.png; sourceTree = "<group>"; };
 		D85B93F610E51279007F3C28 /* PBGitRefish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBGitRefish.h; sourceTree = "<group>"; };
-		D87127001229A21C00012334 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D87129FE122B14EC00012334 /* GitXTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GitXTextFieldCell.h; sourceTree = "<group>"; };
 		D87129FF122B14EC00012334 /* GitXTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GitXTextFieldCell.m; sourceTree = "<group>"; };
-		D89E9AB21218A9DA0097A90B /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		D89E9B4F1218C2750097A90B /* GitXScriptingConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GitXScriptingConstants.h; sourceTree = "<group>"; };
 		D8A4BB6D11337D5C00E92D51 /* PBGitGradientBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBGitGradientBarView.h; sourceTree = "<group>"; };
 		D8A4BB6E11337D5C00E92D51 /* PBGitGradientBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBGitGradientBarView.m; sourceTree = "<group>"; };
@@ -506,10 +505,10 @@
 				F56526240E03D85900F03B52 /* WebKit.framework in Frameworks */,
 				911112370E5A097800BF76B4 /* Security.framework in Frameworks */,
 				F580E6AE0E733276009E2D3F /* Sparkle.framework in Frameworks */,
+				639FF8AC151530F70090359C /* QuartzCore.framework in Frameworks */,
 				F5E4DBFB0EAB58D90013FAFC /* SystemConfiguration.framework in Frameworks */,
+				639FF8AA151530740090359C /* ScriptingBridge.framework in Frameworks */,
 				F5C580E50EDA250900995434 /* libgit2.a in Frameworks */,
-				D8E3B2B810DC9FB2001096A3 /* ScriptingBridge.framework in Frameworks */,
-				D87127011229A21C00012334 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,7 +516,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D89E9B141218BA260097A90B /* ScriptingBridge.framework in Frameworks */,
+				639FF8A9151530570090359C /* ScriptingBridge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,12 +554,12 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				639FF8AB151530F70090359C /* QuartzCore.framework */,
 				911112360E5A097800BF76B4 /* Security.framework */,
 				77C82804067257F0000B614F /* CoreData.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				D8E3B2B710DC9FB2001096A3 /* ScriptingBridge.framework */,
-				D87127001229A21C00012334 /* QuartzCore.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -580,22 +579,12 @@
 		29B97314FDCFA39411CA2CEA /* GitTest */ = {
 			isa = PBXGroup;
 			children = (
-				F5886A080ED5D26B0066E74C /* SpeedTest */,
-				913D5E420E5563FD00CECEA2 /* cli */,
-				D89E9B4C1218C22A0097A90B /* GitXScripting */,
-				F57CC43E0E05E472000472E2 /* Aux */,
-				F57CC3850E05DDC1000472E2 /* Controllers */,
-				F56174540E05887E001DCD79 /* Git */,
-				F5D619ED0EAE62EA00341D73 /* html */,
-				7756732906782D8800D1FEB8 /* Models */,
+				639FF8AF151531A90090359C /* Core */,
+				639FF8AD151531130090359C /* Misc */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
-				551BF118112F373E00265053 /* gitx_asskpasswd */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				F5886A120ED5D33D0066E74C /* SpeedTest-Info.plist */,
-				F567CC3A106E6B910059BB9D /* GitXTesting-Info.plist */,
-				D89E9AB21218A9DA0097A90B /* ScriptingBridge.framework */,
 			);
 			name = GitTest;
 			sourceTree = "<group>";
@@ -603,26 +592,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				D858108011274D28007F254B /* Branch.png */,
-				D858108111274D28007F254B /* RemoteBranch.png */,
-				D858108211274D28007F254B /* Tag.png */,
-				D8F4AB7812298CE200D6D53C /* rewindImage.pdf */,
-				D85810541127476E007F254B /* StageView.png */,
-				D8FDDBF31143F318005647F6 /* AddRemote.png */,
-				D828A5EF1128AE7200F09D11 /* FetchTemplate.png */,
-				D828A5F01128AE7200F09D11 /* PullTemplate.png */,
-				D828A5F11128AE7200F09D11 /* PushTemplate.png */,
-				D828AEEB112F411100F09D11 /* CloneRepositoryTemplate.png */,
-				3BC07F4A0ED5A5C5009A7768 /* HistoryViewTemplate.png */,
-				D8A4BD041134AD2900E92D51 /* CherryPickTemplate.png */,
-				D8A4BD051134AD2900E92D51 /* MergeTemplate.png */,
-				D8A4BD061134AD2900E92D51 /* RebaseTemplate.png */,
-				3BC07F4B0ED5A5C5009A7768 /* CommitViewTemplate.png */,
-				F56ADDD70ED19F9E002AC78F /* AddBranchTemplate.png */,
-				F56ADDD80ED19F9E002AC78F /* AddLabelTemplate.png */,
-				056438B60ED0C40B00985397 /* DetailViewTemplate.png */,
-				F57240BA0E9678EA00D8EE66 /* deleted_file.png */,
-				F5E92A1A0E88550E00056E75 /* empty_file.png */,
 				32CA4F630368D1EE00C91783 /* GitX_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				F5E92A220E88569500056E75 /* new_file.png */,
@@ -634,16 +603,16 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				02B41A5F123E307F00DFC531 /* PBCommitHookFailedSheet.xib */,
-				F5F7D0641062E7940072C81C /* UpdateKey.pem */,
-				F50A41130EBB872D00208746 /* Widgets */,
+				639FF8AE151531330090359C /* Images */,
 				47DBDB920E94F47200671A1E /* Preference Icons */,
+				F50A41130EBB872D00208746 /* Widgets */,
+				F569AE920F2CBD7C00C2FFA7 /* Credits.html */,
 				D26DC6440E782C9000C777B2 /* gitx.icns */,
+				D8F01C4A12182F19007F729F /* GitX.sdef */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				D8F01C4A12182F19007F729F /* GitX.sdef */,
 				F5B721C20E05CF7E00AF29DC /* MainMenu.xib */,
-				911111E00E58BD5A00BF76B4 /* RepositoryWindow.xib */,
+				02B41A5F123E307F00DFC531 /* PBCommitHookFailedSheet.xib */,
 				F5E424100EA3E4D60046E362 /* PBDiffWindow.xib */,
 				F52BCE020E84208300AA3741 /* PBGitHistoryView.xib */,
 				F59116E50E843BB50072CCB1 /* PBGitCommitView.xib */,
@@ -654,9 +623,10 @@
 				D8083DCB111F918900337480 /* PBCloneRepsitoryToSheet.xib */,
 				D8FDD9F511432A12005647F6 /* PBCloneRepositoryPanel.xib */,
 				47DBDB680E94EF6500671A1E /* Preferences.xib */,
-				F569AE920F2CBD7C00C2FFA7 /* Credits.html */,
+				911111E00E58BD5A00BF76B4 /* RepositoryWindow.xib */,
 				F58DB55F10566E3900CFDF4A /* PBGitSidebarView.xib */,
 				D8022FE711E124A0003C21F6 /* PBGitXMessageSheet.xib */,
+				F5F7D0641062E7940072C81C /* UpdateKey.pem */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -710,6 +680,57 @@
 				551BF11D112F376C00265053 /* gitx_askpasswd_main.m */,
 			);
 			name = gitx_asskpasswd;
+			sourceTree = "<group>";
+		};
+		639FF8AD151531130090359C /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				F567CC3A106E6B910059BB9D /* GitXTesting-Info.plist */,
+				913D5E420E5563FD00CECEA2 /* cli */,
+				551BF118112F373E00265053 /* gitx_asskpasswd */,
+				D89E9B4C1218C22A0097A90B /* GitXScripting */,
+				F5886A080ED5D26B0066E74C /* SpeedTest */,
+			);
+			name = Misc;
+			sourceTree = "<group>";
+		};
+		639FF8AE151531330090359C /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				D858108011274D28007F254B /* Branch.png */,
+				D858108111274D28007F254B /* RemoteBranch.png */,
+				D858108211274D28007F254B /* Tag.png */,
+				D8F4AB7812298CE200D6D53C /* rewindImage.pdf */,
+				D85810541127476E007F254B /* StageView.png */,
+				D8FDDBF31143F318005647F6 /* AddRemote.png */,
+				D828A5EF1128AE7200F09D11 /* FetchTemplate.png */,
+				D828A5F01128AE7200F09D11 /* PullTemplate.png */,
+				D828A5F11128AE7200F09D11 /* PushTemplate.png */,
+				D828AEEB112F411100F09D11 /* CloneRepositoryTemplate.png */,
+				3BC07F4A0ED5A5C5009A7768 /* HistoryViewTemplate.png */,
+				D8A4BD041134AD2900E92D51 /* CherryPickTemplate.png */,
+				D8A4BD051134AD2900E92D51 /* MergeTemplate.png */,
+				D8A4BD061134AD2900E92D51 /* RebaseTemplate.png */,
+				3BC07F4B0ED5A5C5009A7768 /* CommitViewTemplate.png */,
+				F56ADDD70ED19F9E002AC78F /* AddBranchTemplate.png */,
+				F56ADDD80ED19F9E002AC78F /* AddLabelTemplate.png */,
+				056438B60ED0C40B00985397 /* DetailViewTemplate.png */,
+				F57240BA0E9678EA00D8EE66 /* deleted_file.png */,
+				F5E92A1A0E88550E00056E75 /* empty_file.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		639FF8AF151531A90090359C /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F57CC43E0E05E472000472E2 /* Aux */,
+				F57CC3850E05DDC1000472E2 /* Controllers */,
+				F56174540E05887E001DCD79 /* Git */,
+				F5D619ED0EAE62EA00341D73 /* html */,
+				7756732906782D8800D1FEB8 /* Models */,
+			);
+			name = Core;
 			sourceTree = "<group>";
 		};
 		7756732906782D8800D1FEB8 /* Models */ = {
@@ -891,6 +912,7 @@
 		F5886A080ED5D26B0066E74C /* SpeedTest */ = {
 			isa = PBXGroup;
 			children = (
+				F5886A120ED5D33D0066E74C /* SpeedTest-Info.plist */,
 				F5886A0A0ED5D27A0066E74C /* speedtest.m */,
 			);
 			name = SpeedTest;
