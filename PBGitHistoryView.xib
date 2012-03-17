@@ -149,9 +149,9 @@
 														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="452331733"/>
 														<bool key="NSEnabled">YES</bool>
-														<object class="NSTableHeaderView" key="NSHeaderView" id="838607012">
+														<object class="NSTableHeaderView" key="NSHeaderView" id="219464965">
 															<reference key="NSNextResponder" ref="906093892"/>
-															<int key="NSvFlags">256</int>
+															<int key="NSvFlags">4352</int>
 															<string key="NSFrameSize">{477, 17}</string>
 															<reference key="NSSuperview" ref="906093892"/>
 															<reference key="NSWindow"/>
@@ -454,13 +454,13 @@
 												<int key="NSvFlags">2304</int>
 												<object class="NSMutableArray" key="NSSubviews">
 													<bool key="EncodedWithXMLCoder">YES</bool>
-													<reference ref="838607012"/>
+													<reference ref="219464965"/>
 												</object>
 												<string key="NSFrameSize">{477, 17}</string>
 												<reference key="NSSuperview" ref="663765878"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="838607012"/>
-												<reference key="NSDocView" ref="838607012"/>
+												<reference key="NSNextKeyView" ref="219464965"/>
+												<reference key="NSDocView" ref="219464965"/>
 												<reference key="NSBGColor" ref="827363147"/>
 												<int key="NScvFlags">4</int>
 											</object>
@@ -1527,7 +1527,7 @@
 							<reference ref="452331733"/>
 							<reference ref="152625445"/>
 							<reference ref="254268962"/>
-							<reference ref="838607012"/>
+							<reference ref="219464965"/>
 						</object>
 						<reference key="parent" ref="24227530"/>
 						<string key="objectName">Commits Scroll View</string>
@@ -1826,7 +1826,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">491</int>
-						<reference key="object" ref="838607012"/>
+						<reference key="object" ref="219464965"/>
 						<reference key="parent" ref="663765878"/>
 					</object>
 				</object>

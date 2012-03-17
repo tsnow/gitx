@@ -625,7 +625,7 @@
 // NSSplitView does not save and restore the position of the SplitView correctly so do it manually
 - (void)saveSplitViewPosition
 {
-	float position = [[[historySplitView subviews] objectAtIndex:0] frame].size.height;
+	float position = [[[historySplitView subviews] objectAtIndex:0] frame].size.width;
 	[[NSUserDefaults standardUserDefaults] setFloat:position forKey:kHistorySplitViewPositionDefault];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
