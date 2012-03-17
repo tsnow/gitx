@@ -606,26 +606,12 @@
 				639FF8AE151531330090359C /* Images */,
 				47DBDB920E94F47200671A1E /* Preference Icons */,
 				F50A41130EBB872D00208746 /* Widgets */,
+				639FF8B0151534130090359C /* XIB */,
 				F569AE920F2CBD7C00C2FFA7 /* Credits.html */,
 				D26DC6440E782C9000C777B2 /* gitx.icns */,
 				D8F01C4A12182F19007F729F /* GitX.sdef */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				F5B721C20E05CF7E00AF29DC /* MainMenu.xib */,
-				02B41A5F123E307F00DFC531 /* PBCommitHookFailedSheet.xib */,
-				F5E424100EA3E4D60046E362 /* PBDiffWindow.xib */,
-				F52BCE020E84208300AA3741 /* PBGitHistoryView.xib */,
-				F59116E50E843BB50072CCB1 /* PBGitCommitView.xib */,
-				D85B939210E3D8B4007F3C28 /* PBCreateBranchSheet.xib */,
-				D889EB3010E6BCBB00F08413 /* PBCreateTagSheet.xib */,
-				D8C1B77110E875CF009B7F8B /* PBRemoteProgressSheet.xib */,
-				D8083C45111F136400337480 /* PBAddRemoteSheet.xib */,
-				D8083DCB111F918900337480 /* PBCloneRepsitoryToSheet.xib */,
-				D8FDD9F511432A12005647F6 /* PBCloneRepositoryPanel.xib */,
-				47DBDB680E94EF6500671A1E /* Preferences.xib */,
-				911111E00E58BD5A00BF76B4 /* RepositoryWindow.xib */,
-				F58DB55F10566E3900CFDF4A /* PBGitSidebarView.xib */,
-				D8022FE711E124A0003C21F6 /* PBGitXMessageSheet.xib */,
 				F5F7D0641062E7940072C81C /* UpdateKey.pem */,
 			);
 			name = Resources;
@@ -731,6 +717,28 @@
 				7756732906782D8800D1FEB8 /* Models */,
 			);
 			name = Core;
+			sourceTree = "<group>";
+		};
+		639FF8B0151534130090359C /* XIB */ = {
+			isa = PBXGroup;
+			children = (
+				F5B721C20E05CF7E00AF29DC /* MainMenu.xib */,
+				02B41A5F123E307F00DFC531 /* PBCommitHookFailedSheet.xib */,
+				F5E424100EA3E4D60046E362 /* PBDiffWindow.xib */,
+				F52BCE020E84208300AA3741 /* PBGitHistoryView.xib */,
+				F59116E50E843BB50072CCB1 /* PBGitCommitView.xib */,
+				D85B939210E3D8B4007F3C28 /* PBCreateBranchSheet.xib */,
+				D889EB3010E6BCBB00F08413 /* PBCreateTagSheet.xib */,
+				D8C1B77110E875CF009B7F8B /* PBRemoteProgressSheet.xib */,
+				D8083C45111F136400337480 /* PBAddRemoteSheet.xib */,
+				D8083DCB111F918900337480 /* PBCloneRepsitoryToSheet.xib */,
+				D8FDD9F511432A12005647F6 /* PBCloneRepositoryPanel.xib */,
+				47DBDB680E94EF6500671A1E /* Preferences.xib */,
+				911111E00E58BD5A00BF76B4 /* RepositoryWindow.xib */,
+				F58DB55F10566E3900CFDF4A /* PBGitSidebarView.xib */,
+				D8022FE711E124A0003C21F6 /* PBGitXMessageSheet.xib */,
+			);
+			name = XIB;
 			sourceTree = "<group>";
 		};
 		7756732906782D8800D1FEB8 /* Models */ = {
