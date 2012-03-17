@@ -157,12 +157,6 @@
 
 - (void)addRevSpec:(PBGitRevSpecifier *)rev
 {
-	if (![rev isSimpleRef]) {
-		[others addChild:[PBSourceViewItem itemWithRevSpec:rev]];
-		[sourceView reloadData];
-		return;
-	}
-
 	NSArray *pathComponents = [[rev simpleRef] componentsSeparatedByString:@"/"];
 	if ([pathComponents count] < 2)
 		[branches addChild:[PBSourceViewItem itemWithRevSpec:rev]];
@@ -253,7 +247,6 @@
 	branches = [PBSourceViewItem groupItemWithTitle:@"Branches"];
 	remotes = [PBSourceViewItem groupItemWithTitle:@"Remotes"];
 	tags = [PBSourceViewItem groupItemWithTitle:@"Tags"];
-	others = [PBSourceViewItem groupItemWithTitle:@"Other"];
 
 	for (PBGitRevSpecifier *rev in repository.branches)
 		[self addRevSpec:rev];
@@ -262,7 +255,6 @@
 	[items addObject:branches];
 	[items addObject:remotes];
 	[items addObject:tags];
-	[items addObject:others];
 
 	[sourceView reloadData];
 	[sourceView expandItem:project];
