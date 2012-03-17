@@ -260,6 +260,7 @@
 	[sourceView expandItem:project];
 	[sourceView expandItem:branches expandChildren:YES];
 	[sourceView expandItem:remotes];
+    [sourceView expandItem:tags];
 
 	[sourceView reloadItem:nil reloadChildren:YES];
 }
