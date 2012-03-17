@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -39,6 +39,7 @@
 		47DBDBCA0E95016F00671A1E /* PBNSURLPathUserDefaultsTransfomer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DBDBC90E95016F00671A1E /* PBNSURLPathUserDefaultsTransfomer.m */; };
 		551BF11E112F376C00265053 /* gitx_askpasswd_main.m in Sources */ = {isa = PBXBuildFile; fileRef = 551BF11D112F376C00265053 /* gitx_askpasswd_main.m */; };
 		551BF176112F3F4B00265053 /* gitx_askpasswd in Resources */ = {isa = PBXBuildFile; fileRef = 551BF111112F371800265053 /* gitx_askpasswd */; };
+		63D64A5615151DB300D9571D /* PBGitSidebarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F58DB55F10566E3900CFDF4A /* PBGitSidebarView.xib */; };
 		770B37ED0679A11B001EADE2 /* GitTest_DataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 770B37EC0679A11B001EADE2 /* GitTest_DataModel.xcdatamodel */; };
 		77C8280E06725ACE000B614F /* ApplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* ApplicationController.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -162,7 +163,6 @@
 		F5886A340ED5D55D0066E74C /* PBGitBinary.m in Sources */ = {isa = PBXBuildFile; fileRef = F53C4DF60E97FC630022AD59 /* PBGitBinary.m */; };
 		F5886A360ED5D56E0066E74C /* PBGitTree.m in Sources */ = {isa = PBXBuildFile; fileRef = F56174560E058893001DCD79 /* PBGitTree.m */; };
 		F58DB55910566D3500CFDF4A /* PBGitSidebarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F58DB55810566D3500CFDF4A /* PBGitSidebarController.m */; };
-		F58DB56010566E3900CFDF4A /* PBGitSidebarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F58DB55F10566E3900CFDF4A /* PBGitSidebarView.xib */; };
 		F58DB5E8105671B600CFDF4A /* PBSourceViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F58DB5E7105671B600CFDF4A /* PBSourceViewItem.m */; };
 		F59116E60E843BB50072CCB1 /* PBGitCommitView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F59116E50E843BB50072CCB1 /* PBGitCommitView.xib */; };
 		F59116E90E843BCB0072CCB1 /* PBGitCommitController.m in Sources */ = {isa = PBXBuildFile; fileRef = F59116E80E843BCB0072CCB1 /* PBGitCommitController.m */; };
@@ -1156,8 +1156,11 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
 			buildConfigurationList = 26FC0A880875C7B200E6366F /* Build configuration list for PBXProject "GitX" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -1208,14 +1211,13 @@
 				47DBDB6A0E94EF6500671A1E /* Preferences.xib in Resources */,
 				47DBDBB10E94F6CA00671A1E /* Updates.png in Resources */,
 				F569AE930F2CBD7C00C2FFA7 /* Credits.html in Resources */,
-				F58DB56010566E3900CFDF4A /* PBGitSidebarView.xib in Resources */,
+				63D64A5615151DB300D9571D /* PBGitSidebarView.xib in Resources */,
 				D85B939310E3D8B4007F3C28 /* PBCreateBranchSheet.xib in Resources */,
 				D889EB3110E6BCBB00F08413 /* PBCreateTagSheet.xib in Resources */,
 				D8357535112640F100DE249D /* PBRemoteProgressSheet.xib in Resources */,
 				D8083C47111F136400337480 /* PBAddRemoteSheet.xib in Resources */,
 				D8083DCD111F918900337480 /* PBCloneRepsitoryToSheet.xib in Resources */,
 				D8FDD9F711432A12005647F6 /* PBCloneRepositoryPanel.xib in Resources */,
-				F58DB56010566E3900CFDF4A /* PBGitSidebarView.xib in Resources */,
 				D85810551127476E007F254B /* StageView.png in Resources */,
 				D858108311274D28007F254B /* Branch.png in Resources */,
 				D858108411274D28007F254B /* RemoteBranch.png in Resources */,
@@ -1558,7 +1560,6 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1571,7 +1572,9 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = libgit2;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = GitX;
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -1597,7 +1600,9 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = libgit2;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = GitX;
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1612,7 +1617,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_PREPROCESS = YES;
-				PREBINDING = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
 			name = Debug;
@@ -1620,17 +1625,13 @@
 		26FC0A8A0875C7B200E6366F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/revision;
 				INFOPLIST_PREPROCESS = YES;
-				PREBINDING = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
 			name = Release;
@@ -1641,7 +1642,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1653,8 +1653,8 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = gitx_askpasswd;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -1664,7 +1664,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1675,8 +1674,8 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = gitx_askpasswd;
+				SDKROOT = macosx10.7;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1685,7 +1684,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1696,8 +1694,8 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = gitx_askpasswd;
+				SDKROOT = macosx10.7;
 			};
 			name = Install;
 		};
@@ -1706,7 +1704,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1719,8 +1716,8 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = gitx;
+				SDKROOT = macosx10.7;
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -1730,7 +1727,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1742,8 +1738,8 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = gitx;
+				SDKROOT = macosx10.7;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1763,7 +1759,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = libgit2;
 				ZERO_LINK = NO;
 			};
@@ -1784,7 +1779,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = "Generate PList Prefix";
 				ZERO_LINK = NO;
@@ -1800,7 +1794,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1821,7 +1814,6 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = GitXTesting;
 			};
 			name = Debug;
@@ -1835,7 +1827,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1851,7 +1842,6 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = GitXTesting;
 				ZERO_LINK = NO;
 			};
@@ -1880,9 +1870,8 @@
 					"-framework",
 					Cocoa,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = SpeedTest;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1893,7 +1882,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
 				INFOPLIST_FILE = "SpeedTest-Info.plist";
@@ -1905,9 +1893,8 @@
 					"-framework",
 					UIKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = SpeedTest;
-				SDKROOT = iphoneos2.0;
+				SDKROOT = iphoneos;
 				ZERO_LINK = NO;
 			};
 			name = Release;
