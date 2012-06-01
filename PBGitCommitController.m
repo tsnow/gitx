@@ -73,6 +73,7 @@
 
 	[commitSplitView setHidden:YES];
 	[self performSelector:@selector(restoreCommitSplitViewPositiion) withObject:nil afterDelay:0];
+	[self performSelector:@selector(resizeCommitSplitView) withObject:nil afterDelay:0];
 }
 
 - (void)closeView
@@ -258,6 +259,7 @@
 	NSRect lowerFrame = [lowerView frame];
 	lowerFrame.size.width = newFrame.size.width;
 
+	upperFrame.origin.y = 0;
 	upperFrame.size.height = newFrame.size.height - lowerFrame.size.height - dividerThickness;
 	if (upperFrame.size.height < kCommitSplitViewTopViewMin)
 		upperFrame.size.height = kCommitSplitViewTopViewMin;
