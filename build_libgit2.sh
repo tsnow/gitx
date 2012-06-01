@@ -17,7 +17,8 @@ buildAction () {
 		git submodule update
 		cd libgit2
 		rm -f libgit2.a
-		make CFLAGS="-arch x86_64"
+		cmake -DBUILD_SHARED_LIBS=OFF -DBUILD_CLAR=OFF .
+                make CFLAGS="-arch x86_64"
 		ranlib libgit2.a
 	else
 		echo "error: Not a git repository."
