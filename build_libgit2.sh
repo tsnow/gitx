@@ -12,7 +12,7 @@ buildAction () {
     echo "Building libgit2..."
 	if [[ -d .git ]]
 	then
-		export PATH=$PATH:$HOME/bin:$HOME/local/bin:/sw/bin:/opt/local/bin:`"$TARGET_BUILD_DIR"/gitx --git-path`
+		export PATH=$PATH:$HOME/bin:$HOME/local/bin:/sw/bin:/opt/local/bin:/usr/local/bin
 		git submodule init
 		git submodule update
 		cd libgit2
@@ -20,6 +20,7 @@ buildAction () {
 		cmake -DBUILD_SHARED_LIBS=OFF -DBUILD_CLAR=OFF .
                 make CFLAGS="-arch x86_64"
 		ranlib libgit2.a
+		rm -f Makefile
 	else
 		echo "error: Not a git repository."
 		echo "error: clone GitX first so that the libgit2 submodule can be updated"
@@ -30,7 +31,9 @@ buildAction () {
 cleanAction () {
 	echo "Cleaning libgit2..."
 	cd libgit2
+	cmake -DBUILD_SHARED_LIBS=OFF -DBUILD_CLAR=OFF .
 	make clean
+	rm -f Makefile
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
