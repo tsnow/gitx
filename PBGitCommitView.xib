@@ -654,6 +654,7 @@
 								<reference key="NSSuperview" ref="812432808"/>
 								<reference key="NSNextKeyView" ref="208180574"/>
 								<bool key="NSIsVertical">YES</bool>
+								<int key="NSDividerStyle">2</int>
 							</object>
 						</array>
 						<string key="NSFrameSize">{852, 432}</string>
