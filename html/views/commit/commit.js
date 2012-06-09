@@ -9,7 +9,7 @@ var showNewFile = function(file)
 
 	var contents = Index.diffForFile_staged_contextLines_(file, false, contextLines);
 	if (!contents) {
-		notify("Can not display changes (Binary file?)", -1);
+		notify("Cannot display changes (file is binary or too large)", -1);
 		diff.innerHTML = "";
 		return;
 	}
