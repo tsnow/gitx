@@ -214,11 +214,16 @@
 - (void)showDeleteFilesSheet:(id)sender
 {
 	NSArray *files = [sender representedObject];
-    NSMutableString *filesPathsString = [[NSMutableString alloc] init];
-    
-    for (PBChangedFile *file in files) {
-        [filesPathsString appendString:[file path]];
-        [filesPathsString appendString:@"\n"];
+
+    NSString *messageText;
+    NSString *informativeText;
+    if ([files count] > 1) {
+        messageText = [NSString stringWithFormat:@"Delete %d files?",[files count]];
+        informativeText = [NSString stringWithFormat:@"Are you sure you want to move the selected %d files to the trash?\n\nYou cannot undo this operation.",[files count]];
+    }
+    else {
+        messageText = @"Delete file?";
+        informativeText = [NSString stringWithFormat:@"Are you sure you want to move the file \"%@\" to the trash?\n\nYou cannot undo this operation.",[[[files objectAtIndex:0] path] lastPathComponent]];
     }
     
     if ([PBGitDefaults isDialogWarningSuppressedForDialog:kDialogDeleteFiles]) {
@@ -226,11 +231,11 @@
 		return;
 	}
     
-	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:@"Delete files?"]
+	NSAlert *alert = [NSAlert alertWithMessageText:messageText
 									 defaultButton:@"Delete"
 								   alternateButton:@"Cancel"
 									   otherButton:nil
-						 informativeTextWithFormat:@"Are you sure you want to move the following files to the trash?\n\n%@\nYou cannot undo this operation.", filesPathsString];
+						 informativeTextWithFormat:informativeText];
     [alert setShowsSuppressionButton:YES];
 	
 	[alert beginSheetModalForWindow:[[commitController view] window]
