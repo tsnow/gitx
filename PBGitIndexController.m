@@ -107,13 +107,13 @@
 		[menu addItem:unstageItem];
 	}
 
-	NSString *openTitle = [selectedFiles count] == 1 ? @"Open file" : @"Open files";
+	NSString *openTitle = [selectedFiles count] == 1 ? @"Open File" : @"Open Files";
 	NSMenuItem *openItem = [[NSMenuItem alloc] initWithTitle:openTitle action:@selector(openFilesAction:) keyEquivalent:@""];
 	[openItem setTarget:self];
 	[openItem setRepresentedObject:selectedFiles];
 	[menu addItem:openItem];
 
-    NSString *deleteTitle = [selectedFiles count] == 1 ? @"Delete file…" : @"Delete files…";
+    NSString *deleteTitle = [selectedFiles count] == 1 ? @"Delete File…" : @"Delete Files…";
 	NSMenuItem *deleteItem = [[NSMenuItem alloc] initWithTitle:deleteTitle action:@selector(showDeleteFilesSheet:) keyEquivalent:@""];
 	[deleteItem setTarget:self];
 	[deleteItem setRepresentedObject:selectedFiles];
@@ -131,7 +131,7 @@
 			NSString *path = [[selectedFiles objectAtIndex:0] path];
 			NSString *extension = [path pathExtension];
 			if ([extension length] > 0) {
-				ignoreText = [NSString stringWithFormat:@"Ignore Files with extension (.%@)", extension];
+				ignoreText = [NSString stringWithFormat:@"Ignore Files with Extension (.%@)", extension];
 				ignoreItem = [[NSMenuItem alloc] initWithTitle:ignoreText action:@selector(ignoreFilesWithExtensionAction:) keyEquivalent:@""];
 				[ignoreItem setTarget:self];
 				[ignoreItem setRepresentedObject:extension];
@@ -151,14 +151,14 @@
 		if (!file.hasUnstagedChanges)
 			return menu;
 
-	NSMenuItem *discardItem = [[NSMenuItem alloc] initWithTitle:@"Discard changes…" action:@selector(discardFilesAction:) keyEquivalent:@""];
+	NSMenuItem *discardItem = [[NSMenuItem alloc] initWithTitle:@"Discard Changes…" action:@selector(discardFilesAction:) keyEquivalent:@""];
 	[discardItem setTarget:self];
 	[discardItem setAlternate:NO];
 	[discardItem setRepresentedObject:selectedFiles];
 
 	[menu addItem:discardItem];
 
-	NSMenuItem *discardForceItem = [[NSMenuItem alloc] initWithTitle:@"Discard changes" action:@selector(forceDiscardFilesAction:) keyEquivalent:@""];
+	NSMenuItem *discardForceItem = [[NSMenuItem alloc] initWithTitle:@"Discard Changes" action:@selector(forceDiscardFilesAction:) keyEquivalent:@""];
 	[discardForceItem setTarget:self];
 	[discardForceItem setAlternate:YES];
 	[discardForceItem setRepresentedObject:selectedFiles];
