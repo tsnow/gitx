@@ -152,6 +152,11 @@
         [items addObject:[PBRefMenuItem itemWithTitle:changeRemoteUrlTitle action:@selector(showChangeRemoteUrlSheet:) enabled:YES]];
     }
     
+	[items addObject:[PBRefMenuItem separatorItem]];
+	
+	NSString *copyTitle = @"Copy Reference to Clipboard";
+	[items addObject:[PBRefMenuItem itemWithTitle:copyTitle action:@selector(copyRefName:) enabled:!isDetachedHead]];
+	
 	for (PBRefMenuItem *item in items) {
 		[item setTarget:target];
 		[item setRefish:ref];
