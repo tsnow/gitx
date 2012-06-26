@@ -1010,7 +1010,7 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="24227530"/>
 						<bool key="NSIsVertical">YES</bool>
-						<int key="NSDividerStyle">2</int>
+						<int key="NSDividerStyle">3</int>
 					</object>
 				</array>
 				<string key="NSFrameSize">{955, 434}</string>
