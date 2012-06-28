@@ -733,35 +733,6 @@
 						<object class="NSMenu" key="NSSubmenu" id="245837913">
 							<string key="NSTitle">View</string>
 							<array class="NSMutableArray" key="NSMenuItems">
-								<object class="NSMenuItem" id="644618837">
-									<reference key="NSMenu" ref="245837913"/>
-									<string key="NSTitle">Show Toolbar</string>
-									<string key="NSKeyEquiv">t</string>
-									<int key="NSKeyEquivModMask">1572864</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="889736156"/>
-									<reference key="NSMixedImage" ref="37108609"/>
-								</object>
-								<object class="NSMenuItem" id="332442271">
-									<reference key="NSMenu" ref="245837913"/>
-									<string key="NSTitle">Customize Toolbar…</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="889736156"/>
-									<reference key="NSMixedImage" ref="37108609"/>
-								</object>
-								<object class="NSMenuItem" id="820559771">
-									<reference key="NSMenu" ref="245837913"/>
-									<bool key="NSIsDisabled">YES</bool>
-									<bool key="NSIsSeparator">YES</bool>
-									<string key="NSTitle"/>
-									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="889736156"/>
-									<reference key="NSMixedImage" ref="37108609"/>
-								</object>
 								<object class="NSMenuItem" id="638888442">
 									<reference key="NSMenu" ref="245837913"/>
 									<string key="NSTitle">History</string>
@@ -910,14 +881,6 @@
 								<object class="NSMenuItem" id="669832662">
 									<reference key="NSMenu" ref="612917469"/>
 									<string key="NSTitle">Report a problem</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="889736156"/>
-									<reference key="NSMixedImage" ref="37108609"/>
-								</object>
-								<object class="NSMenuItem" id="480405559">
-									<reference key="NSMenu" ref="612917469"/>
-									<string key="NSTitle">Discuss GitX</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="889736156"/>
@@ -1162,22 +1125,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleToolbarShown:</string>
-						<reference key="source" ref="954860085"/>
-						<reference key="destination" ref="644618837"/>
-					</object>
-					<int key="connectionID">342</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">runToolbarCustomizationPalette:</string>
-						<reference key="source" ref="954860085"/>
-						<reference key="destination" ref="332442271"/>
-					</object>
-					<int key="connectionID">343</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">openDocument:</string>
 						<reference key="source" ref="954860085"/>
 						<reference key="destination" ref="432647792"/>
@@ -1367,14 +1314,6 @@
 						<reference key="destination" ref="669832662"/>
 					</object>
 					<int key="connectionID">971</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">discussGitX:</string>
-						<reference key="source" ref="859235683"/>
-						<reference key="destination" ref="480405559"/>
-					</object>
-					<int key="connectionID">973</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1630,7 +1569,6 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="303385276"/>
 							<reference ref="669832662"/>
-							<reference ref="480405559"/>
 						</array>
 						<reference key="parent" ref="180968013"/>
 					</object>
@@ -1908,9 +1846,6 @@
 						<int key="objectID">339</int>
 						<reference key="object" ref="245837913"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="332442271"/>
-							<reference ref="644618837"/>
-							<reference ref="820559771"/>
 							<reference ref="1062123434"/>
 							<reference ref="310106156"/>
 							<reference ref="554502465"/>
@@ -2058,26 +1993,6 @@
 						<reference key="object" ref="669832662"/>
 						<reference key="parent" ref="612917469"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">972</int>
-						<reference key="object" ref="480405559"/>
-						<reference key="parent" ref="612917469"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">847</int>
-						<reference key="object" ref="820559771"/>
-						<reference key="parent" ref="245837913"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">340</int>
-						<reference key="object" ref="332442271"/>
-						<reference key="parent" ref="245837913"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">341</int>
-						<reference key="object" ref="644618837"/>
-						<reference key="parent" ref="245837913"/>
-					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -2145,8 +2060,6 @@
 				<string key="29.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="338.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="339.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="340.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="341.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="58.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2161,7 +2074,6 @@
 				<string key="81.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="82.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="83.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="847.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="848.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="852.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="908.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2186,7 +2098,6 @@
 				<string key="956.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="964.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="969.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="972.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
