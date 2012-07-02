@@ -143,8 +143,6 @@
 		[selectedBranchFilterItem setState:YES];
 	}
 
-	[selectedBranchFilterItem setTitle:[repository.currentBranch title]];
-	[selectedBranchFilterItem sizeToFit];
 
 	[localRemoteBranchesFilterItem setTitle:[[repository.currentBranch ref] isRemote] ? @"Remote" : @"Local"];
 }
