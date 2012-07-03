@@ -73,16 +73,6 @@
 		NSString *diffTitle = [NSString stringWithFormat:@"Diff with %@", headRefName];
 		[items addObject:[PBRefMenuItem itemWithTitle:diffTitle action:@selector(diffWithHEAD:) enabled:!isHead]];
 		[items addObject:[PBRefMenuItem separatorItem]];
-
-		// merge ref
-		NSString *mergeTitle = isOnHeadBranch ? @"Merge" : [NSString stringWithFormat:@"Merge %@ into %@", targetRefName, headRefName];
-		[items addObject:[PBRefMenuItem itemWithTitle:mergeTitle action:@selector(merge:) enabled:!isOnHeadBranch]];
-
-		// rebase
-		NSString *rebaseTitle = isOnHeadBranch ? @"Rebase" : [NSString stringWithFormat:@"Rebase %@ on %@", headRefName, targetRefName];
-		[items addObject:[PBRefMenuItem itemWithTitle:rebaseTitle action:@selector(rebaseHeadBranch:) enabled:!isOnHeadBranch]];
-
-		[items addObject:[PBRefMenuItem separatorItem]];
 	}
 
 	// fetch
