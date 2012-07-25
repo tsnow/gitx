@@ -1,6 +1,8 @@
 GitX (L)
 ---------------
 
+![y so slow](http://i.imgur.com/Ec5Oc.png)
+
 # What is GitX (L)?
 
 GitX (L) is a gitk like clone written for OS X Leopard and higher.
