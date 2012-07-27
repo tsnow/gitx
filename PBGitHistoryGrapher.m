@@ -30,7 +30,7 @@
 
 - (void)sendCommits:(NSArray *)commits
 {
-	NSDictionary *commitData = [NSDictionary dictionaryWithObjectsAndKeys:currentQueue, kCurrentQueueKey, commits, kNewCommitsKey, nil];
+	NSDictionary *commitData = @{kCurrentQueueKey: currentQueue, kNewCommitsKey: commits};
 	[delegate performSelectorOnMainThread:@selector(updateCommitsFromGrapher:) withObject:commitData waitUntilDone:NO];
 }
 

@@ -69,7 +69,7 @@
 		return;
 	}
 
-	selectedFile = [[object selectedObjects] objectAtIndex:0];
+	selectedFile = [object selectedObjects][0];
 	selectedFileIsCached = object == cachedFilesController;
 
 	[self refresh];
@@ -77,7 +77,7 @@
 
 - (void) showMultiple: (NSArray *)objects
 {
-	[[self script] callWebScriptMethod:@"showMultipleFilesSelection" withArguments:[NSArray arrayWithObject:objects]];
+	[[self script] callWebScriptMethod:@"showMultipleFilesSelection" withArguments:@[objects]];
 }
 
 - (void) refresh
@@ -87,8 +87,8 @@
 
 	id script = [view windowScriptObject];
 	[script callWebScriptMethod:@"showFileChanges"
-		      withArguments:[NSArray arrayWithObjects:selectedFile ?: (id)[NSNull null],
-				     [NSNumber numberWithBool:selectedFileIsCached], nil]];
+		      withArguments:@[selectedFile ?: (id)[NSNull null],
+				     @(selectedFileIsCached)]];
 }
 
 - (void)stageHunk:(NSString *)hunk reverse:(BOOL)reverse
@@ -136,7 +136,7 @@
 - (void) setStateMessage:(NSString *)state
 {
 	id script = [view windowScriptObject];
-	[script callWebScriptMethod:@"setState" withArguments: [NSArray arrayWithObject:state]];
+	[script callWebScriptMethod:@"setState" withArguments: @[state]];
 }
 
 @end

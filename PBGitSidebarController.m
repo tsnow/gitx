@@ -109,10 +109,10 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
 		[sourceView reloadData];
 		[self selectCurrentBranch];
 	}else if ([@"branchesModified" isEqualToString:(__bridge NSString *)context]) {
-		NSInteger changeKind = [(NSNumber *)[change objectForKey:NSKeyValueChangeKindKey] intValue];
+		NSInteger changeKind = [(NSNumber *)change[NSKeyValueChangeKindKey] intValue];
 		
 		if (changeKind == NSKeyValueChangeInsertion) {
-			NSArray *newRevSpecs = [change objectForKey:NSKeyValueChangeNewKey];
+			NSArray *newRevSpecs = change[NSKeyValueChangeNewKey];
 			for (PBGitRevSpecifier *rev in newRevSpecs) {
 				[self addRevSpec:rev];
 				PBSourceViewItem *item = [self itemForRev:rev];
@@ -120,13 +120,13 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
 			}
 		}
 		else if (changeKind == NSKeyValueChangeRemoval) {
-			NSArray *removedRevSpecs = [change objectForKey:NSKeyValueChangeOldKey];
+			NSArray *removedRevSpecs = change[NSKeyValueChangeOldKey];
 			for (PBGitRevSpecifier *rev in removedRevSpecs)
 				[self removeRevSpec:rev];
 		}
 	} else if ([kObservingContextStashes isEqualToString:(__bridge NSString *)context]) {		// isEqualToString: is not needed here
 		[stashes.children removeAllObjects];
-		NSArray *newStashes = [change objectForKey:NSKeyValueChangeNewKey];
+		NSArray *newStashes = change[NSKeyValueChangeNewKey];
 		
 		PBGitMenuItem *lastItem = nil;
 		for (PBGitStash *stash in newStashes) {
@@ -142,7 +142,7 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
 		[submodules.children removeAllObjects];
 		[sourceView reloadData]; //reload now otherwise the outline view may crash while loading old objects
 		
-		NSArray *newSubmodules = [change objectForKey:NSKeyValueChangeNewKey];
+		NSArray *newSubmodules = change[NSKeyValueChangeNewKey];
 		
 		for (PBGitSubmodule *submodule in newSubmodules) {
 			PBGitMenuItem *item = [[PBGitMenuItem alloc] initWithSourceObject:submodule];
@@ -212,7 +212,7 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
 
 -(NSNumber *)countCommitsOf:(NSString *)range
 {
-	NSArray *args = [NSArray arrayWithObjects:@"rev-list", range, nil];
+	NSArray *args = @[@"rev-list", range];
 	int ret;
 	NSString *o = [repository outputForArguments:args retValue:&ret];
 	if ((ret!=0) || ([o length]==0)) {
@@ -226,7 +226,7 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
 -(bool)remoteNeedFetch:(NSString *)remote
 {
 	int ret;
-	NSArray *args = [NSArray arrayWithObjects:@"fetch", @"--dry-run", remote, nil];
+	NSArray *args = @[@"fetch", @"--dry-run", remote];
 	NSString *o = [repository outputForArguments:args retValue:&ret];
 	return ((ret==0) && ([o length]!=0));
 }
@@ -311,7 +311,7 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
 	NSArray *pathComponents = [[rev simpleRef] componentsSeparatedByString:@"/"];
 	if ([pathComponents count] < 2)
 		[branches addChild:[PBSourceViewItem itemWithRevSpec:rev]];
-	else if ([[pathComponents objectAtIndex:1] isEqualToString:@"heads"])
+	else if ([pathComponents[1] isEqualToString:@"heads"])
 		[branches addRev:rev toPath:[pathComponents subarrayWithRange:NSMakeRange(2, [pathComponents count] - 2)]];
 	else if ([[rev simpleRef] hasPrefix:@"refs/tags/"])
 		[tags addRev:rev toPath:[pathComponents subarrayWithRange:NSMakeRange(2, [pathComponents count] - 2)]];
@@ -412,8 +412,8 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
 
 - (NSString*) helpTextForRemoteURLs:(NSArray*)urls
 {
-	NSString *fetchURL = [urls objectAtIndex:0];
-	NSString *pushURL = [urls objectAtIndex:1];
+	NSString *fetchURL = urls[0];
+	NSString *pushURL = urls[1];
 
 	if ([fetchURL isEqual:pushURL])
 		return fetchURL;
@@ -465,9 +465,9 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
 	if (!item)
-		return [items objectAtIndex:index];
+		return items[index];
 	
-	return [[(PBSourceViewItem *)item children] objectAtIndex:index];
+	return [(PBSourceViewItem *)item children][index];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item

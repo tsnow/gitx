@@ -22,7 +22,7 @@
 
 - (void) reload {
     dispatch_async(PBGetWorkQueue(), ^{
-        NSArray *arguments = [NSArray arrayWithObjects:@"submodule", @"status", @"--recursive", nil];
+        NSArray *arguments = @[@"submodule", @"status", @"--recursive"];
         NSString *output = [repository outputInWorkdirForArguments:arguments];
         NSArray *lines = [output componentsSeparatedByString:@"\n"];
         
@@ -66,7 +66,7 @@
 }
 
 - (void) initializeAllSubmodules {
-	NSArray *parameters = [NSArray arrayWithObjects:@"submodule", @"init", nil];
+	NSArray *parameters = @[@"submodule", @"init"];
 	PBCommand *initializeSubmodules = [[PBCommand alloc] initWithDisplayName:@"Initialize All Submodules" parameters:parameters repository:repository];
 	initializeSubmodules.commandTitle = initializeSubmodules.displayName;
 	initializeSubmodules.commandDescription = @"Initializing submodules";
@@ -74,7 +74,7 @@
 }
 
 - (void) updateAllSubmodules {
-	NSArray *parameters = [NSArray arrayWithObjects:@"submodule", @"update", nil];
+	NSArray *parameters = @[@"submodule", @"update"];
 	PBCommand *initializeSubmodules = [[PBCommand alloc] initWithDisplayName:@"Update All Submodules" parameters:parameters repository:repository];
 	initializeSubmodules.commandTitle = initializeSubmodules.displayName;
 	initializeSubmodules.commandDescription = @"Updating submodules";

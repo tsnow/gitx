@@ -61,7 +61,7 @@
 			v=@"^";
 		}
 		NSString *specifier = [NSString stringWithFormat:@"%@%@:%@", [url host], v,path];
-		handle = [repo handleInWorkDirForArguments:[NSArray arrayWithObjects:@"cat-file", @"blob", specifier, nil]];
+		handle = [repo handleInWorkDirForArguments:@[@"cat-file", @"blob", specifier]];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishFileLoad:) name:NSFileHandleReadToEndOfFileCompletionNotification object:handle];
 		[handle readToEndOfFileInBackgroundAndNotify];
 		

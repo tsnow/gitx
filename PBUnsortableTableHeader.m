@@ -30,7 +30,7 @@
 	if (++clickCount == 3)
 	{
 		clickCount = 0;
-		controller.sortDescriptors = [NSArray array];
+		controller.sortDescriptors = @[];
 		[controller rearrangeObjects];
 		return;
 	}

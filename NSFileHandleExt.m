@@ -67,7 +67,7 @@
 	}       
 	
 	buffer[bytesReceived] = '\0';
-	NSString *retVal = [NSString stringWithCString: buffer  encoding: NSUTF8StringEncoding];
+	NSString *retVal = @(buffer);
 	if ([retVal length] == 0)
 		retVal = [NSString stringWithCString: buffer encoding: NSISOLatin1StringEncoding];
 	

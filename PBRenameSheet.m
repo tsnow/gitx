@@ -93,10 +93,8 @@ static PBRenameSheet *sheet;
     {
         NSError  *error = [NSError errorWithDomain:PBGitRepositoryErrorDomain 
                                               code:0
-                                          userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    refExistsReturnMessage, NSLocalizedDescriptionKey,
-                                                    [NSString stringWithFormat:@"Select other name for %@ %@.",[refToRename refishType],[refToRename shortName]], NSLocalizedRecoverySuggestionErrorKey,
-                                                    nil]
+                                          userInfo:@{NSLocalizedDescriptionKey: refExistsReturnMessage,
+                                                    NSLocalizedRecoverySuggestionErrorKey: [NSString stringWithFormat:@"Select other name for %@ %@.",[refToRename refishType],[refToRename shortName]]}
                            ];
         [[NSAlert alertWithError:error]runModal];
         return;

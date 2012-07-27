@@ -149,7 +149,7 @@
 					addSeparator = [delegate scopeBar:self showSeparatorBeforeGroup:groupNum];
 				}
 				if (addSeparator) {
-					[_separatorPositions addObject:[NSNumber numberWithInt:xCoord]];
+					[_separatorPositions addObject:@(xCoord)];
 					xCoord += SCOPE_BAR_SEPARATOR_WIDTH + SCOPE_BAR_ITEM_SPACING;
 					
 					_totalGroupsWidth += SCOPE_BAR_SEPARATOR_WIDTH + SCOPE_BAR_ITEM_SPACING;
@@ -196,12 +196,12 @@
 												  usedIdentifiers, GROUP_IDENTIFIERS, 
 												  buttons, GROUP_BUTTONS, 
 												  [NSNumber numberWithInt:selMode], GROUP_SELECTION_MODE, 
-												  [NSNumber numberWithBool:NO], GROUP_MENU_MODE, 
-												  [NSNumber numberWithBool:hasLabel], GROUP_HAS_LABEL, 
-												  [NSNumber numberWithBool:addSeparator], GROUP_HAS_SEPARATOR, 
+												  @NO, GROUP_MENU_MODE, 
+												  @(hasLabel), GROUP_HAS_LABEL, 
+												  @(addSeparator), GROUP_HAS_SEPARATOR, 
 												  nil];
 				if (hasLabel) {
-					[groupInfo setObject:labelField forKey:GROUP_LABEL_FIELD];
+					groupInfo[GROUP_LABEL_FIELD] = labelField;
 				}
 				[_groups addObject:groupInfo];
 				[_selectedItems addObject:[NSMutableArray arrayWithCapacity:0]];
@@ -245,18 +245,18 @@
 				}
 				
 				// Add the accumulated buttons' width and the widest button's width to groupInfo.
-				[groupInfo setObject:[NSNumber numberWithFloat:totalButtonsWidth] forKey:GROUP_TOTAL_BUTTONS_WIDTH];
-				[groupInfo setObject:[NSNumber numberWithFloat:widestButtonWidth] forKey:GROUP_WIDEST_BUTTON_WIDTH];
+				groupInfo[GROUP_TOTAL_BUTTONS_WIDTH] = @(totalButtonsWidth);
+				groupInfo[GROUP_WIDEST_BUTTON_WIDTH] = @(widestButtonWidth);
 				
 				_totalGroupsWidth += totalButtonsWidth;
 				_totalGroupsWidthForPopups += widestButtonWidth + MENU_PADDING;
 				
 				float cumulativeWidth = _totalGroupsWidth + (groupNum * SCOPE_BAR_ITEM_SPACING);
-				[groupInfo setObject:[NSNumber numberWithFloat:cumulativeWidth] forKey:GROUP_CUMULATIVE_WIDTH];
+				groupInfo[GROUP_CUMULATIVE_WIDTH] = @(cumulativeWidth);
 				
 				// If this is a radio-mode group, select the first item automatically.
 				if (selMode == MGRadioSelectionMode) {
-					[self updateSelectedState:YES forItem:[identifiers objectAtIndex:0] inGroup:groupNum informDelegate:YES];
+					[self updateSelectedState:YES forItem:identifiers[0] inGroup:groupNum informDelegate:YES];
 				}
 			}
 			
@@ -383,28 +383,28 @@
 	
 	// Get the current occupied width within this view.
 	float currentOccupiedWidth = 0;
-	NSDictionary *group = [_groups objectAtIndex:0];
-	BOOL menuMode = [[group objectForKey:GROUP_MENU_MODE] boolValue];
+	NSDictionary *group = _groups[0];
+	BOOL menuMode = [group[GROUP_MENU_MODE] boolValue];
 	NSButton *firstButton = nil;
 	if (menuMode) {
-		firstButton = [group objectForKey:GROUP_POPUP_BUTTON];
+		firstButton = group[GROUP_POPUP_BUTTON];
 	} else {
-		firstButton = [[group objectForKey:GROUP_BUTTONS] objectAtIndex:0];
+		firstButton = group[GROUP_BUTTONS][0];
 	}
 	float leftLimit = NSMinX([firstButton frame]);
 	// Account for label in first group, if present.
-	if ([[group objectForKey:GROUP_HAS_LABEL] boolValue]) {
-		NSTextField *label = (NSTextField *)[group objectForKey:GROUP_LABEL_FIELD];
+	if ([group[GROUP_HAS_LABEL] boolValue]) {
+		NSTextField *label = (NSTextField *)group[GROUP_LABEL_FIELD];
 		leftLimit -= (SCOPE_BAR_ITEM_SPACING + [label frame].size.width);
 	}
 	
 	group = [_groups lastObject];
-	menuMode = [[group objectForKey:GROUP_MENU_MODE] boolValue];
+	menuMode = [group[GROUP_MENU_MODE] boolValue];
 	NSButton *lastButton = nil;
 	if (menuMode) {
-		lastButton = [group objectForKey:GROUP_POPUP_BUTTON];
+		lastButton = group[GROUP_POPUP_BUTTON];
 	} else {
-		lastButton = [[group objectForKey:GROUP_BUTTONS] lastObject];
+		lastButton = [group[GROUP_BUTTONS] lastObject];
 	}
 	float rightLimit = NSMaxX([lastButton frame]);
 	currentOccupiedWidth = rightLimit - leftLimit;
@@ -426,8 +426,8 @@
 		float theoreticalOccupiedWidth = currentOccupiedWidth;
 		for (NSDictionary *groupInfo in groupsEnumerator) {
 			BOOL complete = NO;
-			float expandedWidth = [[groupInfo objectForKey:GROUP_TOTAL_BUTTONS_WIDTH] floatValue];
-			float contractedWidth = [[groupInfo objectForKey:GROUP_WIDEST_BUTTON_WIDTH] floatValue] + MENU_PADDING;
+			float expandedWidth = [groupInfo[GROUP_TOTAL_BUTTONS_WIDTH] floatValue];
+			float contractedWidth = [groupInfo[GROUP_WIDEST_BUTTON_WIDTH] floatValue] + MENU_PADDING;
 			
 			if (narrower) {
 				// We're narrowing. See if collapsing this group brings us within availableWidth.
@@ -487,25 +487,25 @@
 			if (adjusting) {
 				int i;
 				for (i = changedRange.location; i < NSMaxRange(changedRange); i++) {
-					NSMutableDictionary *groupInfo = [_groups objectAtIndex:i];
+					NSMutableDictionary *groupInfo = _groups[i];
 					
 					if (nextXCoord == NSNotFound) {
-						BOOL menuMode = [[groupInfo objectForKey:GROUP_MENU_MODE] boolValue];
+						BOOL menuMode = [groupInfo[GROUP_MENU_MODE] boolValue];
 						NSButton *firstButton = nil;
 						if (!menuMode) {
-							firstButton = [[groupInfo objectForKey:GROUP_BUTTONS] objectAtIndex:0];
+							firstButton = groupInfo[GROUP_BUTTONS][0];
 						} else {
-							firstButton = [groupInfo objectForKey:GROUP_POPUP_BUTTON];
+							firstButton = groupInfo[GROUP_POPUP_BUTTON];
 						}
 						nextXCoord = [firstButton frame].origin.x;
 					} else {
 						// Add group-spacing, separator and label as appropriate.
 						nextXCoord += SCOPE_BAR_ITEM_SPACING;
-						if ([[groupInfo objectForKey:GROUP_HAS_SEPARATOR] boolValue]) {
+						if ([groupInfo[GROUP_HAS_SEPARATOR] boolValue]) {
 							nextXCoord += (SCOPE_BAR_SEPARATOR_WIDTH + SCOPE_BAR_ITEM_SPACING);
 						}
-						if ([[groupInfo objectForKey:GROUP_HAS_LABEL] boolValue]) {
-							NSTextField *labelField = (NSTextField *)[groupInfo objectForKey:GROUP_LABEL_FIELD];
+						if ([groupInfo[GROUP_HAS_LABEL] boolValue]) {
+							NSTextField *labelField = (NSTextField *)groupInfo[GROUP_LABEL_FIELD];
 							float labelWidth = [labelField frame].size.width;
 							nextXCoord += (labelWidth + SCOPE_BAR_ITEM_SPACING);
 						}
@@ -514,7 +514,7 @@
 					NSPopUpButton *popup = nil;
 					if (narrower) {
 						// Remove buttons.
-						NSArray *buttons = [groupInfo objectForKey:GROUP_BUTTONS];
+						NSArray *buttons = groupInfo[GROUP_BUTTONS];
 						[buttons makeObjectsPerformSelector:@selector(removeFromSuperview)];
 						
 						// Create popup and add it to this view.
@@ -522,7 +522,7 @@
 						NSRect popupFrame = [popup frame];
 						popupFrame.origin.x = nextXCoord;
 						[popup setFrame:popupFrame];
-						[groupInfo setObject:popup forKey:GROUP_POPUP_BUTTON];
+						groupInfo[GROUP_POPUP_BUTTON] = popup;
 						[self addSubview:popup positioned:NSWindowBelow relativeTo:_accessoryView];
 						nextXCoord += popupFrame.size.width;
 						
@@ -531,17 +531,17 @@
 						
 					} else {
 						// Remove and release popup.
-						popup = [groupInfo objectForKey:GROUP_POPUP_BUTTON];
+						popup = groupInfo[GROUP_POPUP_BUTTON];
 						[popup removeFromSuperview];
 						[groupInfo removeObjectForKey:GROUP_POPUP_BUTTON];
 						
 						// Replace menuItems with buttons.
 						float buttonX = nextXCoord;
-						NSMutableArray *menuItems = [groupInfo objectForKey:GROUP_BUTTONS];
-						NSArray *selectedItems = [_selectedItems objectAtIndex:i];
+						NSMutableArray *menuItems = groupInfo[GROUP_BUTTONS];
+						NSArray *selectedItems = _selectedItems[i];
 						int i;
 						for (i = 0; i < [menuItems count]; i++) {
-							NSMenuItem *menuItem = [menuItems objectAtIndex:i];
+							NSMenuItem *menuItem = menuItems[i];
 							NSString *itemIdentifier = [menuItem representedObject];
 							NSButton *button = [self buttonForItem:itemIdentifier 
 														   inGroup:[menuItem tag] 
@@ -554,14 +554,14 @@
 								[button setState:NSOnState];
 							}
 							[self addSubview:button positioned:NSWindowBelow relativeTo:_accessoryView];
-							[menuItems replaceObjectAtIndex:i withObject:button];
+							menuItems[i] = button;
 							buttonX += [button frame].size.width + SCOPE_BAR_ITEM_SPACING;
 						}
 						nextXCoord = (buttonX - SCOPE_BAR_ITEM_SPACING);
 					}
 					
 					// Update GROUP_MENU_MODE for this group.
-					[groupInfo setObject:[NSNumber numberWithBool:narrower] forKey:GROUP_MENU_MODE];
+					groupInfo[GROUP_MENU_MODE] = [NSNumber numberWithBool:narrower];
 				}
 			}
 			
@@ -574,17 +574,17 @@
 			}
 			int i;
 			for (i = startIndex; i < [_groups count]; i++) {
-				NSDictionary *groupInfo = [_groups objectAtIndex:i];
-				BOOL menuMode = [[groupInfo objectForKey:GROUP_MENU_MODE] boolValue];
+				NSDictionary *groupInfo = _groups[i];
+				BOOL menuMode = [groupInfo[GROUP_MENU_MODE] boolValue];
 				
 				// Further contract or expand popups if appropriate.
 				if (shouldAdjustPopups) {
-					float fullPopupWidth = [[groupInfo objectForKey:GROUP_WIDEST_BUTTON_WIDTH] floatValue] + MENU_PADDING;
+					float fullPopupWidth = [groupInfo[GROUP_WIDEST_BUTTON_WIDTH] floatValue] + MENU_PADDING;
 					float popupWidth = fullPopupWidth - perGroupDelta;
 					popupWidth = MAX(popupWidth, MENU_MIN_WIDTH);
 					popupWidth = MIN(popupWidth, fullPopupWidth);
 					
-					NSPopUpButton *button = [groupInfo objectForKey:GROUP_POPUP_BUTTON];
+					NSPopUpButton *button = groupInfo[GROUP_POPUP_BUTTON];
 					NSRect buttonRect = [button frame];
 					buttonRect.size.width = popupWidth;
 					[button setFrame:buttonRect];
@@ -593,14 +593,14 @@
 				// Reposition groups appropriately.
 				if (i > startIndex) {
 					// Reposition separator if present.
-					if ([[groupInfo objectForKey:GROUP_HAS_SEPARATOR] boolValue]) {
-						[_separatorPositions replaceObjectAtIndex:i withObject:[NSNumber numberWithInt:xCoord]];
+					if ([groupInfo[GROUP_HAS_SEPARATOR] boolValue]) {
+						_separatorPositions[i] = [NSNumber numberWithInt:xCoord];
 						xCoord += (SCOPE_BAR_SEPARATOR_WIDTH + SCOPE_BAR_ITEM_SPACING);
 					}
 					
 					// Reposition label if present.
-					if ([[groupInfo objectForKey:GROUP_HAS_LABEL] boolValue]) {
-						NSTextField *label = [groupInfo objectForKey:GROUP_LABEL_FIELD];
+					if ([groupInfo[GROUP_HAS_LABEL] boolValue]) {
+						NSTextField *label = groupInfo[GROUP_LABEL_FIELD];
 						NSRect labelFrame = [label frame];
 						labelFrame.origin.x = xCoord;
 						[label setFrame:labelFrame];
@@ -609,14 +609,14 @@
 					
 					// Reposition buttons or popup.
 					if (menuMode) {
-						NSPopUpButton *button = [groupInfo objectForKey:GROUP_POPUP_BUTTON];
+						NSPopUpButton *button = groupInfo[GROUP_POPUP_BUTTON];
 						NSRect buttonRect = [button frame];
 						buttonRect.origin.x = xCoord;
 						[button setFrame:buttonRect];
 						xCoord = NSMaxX(buttonRect) + SCOPE_BAR_ITEM_SPACING;
 						
 					} else {
-						NSArray *buttons = [groupInfo objectForKey:GROUP_BUTTONS];
+						NSArray *buttons = groupInfo[GROUP_BUTTONS];
 						for (NSButton *button in buttons) {
 							NSRect buttonRect = [button frame];
 							buttonRect.origin.x = xCoord;
@@ -629,9 +629,9 @@
 					// Set up initial value of xCoord.
 					NSButton *button = nil;
 					if (menuMode) {
-						button = [groupInfo objectForKey:GROUP_POPUP_BUTTON];
+						button = groupInfo[GROUP_POPUP_BUTTON];
 					} else {
-						button = [[groupInfo objectForKey:GROUP_BUTTONS] lastObject];
+						button = [groupInfo[GROUP_BUTTONS] lastObject];
 					}
 					xCoord = NSMaxX([button frame]) + SCOPE_BAR_ITEM_SPACING;
 				}
@@ -664,9 +664,9 @@
 - (NSButton *)getButtonForItem:(NSString *)identifier inGroup:(int)groupNumber
 {
 	NSButton *button = nil;
-	NSArray *group = [_identifiers objectForKey:identifier];
+	NSArray *group = _identifiers[identifier];
 	if (group && [group count] > groupNumber) {
-		NSObject *element = [group objectAtIndex:groupNumber];
+		NSObject *element = group[groupNumber];
 		if (element != [NSNull null]) {
 			button = (NSButton *)element;
 		}
@@ -724,12 +724,12 @@
 
 - (NSPopUpButton *)popupButtonForGroup:(NSDictionary *)group
 {
-	float popWidth = floor([[group objectForKey:GROUP_WIDEST_BUTTON_WIDTH] floatValue] + MENU_PADDING);
+	float popWidth = floor([group[GROUP_WIDEST_BUTTON_WIDTH] floatValue] + MENU_PADDING);
 	NSRect popFrame = NSMakeRect(0, 0, popWidth, 20); // arbitrary height.
 	NSPopUpButton *popup = [[NSPopUpButton alloc] initWithFrame:popFrame pullsDown:NO];
 	
 	// Since we're not using the selected item's title, we need to specify a NSMenuItem for the title.
-	BOOL multiSelect = ([[group objectForKey:GROUP_SELECTION_MODE] intValue] == MGMultipleSelectionMode);
+	BOOL multiSelect = ([group[GROUP_SELECTION_MODE] intValue] == MGMultipleSelectionMode);
 	if (multiSelect) {
 		MGRecessedPopUpButtonCell *cell = [[MGRecessedPopUpButtonCell alloc] initTextCell:@"" pullsDown:NO];
 		[popup setCell:cell];
@@ -751,16 +751,16 @@
 	
 	// Add appropriate items.
 	[popup removeAllItems];
-	NSMutableArray *buttons = [group objectForKey:GROUP_BUTTONS];
+	NSMutableArray *buttons = group[GROUP_BUTTONS];
 	int i;
 	for (i = 0; i < [buttons count]; i++) {
-		NSButton *button = (NSButton *)[buttons objectAtIndex:i];
+		NSButton *button = (NSButton *)buttons[i];
 		NSMenuItem *menuItem = [self menuItemForItem:[[button cell] representedObject] 
 											 inGroup:[button tag] 
 										   withTitle:[button title] 
 											   image:[button image]];
 		[menuItem setState:[button state]];
-		[buttons replaceObjectAtIndex:i withObject:menuItem];
+		buttons[i] = menuItem;
 		[[popup menu] addItem:menuItem];
 	}
 	
@@ -782,10 +782,10 @@
 		_identifiers = [[NSMutableDictionary alloc] initWithCapacity:0];
 	}
 	
-	NSMutableArray *identArray = [_identifiers objectForKey:identifier];
+	NSMutableArray *identArray = _identifiers[identifier];
 	if (!identArray) {
 		identArray = [[NSMutableArray alloc] initWithCapacity:groupNumber + 1];
-		[_identifiers setObject:identArray forKey:identifier];
+		_identifiers[identifier] = identArray;
 	}
 	
 	int count = [identArray count];
@@ -797,7 +797,7 @@
 		}
 		[identArray addObject:control];
 	} else {
-		[identArray replaceObjectAtIndex:groupNumber withObject:control];
+		identArray[groupNumber] = control;
 	}
 }
 
@@ -811,11 +811,11 @@
 		return;
 	}
 	
-	NSDictionary *group = [_groups objectAtIndex:groupNumber];
+	NSDictionary *group = _groups[groupNumber];
 	if (group) {
-		NSPopUpButton *popup = [group objectForKey:GROUP_POPUP_BUTTON];
+		NSPopUpButton *popup = group[GROUP_POPUP_BUTTON];
 		if (popup) {
-			NSArray *groupSelection = [_selectedItems objectAtIndex:groupNumber];
+			NSArray *groupSelection = _selectedItems[groupNumber];
 			int numSelected = [groupSelection count];
 			if (numSelected == 0) {
 				// No items selected.
@@ -829,8 +829,8 @@
 				
 			} else {
 				// One item selected.
-				NSString *identifier = [groupSelection objectAtIndex:0];
-				NSArray *items = [group objectForKey:GROUP_BUTTONS];
+				NSString *identifier = groupSelection[0];
+				NSArray *items = group[GROUP_BUTTONS];
 				NSMenuItem *item = nil;
 				for (NSMenuItem *thisItem in items) {
 					if ([[thisItem representedObject] isEqualToString:identifier]) {
@@ -900,7 +900,7 @@
 	BOOL nowSelected = YES;
 	if (menuMode) {
 		// MenuItem. Ensure item has appropriate state.
-		nowSelected = ![[_selectedItems objectAtIndex:groupNumber] containsObject:identifier];
+		nowSelected = ![_selectedItems[groupNumber] containsObject:identifier];
 		[sender setState:((nowSelected) ? NSOnState : NSOffState)];
 	} else {
 		// Button. Item will already have appropriate state.
@@ -918,7 +918,7 @@
 	// Change state of other items in group appropriately, informing delegate if possible.
 	// First we find the appropriate group-info for the item's identifier.
 	if (identifier && groupNumber >= 0 && groupNumber < [_groups count]) {
-		NSDictionary *group = [_groups objectAtIndex:groupNumber];
+		NSDictionary *group = _groups[groupNumber];
 		BOOL nowSelected = selected;
 		BOOL informDelegate = YES;
 		
@@ -926,12 +926,12 @@
 			NSDisableScreenUpdates();
 			
 			// We found the group which this item belongs to. Obtain selection-mode and identifiers.
-			MGScopeBarGroupSelectionMode selMode = [[group objectForKey:GROUP_SELECTION_MODE] intValue];
+			MGScopeBarGroupSelectionMode selMode = [group[GROUP_SELECTION_MODE] intValue];
 			BOOL radioMode = (selMode == MGRadioSelectionMode);
 			
 			if (radioMode) {
 				// This is a radio-mode group. Ensure this item isn't already selected.
-				NSArray *groupSelections = [[_selectedItems objectAtIndex:groupNumber] copy];
+				NSArray *groupSelections = [_selectedItems[groupNumber] copy];
 				
 				if (nowSelected) {
 					// Before selecting this item, we first need to deselect any other selected items in this group.
@@ -952,7 +952,7 @@
 			[self updateSelectedState:nowSelected forItem:identifier inGroup:groupNumber informDelegate:informDelegate];
 			
 			// Update popup-menu's title if appropriate.
-			if ([[group objectForKey:GROUP_MENU_MODE] boolValue]) {
+			if ([group[GROUP_MENU_MODE] boolValue]) {
 				[self updateMenuTitleForGroupAtIndex:groupNumber];
 			}
 			
@@ -982,7 +982,7 @@
 	
 	// Maintain _selectedItems appropriately.
 	if (_selectedItems && [_selectedItems count] > groupNumber) {
-		NSMutableArray *groupSelections = [_selectedItems objectAtIndex:groupNumber];
+		NSMutableArray *groupSelections = _selectedItems[groupNumber];
 		BOOL alreadySelected = [groupSelections containsObject:identifier];
 		if (selected && !alreadySelected) {
 			[groupSelections addObject:identifier];

@@ -1660,6 +1660,7 @@
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/revision;
 				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = GitX;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1682,6 +1683,7 @@
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/revision;
 				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = GitX;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1733,6 +1735,7 @@
 					AppKit,
 				);
 				PRODUCT_NAME = gitx_askpasswd;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1750,6 +1753,7 @@
 					AppKit,
 				);
 				PRODUCT_NAME = gitx_askpasswd;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1767,6 +1771,7 @@
 					AppKit,
 				);
 				PRODUCT_NAME = gitx_askpasswd;
+				SDKROOT = macosx;
 			};
 			name = Install;
 		};
@@ -1784,6 +1789,7 @@
 					AppKit,
 				);
 				PRODUCT_NAME = gitx;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1801,6 +1807,7 @@
 					AppKit,
 				);
 				PRODUCT_NAME = gitx;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1813,6 +1820,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = "Generate PList Prefix";
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1825,6 +1833,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = "Generate PList Prefix";
+				SDKROOT = macosx;
 				ZERO_LINK = NO;
 			};
 			name = Release;

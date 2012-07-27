@@ -98,7 +98,7 @@ NSString * const kGitXCommitType = @"commit";
 	if (_patch != nil)
 		return _patch;
 
-	NSString *p = [repository outputForArguments:[NSArray arrayWithObjects:@"format-patch",  @"-1", @"--stdout", [self realSha], nil]];
+	NSString *p = [repository outputForArguments:@[@"format-patch",  @"-1", @"--stdout", [self realSha]]];
 	// Add a GitX identifier to the patch ;)
 	_patch = [[p substringToIndex:[p length] -1] stringByAppendingString:@"+GitX"];
 	return _patch;
@@ -139,12 +139,12 @@ NSString * const kGitXCommitType = @"commit";
 
 - (NSMutableArray *)refs
 {
-	return [[repository refs] objectForKey:[self sha]];
+	return [repository refs][[self sha]];
 }
 
 - (void) setRefs:(NSMutableArray *)refs
 {
-	[[repository refs] setObject:refs forKey:[self sha]];
+	[repository refs][[self sha]] = refs;
 }
 
 - (void)finalize
