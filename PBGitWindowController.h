@@ -16,7 +16,7 @@
 @class PBViewController, PBGitSidebarController, PBGitCommitController;
 
 // Controls the main repository window from RepositoryWindow.xib
-@interface PBGitWindowController : NSWindowController PROTOCOL_10_6(NSWindowDelegate,Messages){
+@interface PBGitWindowController : NSWindowController <NSWindowDelegate,Messages> {
 
 	PBViewController *contentController;
 
