@@ -86,6 +86,7 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
 	[sourceView setDoubleAction:@selector(outlineDoubleClicked)];
 	[sourceView setTarget:self];
     [self updateMetaDataForBranches];
+    [self evaluateRemoteBadge];
 }
 
 - (void)closeView
@@ -161,9 +162,7 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
 		}
 		[sourceView reloadData];
 	}else if ([@"updateRefs" isEqualToString:(__bridge NSString *)context]) {
-		for(PBGitSVRemoteItem* remote in [remotes children]){
-			[self performSelectorInBackground:@selector(evaluateRemoteBadge:) withObject:remote];
-		}
+        [self evaluateRemoteBadge];
 		[self updateMetaDataForBranches];
 	}else{
 		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -176,7 +175,7 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
     for(PBGitSVBranchItem* branch in [theBranches children]){
         if([branch isKindOfClass:[PBGitSVBranchItem class]]){
             dispatch_async(PBGetWorkQueue(),^{
-                id ahead = [self countCommitsOf:[NSString stringWithFormat:@"origin/%@..%@",branch.revSpecifier,branch.revSpecifier]]; 
+                id ahead = [self countCommitsOf:[NSString stringWithFormat:@"origin/%@..%@",branch.revSpecifier,branch.revSpecifier]];
                 id behind = [self countCommitsOf:[NSString stringWithFormat:@"%@..origin/%@",branch.revSpecifier,branch.revSpecifier]];
                 dispatch_async(dispatch_get_main_queue(),^{
                     [branch setAhead:ahead];
@@ -197,16 +196,31 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
 
 #pragma mark Badges Methods
 
--(void)evaluateRemoteBadge:(PBGitSVRemoteItem *)remote
+-(void)evaluateRemoteBadge
 {
-	DLog(@"remote.title=%@",[remote title]);
-    if([remote isKindOfClass:[PBGitSVRemoteItem class]]) {
-		dispatch_async(PBGetWorkQueue(), ^{
-			bool needsFetch = [self remoteNeedFetch:[remote title]];
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[remote setAlert:needsFetch];
-			});
-		});
+    for(PBGitSVRemoteItem* remote in [remotes children]){
+        if([remote isKindOfClass:[PBGitSVRemoteItem class]]) {
+            if(remote.loading==NO){
+                remote.loading = YES;
+                DLog(@"remote.title=%@",[remote title]);
+                dispatch_async(PBGetWorkQueue(), ^{
+                    bool needsFetch = [self remoteNeedFetch:[remote title]];
+                    if(needsFetch){
+                        NSUserNotification *notification = [[NSUserNotification alloc] init];
+                        notification.title=@"GitX";
+                        notification.informativeText=[NSString stringWithFormat:@"remote '%@' needs a pull",[remote title]];
+                        notification.soundName=NSUserNotificationDefaultSoundName;
+                        NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+                        [center deliverNotification:notification];
+                    }
+                    [remote setAlert:needsFetch];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [sourceView setNeedsDisplay];
+                    });
+                    remote.loading = NO;
+                });
+            }
+        }
 	}
 }
 
@@ -414,7 +428,7 @@ NSString *kObservingContextSubmodules = @"submodulesChanged";
 {
 	NSString *fetchURL = urls[0];
 	NSString *pushURL = urls[1];
-
+    
 	if ([fetchURL isEqual:pushURL])
 		return fetchURL;
 	else	// Down triangle for fetch, up triangle for push
