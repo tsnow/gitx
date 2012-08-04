@@ -141,7 +141,7 @@ void getproclline(pid_t pid, char *command_name)
 	
 	size = (size_t)argmax;
 	if (sysctl(mib, 3, procargs, &size, NULL, 0) == -1) {
-		return;
+		goto leave;
 	}
 	
 	memcpy(&nargs, procargs, sizeof(nargs));
@@ -155,7 +155,7 @@ void getproclline(pid_t pid, char *command_name)
 		}
 	}
 	if (cp == &procargs[size]) {
-		return;
+		goto leave;
 	}
 	
 	/* Skip trailing '\0' characters. */
@@ -166,7 +166,7 @@ void getproclline(pid_t pid, char *command_name)
 		}
 	}
 	if (cp == &procargs[size]) {
-		return;
+		goto leave;
 	}
 	/* Save where the argv[0] string starts. */
 	sp = cp;
@@ -181,6 +181,9 @@ void getproclline(pid_t pid, char *command_name)
 		}
 	}	
 	sprintf(command_name, "%s",sp);
+
+leave:
+	free( procargs );
 }
 
 OSStatus StorePasswordKeychain (const char *url, UInt32 urlLength, void* password,UInt32 passwordLength)
