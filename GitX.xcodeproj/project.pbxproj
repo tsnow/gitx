@@ -62,9 +62,6 @@
 		311D4F5D1370CDA80061CFD3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311D4F5C1370CDA80061CFD3 /* QuartzCore.framework */; };
 		31460CD2124185BA00B90AED /* MGRecessedPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31460CA7124185BA00B90AED /* MGRecessedPopUpButtonCell.m */; };
 		31460CD3124185BA00B90AED /* MGScopeBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 31460CA9124185BA00B90AED /* MGScopeBar.m */; };
-		31460CD4124185BA00B90AED /* ReadMe.txt in Resources */ = {isa = PBXBuildFile; fileRef = 31460CAF124185BA00B90AED /* ReadMe.txt */; };
-		31460CD5124185BA00B90AED /* Source Code License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 31460CB0124185BA00B90AED /* Source Code License.rtf */; };
-		31460CD6124185BA00B90AED /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = 31460CB1124185BA00B90AED /* TODO */; };
 		314BCAC713DAF5FA00CD85F3 /* PBGitSidebarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F58DB55F10566E3900CFDF4A /* PBGitSidebarView.xib */; };
 		316E7202131EE9C600AFBB36 /* list_Template.png in Resources */ = {isa = PBXBuildFile; fileRef = 316E7200131EE9C600AFBB36 /* list_Template.png */; };
 		316E7203131EE9C600AFBB36 /* sidebar_Template.png in Resources */ = {isa = PBXBuildFile; fileRef = 316E7201131EE9C600AFBB36 /* sidebar_Template.png */; };
@@ -1288,9 +1285,6 @@
 				D8022FE811E124A0003C21F6 /* PBGitXMessageSheet.xib in Resources */,
 				D8F01C4B12182F19007F729F /* GitX.sdef in Resources */,
 				D8F4AB7912298CE200D6D53C /* rewindImage.pdf in Resources */,
-				31460CD4124185BA00B90AED /* ReadMe.txt in Resources */,
-				31460CD5124185BA00B90AED /* Source Code License.rtf in Resources */,
-				31460CD6124185BA00B90AED /* TODO in Resources */,
 				02B41A60123E307F00DFC531 /* PBCommitHookFailedSheet.xib in Resources */,
 				21230D821284D1CC0046E5A1 /* stash-icon.png in Resources */,
 				21230ED21285EB5A0046E5A1 /* PBArgumentPicker.xib in Resources */,
