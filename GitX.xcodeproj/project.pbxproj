@@ -80,7 +80,6 @@
 		551BF176112F3F4B00265053 /* gitx_askpasswd in Resources */ = {isa = PBXBuildFile; fileRef = 551BF111112F371800265053 /* gitx_askpasswd */; };
 		65D58BC4132D27A8003F7290 /* PBResetSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65D58BC3132D27A7003F7290 /* PBResetSheet.xib */; };
 		65D58BC7132D48C2003F7290 /* PBResetSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D58BC6132D48C0003F7290 /* PBResetSheet.m */; };
-		770B37ED0679A11B001EADE2 /* GitTest_DataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 770B37EC0679A11B001EADE2 /* GitTest_DataModel.xcdatamodel */; };
 		77C8280E06725ACE000B614F /* ApplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* ApplicationController.m */; };
 		812BDD8B14AA0B110072748D /* PBChangeRemoteUrlSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 812BDD8914AA0B110072748D /* PBChangeRemoteUrlSheet.xib */; };
 		812BDD8F14AA0E9C0072748D /* PBChangeRemoteUrlSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 812BDD8E14AA0E9C0072748D /* PBChangeRemoteUrlSheet.m */; };
@@ -341,8 +340,6 @@
 		65D58BC3132D27A7003F7290 /* PBResetSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PBResetSheet.xib; sourceTree = "<group>"; };
 		65D58BC5132D48BF003F7290 /* PBResetSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBResetSheet.h; sourceTree = "<group>"; };
 		65D58BC6132D48C0003F7290 /* PBResetSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBResetSheet.m; sourceTree = "<group>"; };
-		770B37EC0679A11B001EADE2 /* GitTest_DataModel.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = GitTest_DataModel.xcdatamodel; sourceTree = "<group>"; };
-		77C82804067257F0000B614F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		77C8280B06725ACE000B614F /* ApplicationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationController.h; sourceTree = "<group>"; };
 		77C8280C06725ACE000B614F /* ApplicationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationController.m; sourceTree = "<group>"; };
 		812BDD8A14AA0B110072748D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PBChangeRemoteUrlSheet.xib; sourceTree = "<group>"; };
@@ -620,7 +617,6 @@
 			isa = PBXGroup;
 			children = (
 				911112360E5A097800BF76B4 /* Security.framework */,
-				77C82804067257F0000B614F /* CoreData.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				D8E3B2B710DC9FB2001096A3 /* ScriptingBridge.framework */,
@@ -721,7 +717,6 @@
 				F57CC3850E05DDC1000472E2 /* Controllers */,
 				F56174540E05887E001DCD79 /* Git */,
 				F5D619ED0EAE62EA00341D73 /* html */,
-				7756732906782D8800D1FEB8 /* Models */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				551BF118112F373E00265053 /* gitx_asskpasswd */,
@@ -860,14 +855,6 @@
 				551BF11D112F376C00265053 /* gitx_askpasswd_main.m */,
 			);
 			name = gitx_asskpasswd;
-			sourceTree = "<group>";
-		};
-		7756732906782D8800D1FEB8 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				770B37EC0679A11B001EADE2 /* GitTest_DataModel.xcdatamodel */,
-			);
-			name = Models;
 			sourceTree = "<group>";
 		};
 		8998B1AB13A55A9B00121729 /* Stash */ = {
@@ -1411,7 +1398,6 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				F574A2910EAE2FF4003F2CB1 /* PBGitConfig.m in Sources */,
 				77C8280E06725ACE000B614F /* ApplicationController.m in Sources */,
-				770B37ED0679A11B001EADE2 /* GitTest_DataModel.xcdatamodel in Sources */,
 				F5945E170E02B0C200706420 /* PBGitRepository.m in Sources */,
 				F56524BB0E02D22D00F03B52 /* NSFileHandleExt.m in Sources */,
 				F56524F00E02D45200F03B52 /* PBGitCommit.m in Sources */,
