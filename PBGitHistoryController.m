@@ -181,7 +181,7 @@
 - (void) updateStatus
 {
 	self.isBusy = repository.revisionList.isUpdating;
-	self.status = [NSString stringWithFormat:@"%d commits loaded", [[commitController arrangedObjects] count]];
+	self.status = [NSString stringWithFormat:@"%ld commits loaded", [[commitController arrangedObjects] count]];
 }
 
 - (void) restoreFileBrowserSelection
