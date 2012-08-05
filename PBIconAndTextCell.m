@@ -31,24 +31,26 @@
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
 	if (image) {
-		NSSize  imageSize;
-		NSRect  imageFrame;
 
-		imageSize = [image size];
+		NSSize imageSize = [image size];
+		NSRect imageFrame = NSZeroRect;
+
 		NSDivideRect(cellFrame, &imageFrame, &cellFrame, 3 + imageSize.width, NSMinXEdge);
 		if ([self drawsBackground]) {
 			[[self backgroundColor] set];
 			NSRectFill(imageFrame);
 		}
+
 		imageFrame.origin.x += 3;
 		imageFrame.size = imageSize;
+		imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
 
-		if ([controlView isFlipped])
-			imageFrame.origin.y += floor((cellFrame.size.height + imageFrame.size.height) / 2);
-		else
-			imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
-
-		[image drawAtPoint: imageFrame.origin fromRect:NSZeroRect operation:NSCompositeSourceOver fraction: 1.0];
+ 		[image drawInRect: imageFrame
+				 fromRect: NSZeroRect
+				operation: NSCompositeSourceOver
+				 fraction: 1.0f
+		   respectFlipped: YES
+					hints: nil];
 	}
 	[super drawWithFrame:cellFrame inView:controlView];
 }

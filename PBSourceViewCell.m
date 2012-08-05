@@ -51,15 +51,15 @@
 		NSRect imageFrame;
 		NSDivideRect(cellFrame, &imageFrame, &cellFrame, imageSize.width + 3, NSMaxXEdge);
 		imageFrame.size = imageSize;
-		
-		if ([outlineView isFlipped])
-			imageFrame.origin.y += floor((cellFrame.size.height + imageFrame.size.height) / 2);
-		else
-			imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
-		
-		[checkedOutImage drawAtPoint: imageFrame.origin fromRect: NSZeroRect operation: NSCompositeSourceOver fraction:1.0];
+		imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
+		[checkedOutImage drawInRect: imageFrame
+				 fromRect: NSZeroRect
+				operation: NSCompositeSourceOver
+				 fraction: 1.0f
+		   respectFlipped: YES
+					hints: nil];
 	}
-	
+
 	[super drawWithFrame:cellFrame inView:outlineView];
 }
 
@@ -86,10 +86,12 @@
 	[super drawInteriorWithFrame:bounds inView:controlView];
 	
 	if (showsActionButton) {
-		NSRect infoButtonRect = [self infoButtonRectForBounds:bounds];
-		NSImage *anImage = [self infoButtonImage];
-		[anImage setFlipped:[controlView isFlipped]];
-		[anImage drawInRect:infoButtonRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+		[[self infoButtonImage] drawInRect: [self infoButtonRectForBounds: bounds]
+								  fromRect: NSZeroRect
+								 operation: NSCompositeSourceOver
+								  fraction: 1.0f
+							respectFlipped: YES
+									 hints: nil];
 	}
 }
 
