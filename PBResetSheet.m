@@ -59,7 +59,7 @@ static PBResetSheet* sheet;
     PBResetType type = [resetType selectedSegment] + 1;
     
     NSString* type_arg = [NSString stringWithFormat: @"--%s", StringFromResetType(type)];
-    NSArray *arguments = [NSArray arrayWithObjects:@"reset", type_arg, [targetRefish refishName], nil];
+    NSArray *arguments = @[@"reset", type_arg, [targetRefish refishName]];
     PBCommand *cmd = [[PBCommand alloc] initWithDisplayName:@"Reset branch" parameters:arguments repository:repository];
     [cmd invoke];
 }

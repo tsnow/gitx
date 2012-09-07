@@ -29,7 +29,7 @@
 	NSString *userText = [view.textField stringValue];
 	if ([userText length] > 0) {
 		NSString *paramName = [cmdWithParameter parameterName];
-		[cmdWithParameter.command appendParameters:[NSArray arrayWithObjects:paramName, userText, nil]];
+		[cmdWithParameter.command appendParameters:@[paramName, userText]];
 	}
 	[self cancelClicked:sender];
 	

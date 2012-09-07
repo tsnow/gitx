@@ -39,40 +39,23 @@
 + (void)initialize
 {
 	NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
-	[defaultValues setObject:[NSNumber numberWithInt:kDefaultVerticalLineLength]
-                      forKey:kCommitMessageViewVerticalLineLength];
-    [defaultValues setObject:[NSNumber numberWithBool:YES]
-                      forKey:kCommitMessageViewHasVerticalLine];
-	[defaultValues setObject:[NSNumber numberWithBool:YES]
-					  forKey:kEnableGist];
-	[defaultValues setObject:[NSNumber numberWithBool:YES]
-					  forKey:kEnableGravatar];
-	[defaultValues setObject:[NSNumber numberWithBool:YES]
-					  forKey:kConfirmPublicGists];
-	[defaultValues setObject:[NSNumber numberWithBool:NO]
-					  forKey:kPublicGist];
-	[defaultValues setObject:[NSNumber numberWithBool:YES]
-					  forKey:kShowWhitespaceDifferences];
-    [defaultValues setObject:[NSNumber numberWithBool:NO]
-					  forKey:kEnableSignOff];
-	[defaultValues setObject:[NSNumber numberWithBool:YES]
-					  forKey:kRefreshAutomatically];
-	[defaultValues setObject:[NSNumber numberWithBool:YES]
-					  forKey:kUseAskPasswd];
-	[defaultValues setObject:[NSNumber numberWithBool:NO]
-					  forKey:kOpenCurDirOnLaunch];
-	[defaultValues setObject:[NSNumber numberWithBool:YES]
-					  forKey:kShowOpenPanelOnLaunch];
-	[defaultValues setObject:[NSNumber numberWithBool:YES]
-					  forKey:kShouldCheckoutBranch];
-	[defaultValues setObject:[NSNumber numberWithBool:NO]
-                      forKey:kOpenPreviousDocumentsOnLaunch];
-	[defaultValues setObject:[NSNumber numberWithInteger:kGitXBasicSeachMode]
-                      forKey:kHistorySearchMode];
-	[defaultValues setObject:[NSNumber numberWithBool:NO]
-					  forKey:kUseITerm2];
-	[defaultValues setObject:[NSNumber numberWithBool:NO]
-					  forKey:kITerm2Available];
+	defaultValues[kCommitMessageViewVerticalLineLength] = @kDefaultVerticalLineLength;
+    defaultValues[kCommitMessageViewHasVerticalLine] = @YES;
+	defaultValues[kEnableGist] = @YES;
+	defaultValues[kEnableGravatar] = @YES;
+	defaultValues[kConfirmPublicGists] = @YES;
+	defaultValues[kPublicGist] = @NO;
+	defaultValues[kShowWhitespaceDifferences] = @YES;
+    defaultValues[kEnableSignOff] = @NO;
+	defaultValues[kRefreshAutomatically] = @YES;
+	defaultValues[kUseAskPasswd] = @YES;
+	defaultValues[kOpenCurDirOnLaunch] = @NO;
+	defaultValues[kShowOpenPanelOnLaunch] = @YES;
+	defaultValues[kShouldCheckoutBranch] = @YES;
+	defaultValues[kOpenPreviousDocumentsOnLaunch] = @NO;
+	defaultValues[kHistorySearchMode] = @(kGitXBasicSeachMode);
+	defaultValues[kUseITerm2] = @NO;
+	defaultValues[kITerm2Available] = @NO;
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
 }
 

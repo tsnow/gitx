@@ -73,10 +73,10 @@ using namespace std;
 
 - (void) updateCommits:(NSDictionary *)update
 {
-	if ([update objectForKey:kRevListThreadKey] != parseThread)
+	if (update[kRevListThreadKey] != parseThread)
 		return;
 
-	NSArray *revisions = [update objectForKey:kRevListRevisionsKey];
+	NSArray *revisions = update[kRevListRevisionsKey];
 	if (!revisions || [revisions count] == 0)
 		return;
 
@@ -158,7 +158,7 @@ using namespace std;
 			if (encodingMap.find(encoding_str) != encodingMap.end()) {
 				encoding = encodingMap[encoding_str];
 			} else {
-				encoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((__bridge CFStringRef)[NSString stringWithUTF8String:encoding_str.c_str()]));
+				encoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((__bridge CFStringRef)@(encoding_str.c_str())));
 				encodingMap[encoding_str] = encoding;
 			}
 		}
@@ -214,7 +214,7 @@ using namespace std;
 
 		if (++num % 100 == 0) {
 			if ([[NSDate date] timeIntervalSinceDate:lastUpdate] > 0.1) {
-				NSDictionary *update = [NSDictionary dictionaryWithObjectsAndKeys:currentThread, kRevListThreadKey, revisions, kRevListRevisionsKey, nil];
+				NSDictionary *update = @{kRevListThreadKey: currentThread, kRevListRevisionsKey: revisions};
 				[self performSelectorOnMainThread:@selector(updateCommits:) withObject:update waitUntilDone:NO];
 				revisions = [NSMutableArray array];
 				lastUpdate = [NSDate date];
@@ -227,7 +227,7 @@ using namespace std;
 		DLog(@"Loaded %i commits in %f seconds (%f/sec)", num, duration, num/duration);
 
 		// Make sure the commits are stored before exiting.
-		NSDictionary *update = [NSDictionary dictionaryWithObjectsAndKeys:currentThread, kRevListThreadKey, revisions, kRevListRevisionsKey, nil];
+		NSDictionary *update = @{kRevListThreadKey: currentThread, kRevListRevisionsKey: revisions};
 		[self performSelectorOnMainThread:@selector(updateCommits:) withObject:update waitUntilDone:YES];
 
 		[self performSelectorOnMainThread:@selector(finishedParsing) withObject:nil waitUntilDone:NO];

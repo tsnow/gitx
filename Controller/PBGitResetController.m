@@ -41,7 +41,7 @@
 	NSMenuItem *reset = [[NSMenuItem alloc] initWithTitle:@"Reset..." action:@selector(reset) keyEquivalent:@""];
 	[reset setTarget:self];
 	
-	return [NSArray arrayWithObjects:resetHeadHardly, reset, nil];
+	return @[resetHeadHardly, reset];
 }
 
 - (BOOL) validateMenuItem:(NSMenuItem *)menuItem {

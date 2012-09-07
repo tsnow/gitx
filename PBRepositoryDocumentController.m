@@ -18,7 +18,7 @@
 	[openPanel setCanChooseFiles:YES];
 	[openPanel setCanChooseDirectories:YES];
     [openPanel setDirectoryURL:Nil];
-    [openPanel setAllowedFileTypes:[NSArray arrayWithObject: @"git"]];
+    [openPanel setAllowedFileTypes:@[@"git"]];
     [openPanel setShowsHiddenFiles:YES];
     return [openPanel runModal];    
 }
@@ -53,7 +53,7 @@
 - (void)initNewRepositoryAtURL:(NSURL *)url
 {
 	int terminationStatus;
-	NSString *result = [PBEasyPipe outputForCommand:[PBGitBinary path] withArgs:[NSArray arrayWithObjects:@"init", @"-q", nil] inDir:[url path] retValue:&terminationStatus];
+	NSString *result = [PBEasyPipe outputForCommand:[PBGitBinary path] withArgs:@[@"init", @"-q"] inDir:[url path] retValue:&terminationStatus];
 
 	if (terminationStatus == 0)
 		[self openDocumentWithContentsOfURL:url display:YES error:NULL];

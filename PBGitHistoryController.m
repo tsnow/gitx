@@ -157,7 +157,7 @@
 {
 	NSArray *arrangedObjects = [commitController arrangedObjects];
 	if ([arrangedObjects count] > 0)
-		return [arrangedObjects objectAtIndex:0];
+		return arrangedObjects[0];
 
 	return nil;
 }
@@ -181,7 +181,7 @@
 - (void) updateStatus
 {
 	self.isBusy = repository.revisionList.isUpdating;
-	self.status = [NSString stringWithFormat:@"%d commits loaded", [[commitController arrangedObjects] count]];
+	self.status = [NSString stringWithFormat:@"%ld commits loaded", [[commitController arrangedObjects] count]];
 }
 
 - (void) restoreFileBrowserSelection
@@ -222,7 +222,7 @@
 	NSArray *content = [treeController content];
 
 	if ([objects count] && [content count]) {
-		PBGitTree *treeItem = [objects objectAtIndex:0];
+		PBGitTree *treeItem = objects[0];
 		currentFileBrowserSelectionPath = [treeItem.fullPath componentsSeparatedByString:@"/"];
 	}
 }
@@ -241,7 +241,7 @@
 	}else if([context isEqualToString:@"branchChange"]) {
 		// Reset the sorting
 		if ([[commitController sortDescriptors] count])
-			[commitController setSortDescriptors:[NSArray array]];
+			[commitController setSortDescriptors:@[]];
 		[self updateBranchFilterMatrix];
 	}else if([context isEqualToString:@"updateRefs"]) {
 		[commitController rearrangeObjects];
@@ -270,7 +270,7 @@
 	NSArray* selectedFiles = [treeController selectedObjects];
 	if ([selectedFiles count] == 0)
 		return;
-	PBGitTree* tree = [selectedFiles objectAtIndex:0];
+	PBGitTree* tree = selectedFiles[0];
 	NSString* name = [tree tmpFileNameForContents];
 	[[NSWorkspace sharedWorkspace] openTempFile:name];
 }
@@ -339,26 +339,26 @@
 
 - (void) copyCommitInfo
 {
-	PBGitCommit *commit = [[commitController selectedObjects] objectAtIndex:0];
+	PBGitCommit *commit = [commitController selectedObjects][0];
 	if (!commit)
 		return;
 	NSString *info = [NSString stringWithFormat:@"%@ (%@)", [[commit realSha] substringToIndex:10], [commit subject]];
 
 	NSPasteboard *a =[NSPasteboard generalPasteboard];
-	[a declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
+	[a declareTypes:@[NSStringPboardType] owner:self];
 	[a setString:info forType: NSStringPboardType];
 	
 }
 
 - (void) copyCommitSHA
 {
-	PBGitCommit *commit = [[commitController selectedObjects] objectAtIndex:0];
+	PBGitCommit *commit = [commitController selectedObjects][0];
 	if (!commit)
 		return;
 	NSString *info = [[commit realSha] substringWithRange:NSMakeRange(0, 7)];
 
 	NSPasteboard *a =[NSPasteboard generalPasteboard];
-	[a declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
+	[a declareTypes:@[NSStringPboardType] owner:self];
 	[a setString:info forType: NSStringPboardType];
 
 }
@@ -454,7 +454,7 @@
 	NSArray *selectedCommits = [[commitController content] filteredArrayUsingPredicate:selection];
 
 	if (([selectedCommits count] == 0) && [self firstCommit])
-		selectedCommits = [NSArray arrayWithObject:[self firstCommit]];
+		selectedCommits = @[[self firstCommit]];
 
 	return selectedCommits;
 }
@@ -517,7 +517,7 @@
 		[item bind:@"value"
 		  toObject:column
 	   withKeyPath:@"hidden"
-		   options:[NSDictionary dictionaryWithObject:@"NSNegateBoolean" forKey:NSValueTransformerNameBindingOption]];
+		   options:@{NSValueTransformerNameBindingOption: @"NSNegateBoolean"}];
 		[menu addItem:item];
 	}
 	return menu;
@@ -609,7 +609,7 @@
 														   action:@selector(openFilesAction:)
 													keyEquivalent:@""];
 
-	NSArray *menuItems = [NSArray arrayWithObjects:historyItem, diffItem, checkoutItem, finderItem, openFilesItem, nil];
+	NSArray *menuItems = @[historyItem, diffItem, checkoutItem, finderItem, openFilesItem];
 	for (NSMenuItem *item in menuItems) {
 		[item setTarget:self];
 		[item setRepresentedObject:filePaths];
@@ -631,7 +631,7 @@
 	NSUInteger index = [[splitView subviews] indexOfObject:subview];
 	// this method (and canCollapse) are called by the splitView to decide how to collapse on double-click
 	// we compare our two subviews, so that always the smaller one is collapsed.
-	if([[[splitView subviews] objectAtIndex:index] frame].size.height < [[[splitView subviews] objectAtIndex:((index+1)%2)] frame].size.height) {
+	if([[splitView subviews][index] frame].size.height < [[splitView subviews][((index+1)%2)] frame].size.height) {
 		return TRUE;
 	}
 	return FALSE;
@@ -640,7 +640,7 @@
 // NSSplitView does not save and restore the position of the SplitView correctly so do it manually
 - (void)saveSplitViewPosition
 {
-	float position = [[[historySplitView subviews] objectAtIndex:0] frame].size.height;
+	float position = [[historySplitView subviews][0] frame].size.height;
 	[[NSUserDefaults standardUserDefaults] setFloat:position forKey:kHistorySplitViewPositionDefault];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -755,7 +755,7 @@
 
 - (id <QLPreviewItem>)previewPanel:(id)panel previewItemAtIndex:(NSInteger)index
 {
-	PBGitTree *treeItem = (PBGitTree *)[[treeController selectedObjects] objectAtIndex:index];
+	PBGitTree *treeItem = (PBGitTree *)[treeController selectedObjects][index];
 	NSURL *previewURL = [NSURL fileURLWithPath:[treeItem tmpFileNameForContents]];
 
     return (id <QLPreviewItem>)previewURL;
@@ -776,7 +776,7 @@
 // This delegate method provides the rect on screen from which the panel will zoom.
 - (NSRect)previewPanel:(id)panel sourceFrameOnScreenForPreviewItem:(id <QLPreviewItem>)item
 {
-    NSInteger index = [fileBrowser rowForItem:[[treeController selectedNodes] objectAtIndex:0]];
+    NSInteger index = [fileBrowser rowForItem:[treeController selectedNodes][0]];
     if (index == NSNotFound) {
         return NSZeroRect;
     }
@@ -828,7 +828,7 @@
 	NSPredicate *predicate = nil;
 	if ([searchString length] > 0) {
 		predicate = [predicateTemplate predicateWithSubstitutionVariables:
-								  [NSDictionary dictionaryWithObject:searchString forKey:@"SEARCH_STRING"]];
+								  @{@"SEARCH_STRING": searchString}];
 	}
 	[gitTree setFilterPredicate:predicate];
 	[treeController setContent:[gitTree filteredChildren]];

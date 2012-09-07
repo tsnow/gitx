@@ -22,7 +22,7 @@
 @class PBHistorySearchController;
 
 // Controls the split history view from PBGitHistoryView.xib
-@interface PBGitHistoryController : PBViewController PROTOCOL_10_6(NSOutlineViewDelegate){
+@interface PBGitHistoryController : PBViewController <NSOutlineViewDelegate>{
 	IBOutlet NSSearchField *searchField;
 	IBOutlet NSSearchField *filesSearchField;
 	IBOutlet NSOutlineView* fileBrowser;

@@ -14,7 +14,7 @@
 @class PBGitCommitController;
 @class PBStashContentController;
 
-@interface PBGitSidebarController : PBViewController PROTOCOL_10_6(NSOutlineViewDelegate, NSMenuDelegate){
+@interface PBGitSidebarController : PBViewController <NSOutlineViewDelegate, NSMenuDelegate> {
 	IBOutlet NSWindow *window;
 	IBOutlet NSOutlineView *sourceView;
 	IBOutlet NSPopUpButton *actionButton;

@@ -151,7 +151,7 @@
 - (void)selectIndex:(NSUInteger)index
 {
 	if ([[commitController arrangedObjects] count] > index) {
-		PBGitCommit *commit = [[commitController arrangedObjects] objectAtIndex:index];
+		PBGitCommit *commit = [commitController arrangedObjects][index];
 		[historyController selectCommit:[commit sha]];
 	}
 }
@@ -195,7 +195,7 @@
 	if (numberOfMatches == 1)
 		return @"1 match";
 
-	return [NSString stringWithFormat:@"%d matches", numberOfMatches];
+	return [NSString stringWithFormat:@"%ld matches", numberOfMatches];
 }
 
 - (void)updateUI
@@ -513,16 +513,14 @@
 {
 	CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];
 	animation.duration = 1.0f;
-	animation.values = [NSArray arrayWithObjects:
-						[NSNumber numberWithFloat:1.0f],
-						[NSNumber numberWithFloat:1.0f],
-						[NSNumber numberWithFloat:0.0f],
-						[NSNumber numberWithFloat:0.0f], nil];
-	animation.keyTimes = [NSArray arrayWithObjects:
-						  [NSNumber numberWithFloat:0.1f],
-						  [NSNumber numberWithFloat:0.3f],
-						  [NSNumber numberWithFloat:0.7f],
-						  [NSNumber numberWithFloat:animation.duration], nil];
+	animation.values = @[@1.0f,
+						@1.0f,
+						@0.0f,
+						@0.0f];
+	animation.keyTimes = @[@0.1f,
+						  @0.3f,
+						  @0.7f,
+						  [NSNumber numberWithFloat:animation.duration]];
 
 	return animation;
 }
@@ -537,7 +535,7 @@
 	[[[historyController view] window] addChildWindow:rewindPanel ordered:NSWindowAbove];
 
 	CAKeyframeAnimation *alphaAnimation = [self rewindPanelFadeOutAnimation];
-    [rewindPanel setAnimations:[NSDictionary dictionaryWithObject:alphaAnimation forKey:@"alphaValue"]];
+    [rewindPanel setAnimations:@{@"alphaValue": alphaAnimation}];
 	[[rewindPanel animator] setAlphaValue:0.0f];
 
 	[self performSelector:@selector(closeRewindPanel) withObject:nil afterDelay:0.7f];

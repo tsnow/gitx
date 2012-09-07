@@ -44,7 +44,7 @@ NSString * const kGitXRemoteRefPrefix = @"refs/remotes/";
 	if (![self isRemote])
 		return nil;
 
-	return (NSString *)[[ref componentsSeparatedByString:@"/"] objectAtIndex:2];
+	return (NSString *)[ref componentsSeparatedByString:@"/"][2];
 }
 
 - (NSString *) remoteBranchName

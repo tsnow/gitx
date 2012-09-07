@@ -74,10 +74,8 @@ static PBCreateTagSheet *sheet;
     {
         NSError  *error = [NSError errorWithDomain:PBGitRepositoryErrorDomain 
                                               code:0
-                                          userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    refExistsReturnMessage, NSLocalizedDescriptionKey,
-                                                    @"Enter another tag name.", NSLocalizedRecoverySuggestionErrorKey,
-                                                    nil]
+                                          userInfo:@{NSLocalizedDescriptionKey: refExistsReturnMessage,
+                                                    NSLocalizedRecoverySuggestionErrorKey: @"Enter another tag name."}
                            ];
         [[NSAlert alertWithError:error]runModal];
         return;

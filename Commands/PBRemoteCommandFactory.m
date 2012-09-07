@@ -22,7 +22,7 @@
 	NSString *submodulePath = [submodule path];
 	
 	if ([submodule submoduleState] == PBGitSubmoduleStateNotInitialized) {
-		NSArray *params = [NSArray arrayWithObjects:@"submodule", @"init", submodulePath, nil];
+		NSArray *params = @[@"submodule", @"init", submodulePath];
 		PBCommand *initCmd = [[PBCommand alloc] initWithDisplayName:@"Init" parameters:params repository:repository];
 		initCmd.commandTitle = initCmd.displayName;
 		initCmd.commandDescription = [NSString stringWithFormat:@"Initializing submodule %@", submodulePath];
@@ -30,7 +30,7 @@
 	}
 	
 	// update
-	NSArray *params = [NSArray arrayWithObjects:@"submodule", @"update", submodulePath, nil];
+	NSArray *params = @[@"submodule", @"update", submodulePath];
 	PBCommand *updateCmd = [[PBCommand alloc] initWithDisplayName:@"Update" parameters:params repository:repository];
 	updateCmd.commandTitle = updateCmd.displayName;
  	updateCmd.commandDescription = [NSString stringWithFormat:@"Updating submodule %@", submodulePath];
@@ -38,7 +38,7 @@
 	
 	if ([[submodule submodules] count] > 0) {
 		// update recursively
-		NSArray *recursiveUpdate = [NSArray arrayWithObjects:@"submodule", @"update", @"--recursive", submodulePath, nil];
+		NSArray *recursiveUpdate = @[@"submodule", @"update", @"--recursive", submodulePath];
 		PBCommand *updateRecursively = [[PBCommand alloc] initWithDisplayName:@"Update recursively" parameters:recursiveUpdate repository:repository];
 		updateRecursively.commandTitle = updateRecursively.displayName;
 		updateRecursively.commandDescription = [NSString stringWithFormat:@"Updating submodule %@ (recursively)", submodulePath];

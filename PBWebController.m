@@ -172,7 +172,7 @@
 
 - (void) callSelector:(NSString *)selectorString onObject:(id)object callBack:(WebScriptObject *)callBack
 {
-	NSArray *arguments = [NSArray arrayWithObjects:selectorString, object, nil];
+	NSArray *arguments = @[selectorString, object];
 	NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(runInThread:) object:arguments];
 	[callbacks setObject:callBack forKey:thread];
 	[thread start];
@@ -180,10 +180,10 @@
 
 - (void) runInThread:(NSArray *)arguments
 {
-	SEL selector = NSSelectorFromString([arguments objectAtIndex:0]);
-	id object = [arguments objectAtIndex:1];
+	SEL selector = NSSelectorFromString(arguments[0]);
+	id object = arguments[1];
 	id ret = [object performSelector:selector];
-	NSArray *returnArray = [NSArray arrayWithObjects:[NSThread currentThread], ret, nil];
+	NSArray *returnArray = @[[NSThread currentThread], ret];
 	[self performSelectorOnMainThread:@selector(threadFinished:) withObject:returnArray waitUntilDone:NO];
 }
 
@@ -197,12 +197,12 @@
 	}
 
 	[callbacks removeObjectForKey:object];
-	[a callWebScriptMethod:@"call" withArguments:[NSArray arrayWithObjects:@"", data, nil]];
+	[a callWebScriptMethod:@"call" withArguments:@[@"", data]];
 }
 
 - (void) threadFinished:(NSArray *)arguments
 {
-	[self returnCallBackForObject:[arguments objectAtIndex:0] withData:[arguments objectAtIndex:1]];
+	[self returnCallBackForObject:arguments[0] withData:arguments[1]];
 }
 
 - (void) JSRunCommandDone:(NSNotification *)notification

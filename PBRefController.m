@@ -37,7 +37,7 @@
 
 - (void)awakeFromNib
 {
-	[commitList registerForDraggedTypes:[NSArray arrayWithObject:@"PBGitRef"]];
+	[commitList registerForDraggedTypes:@[@"PBGitRef"]];
 }
 
 
@@ -94,9 +94,9 @@
 
 	NSMutableDictionary *info = [NSMutableDictionary dictionary];
 	if (ref)
-		[info setObject:ref forKey:kGitXBranchType];
+		info[kGitXBranchType] = ref;
 	if (remoteRef)
-		[info setObject:remoteRef forKey:kGitXRemoteType];
+		info[kGitXRemoteType] = remoteRef;
 
     NSInteger returnCode=[alert runModal];
     
@@ -104,8 +104,8 @@
         [PBGitDefaults suppressDialogWarningForDialog:kDialogConfirmPush];
 
 	if (returnCode == NSAlertDefaultReturn) {
-		PBGitRef *ref = [info objectForKey:kGitXBranchType];
-		PBGitRef *remoteRef = [info objectForKey:kGitXRemoteType];
+		PBGitRef *ref = info[kGitXBranchType];
+		PBGitRef *remoteRef = info[kGitXRemoteType];
 
 		[historyController.repository beginPushRef:ref toRemote:remoteRef];
 	}
@@ -199,7 +199,7 @@
 		commit = [historyController.repository commitForRef:[sender refish]];
 
 	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-	[pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+	[pasteboard declareTypes:@[NSStringPboardType] owner:nil];
 	[pasteboard setString:[commit realSha] forType:NSStringPboardType];
 }
 
@@ -212,7 +212,7 @@
 		commit = [historyController.repository commitForRef:[sender refish]];
 
 	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-	[pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+	[pasteboard declareTypes:@[NSStringPboardType] owner:nil];
 	[pasteboard setString:[commit patch] forType:NSStringPboardType];
 }
 
@@ -251,19 +251,19 @@
     {
         for (int i=0; i<[remotes count]; i++)
         {
-            if ([historyController.repository isRemoteConnected:[remotes objectAtIndex:i]])
+            if ([historyController.repository isRemoteConnected:remotes[i]])
             {
-                [info appendFormat:@"On remote %@:\n%@\n\n",[remotes objectAtIndex:i],[historyController.repository tagExistsOnRemote:ref remoteName:[remotes objectAtIndex:i]]?@"Yes":@"No"];
+                [info appendFormat:@"On remote %@:\n%@\n\n",remotes[i],[historyController.repository tagExistsOnRemote:ref remoteName:remotes[i]]?@"Yes":@"No"];
             }
             else
             {
-                [info appendFormat:@"Remote %@ is not connected!\nCan't check, if tag %@ exists.\n\n",[remotes objectAtIndex:i],[ref tagName]];
+                [info appendFormat:@"Remote %@ is not connected!\nCan't check, if tag %@ exists.\n\n",remotes[i],[ref tagName]];
             }
         }
     }
     
 	int retValue = 1;
-	NSArray *args = [NSArray arrayWithObjects:@"tag", @"-n50", @"-l", [ref tagName], nil];
+	NSArray *args = @[@"tag", @"-n50", @"-l", [ref tagName]];
 	NSString *output = [historyController.repository outputInWorkdirForArguments:args retValue:&retValue];    
 	if (!retValue) 
     {
@@ -326,7 +326,7 @@
 	PBGitRef *ref = (PBGitRef *)[sender refish];
 	
 	NSPasteboard *pasteBoard =[NSPasteboard generalPasteboard];
-	[pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
+	[pasteBoard declareTypes:@[NSStringPboardType] owner:self];
 	[pasteBoard setString:[ref shortName] forType: NSStringPboardType];
 }
 
@@ -367,7 +367,7 @@
 	if ([commits count] <= rowIndex)
 		return nil;
 
-	return [self menuItemsForCommit:[commits objectAtIndex:rowIndex]];
+	return [self menuItemsForCommit:commits[rowIndex]];
 }
 
 
@@ -390,15 +390,15 @@
 	if (index == -1)
 		return NO;
 
-	PBGitRef *ref = [[[cell objectValue] refs] objectAtIndex:index];
+	PBGitRef *ref = [[cell objectValue] refs][index];
 	if ([ref isTag] || [ref isRemoteBranch])
 		return NO;
 
 	if ([[[historyController.repository headRef] ref] isEqualToRef:ref])
 		return NO;
 	
-	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:row], [NSNumber numberWithInt:index], NULL]];
-	[pboard declareTypes:[NSArray arrayWithObject:@"PBGitRef"] owner:self];
+	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:@[@(row), @(index)]];
+	[pboard declareTypes:@[@"PBGitRef"] owner:self];
 	[pboard setData:data forType:@"PBGitRef"];
 	
 	return YES;
@@ -421,14 +421,14 @@
 
 - (void) dropRef:(NSDictionary*)dropInfo
 {
-	PBGitRef *ref = [dropInfo objectForKey:@"dragRef"];
-	PBGitCommit *oldCommit = [dropInfo objectForKey:@"oldCommit"];
-	PBGitCommit *dropCommit = [dropInfo objectForKey:@"dropCommit"];
+	PBGitRef *ref = dropInfo[@"dragRef"];
+	PBGitCommit *oldCommit = dropInfo[@"oldCommit"];
+	PBGitCommit *dropCommit = dropInfo[@"dropCommit"];
 	if (!ref || ! oldCommit || !dropCommit)
 		return;
 
 	int retValue = 1;
-	[historyController.repository outputForArguments:[NSArray arrayWithObjects:@"update-ref", @"-mUpdate from GitX", [ref ref], [dropCommit realSha], NULL] retValue:&retValue];
+	[historyController.repository outputForArguments:@[@"update-ref", @"-mUpdate from GitX", [ref ref], [dropCommit realSha]] retValue:&retValue];
 	if (retValue)
 		return;
 
@@ -451,21 +451,19 @@
 		return NO;
 	
 	NSArray *numbers = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-	int oldRow = [[numbers objectAtIndex:0] intValue];
+	int oldRow = [numbers[0] intValue];
 	if (oldRow == row)
 		return NO;
 
-	int oldRefIndex = [[numbers objectAtIndex:1] intValue];
-	PBGitCommit *oldCommit = [[commitController arrangedObjects] objectAtIndex:oldRow];
-	PBGitRef *ref = [[oldCommit refs] objectAtIndex:oldRefIndex];
+	int oldRefIndex = [numbers[1] intValue];
+	PBGitCommit *oldCommit = [commitController arrangedObjects][oldRow];
+	PBGitRef *ref = [oldCommit refs][oldRefIndex];
 
-	PBGitCommit *dropCommit = [[commitController arrangedObjects] objectAtIndex:row];
+	PBGitCommit *dropCommit = [commitController arrangedObjects][row];
 
-	NSDictionary *dropInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                              ref, @"dragRef",
-                              oldCommit, @"oldCommit",
-                              dropCommit, @"dropCommit",
-                              nil];
+	NSDictionary *dropInfo = @{@"dragRef": ref,
+                              @"oldCommit": oldCommit,
+                              @"dropCommit": dropCommit};
 
 	if ([PBGitDefaults isDialogWarningSuppressedForDialog:kDialogAcceptDroppedRef]) {
 		[self dropRef:dropInfo];

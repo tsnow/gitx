@@ -126,7 +126,7 @@ void handleSTDINDiff()
 
 void handleDiffWithArguments(NSURL *repositoryURL, NSArray *arguments)
 {
-	arguments = [[NSArray arrayWithObjects:@"diff", @"--no-ext-diff", nil] arrayByAddingObjectsFromArray:arguments];
+	arguments = [@[@"diff", @"--no-ext-diff"] arrayByAddingObjectsFromArray:arguments];
 
 	int retValue = 1;
 	NSString *diffOutput = [PBEasyPipe outputForCommand:[PBGitBinary path] withArgs:arguments inDir:[repositoryURL path] retValue:&retValue];
@@ -167,7 +167,7 @@ void handleOpenRepository(NSURL *repositoryURL, NSMutableArray *arguments)
 
 	// use NSWorkspace to open GitX and send the arguments
 	// this allows the repository document to modify itself before it shows it's GUI
-	BOOL didOpenURLs = [[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:repositoryURL]
+	BOOL didOpenURLs = [[NSWorkspace sharedWorkspace] openURLs:@[repositoryURL]
 									   withAppBundleIdentifier:kGitXBundleIdentifier
 													   options:NSWorkspaceLaunchDefault
 								additionalEventParamDescriptor:recordDescriptor
@@ -189,10 +189,10 @@ void handleInit(NSURL *repositoryURL)
 void handleClone(NSURL *repositoryURL, NSMutableArray *arguments)
 {
 	if ([arguments count]) {
-		NSString *repository = [arguments objectAtIndex:0];
+		NSString *repository = arguments[0];
 
 		if ([arguments count] > 1) {
-			NSURL *url = [NSURL fileURLWithPath:[arguments objectAtIndex:1]];
+			NSURL *url = [NSURL fileURLWithPath:arguments[1]];
 			if (url)
 				repositoryURL = url;
 		}
@@ -220,7 +220,7 @@ void handleClone(NSURL *repositoryURL, NSMutableArray *arguments)
 
 NSArray *commandLineSearchPrefixes()
 {
-	return [NSArray arrayWithObjects:kShortBasicSearch, kBasicSearch, kShortPickaxeSearch, kPickaxeSearch, kShortRegexSearch, kRegexSearch, kShortPathSearch, kPathSearch, nil];
+	return @[kShortBasicSearch, kBasicSearch, kShortPickaxeSearch, kPickaxeSearch, kShortRegexSearch, kRegexSearch, kShortPathSearch, kPathSearch];
 }
 
 PBHistorySearchMode searchModeForCommandLineArgument(NSString *argument)
@@ -273,7 +273,7 @@ void handleGitXSearch(NSURL *repositoryURL, NSMutableArray *arguments)
 		exit(0);
 
 	GitXApplication *gitXApp = [SBApplication applicationWithBundleIdentifier:kGitXBundleIdentifier];
-	[gitXApp open:[NSArray arrayWithObject:repositoryURL]];
+	[gitXApp open:@[repositoryURL]];
 
 	// need to find the document after opening it
 	GitXDocument *repositoryDocument = documentForURL([gitXApp documents], repositoryURL);
@@ -293,8 +293,8 @@ NSURL *workingDirectoryURL(NSMutableArray *arguments)
 {
 	NSString *path = nil;
 
-	if ([arguments count] && [[arguments objectAtIndex:0] hasPrefix:kGitDirPrefix]) {
-		path = [[[arguments objectAtIndex:0] substringFromIndex:[kGitDirPrefix length]] stringByStandardizingPath];
+	if ([arguments count] && [arguments[0] hasPrefix:kGitDirPrefix]) {
+		path = [[arguments[0] substringFromIndex:[kGitDirPrefix length]] stringByStandardizingPath];
 
 		// the path must exist and point to a directory
 		BOOL isDirectory = YES;
@@ -310,7 +310,7 @@ NSURL *workingDirectoryURL(NSMutableArray *arguments)
 		// remove the git-dir argument
 		[arguments removeObjectAtIndex:0];
 	} else {
-		path = [[[NSProcessInfo processInfo] environment] objectForKey:@"PWD"];
+		path = [[NSProcessInfo processInfo] environment][@"PWD"];
 	}
 
 	NSURL *url = [NSURL fileURLWithPath:path isDirectory:YES];
@@ -354,7 +354,7 @@ int main(int argc, const char** argv)
 	NSURL *wdURL = workingDirectoryURL(arguments);
 
 	if ([arguments count]) {
-		NSString *firstArgument = [arguments objectAtIndex:0];
+		NSString *firstArgument = arguments[0];
 
 		if ([firstArgument isEqualToString:@"--diff"] || [firstArgument isEqualToString:@"-d"]) {
 			[arguments removeObjectAtIndex:0];

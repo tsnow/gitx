@@ -11,10 +11,9 @@
 
 
 @interface PBGitSVRemoteItem : PBSourceViewItem {
-	BOOL alert;
-	NSString *helpText;
 }
 
+@property (assign) BOOL loading;
 @property (assign) BOOL alert;
 @property (strong) NSString *helpText;
 
