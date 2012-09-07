@@ -170,24 +170,6 @@
 	[handle readToEndOfFileInBackgroundAndNotify];
 }
 
-- (void) callSelector:(NSString *)selectorString onObject:(id)object callBack:(WebScriptObject *)callBack
-{
-	NSArray *arguments = @[selectorString, object];
-	NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(runInThread:) object:arguments];
-	[callbacks setObject:callBack forKey:thread];
-	[thread start];
-}
-
-- (void) runInThread:(NSArray *)arguments
-{
-	SEL selector = NSSelectorFromString(arguments[0]);
-	id object = arguments[1];
-	id ret = [object performSelector:selector];
-	NSArray *returnArray = @[[NSThread currentThread], ret];
-	[self performSelectorOnMainThread:@selector(threadFinished:) withObject:returnArray waitUntilDone:NO];
-}
-
-
 - (void) returnCallBackForObject:(id)object withData:(id)data
 {
 	WebScriptObject *a = [callbacks objectForKey: object];

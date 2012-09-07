@@ -39,18 +39,21 @@
 
 + (NSColor *) badgeTextColorForCell:(NSTextFieldCell *)cell
 {
-	if (![cell isHighlighted])
+	if (![cell isHighlighted]) {
 		return [NSColor whiteColor];
-
-	if (![[[cell controlView] window] isKeyWindow]){
-		if ([[[cell controlView] window] isMainWindow]){
+	}
+	
+	if (![[[cell controlView] window] isKeyWindow]) {
+		if ([[[cell controlView] window] isMainWindow]) {
 			return [self badgeHighlightColor];
 		} else {
 			return [self badgeBackgroundColor];
-        }
-    }
-	if ([[[cell controlView] window] firstResponder] == [cell controlView])
+		}
+	}
+	
+	if ([[[cell controlView] window] firstResponder] == [cell controlView]) {
 		return [self badgeHighlightColor];
+	}
 
 	return [self badgeBackgroundColor];
 }

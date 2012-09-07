@@ -1497,7 +1497,7 @@ dispatch_queue_t PBGetWorkQueue() {
                                     defaultButton:@"Yes"
                                   alternateButton:@"No"
                                       otherButton:nil
-                        informativeTextWithFormat:[NSString stringWithFormat:@"Delete branch %@ on remote %@?",[ref remoteBranchName],[ref remoteName]]]
+                        informativeTextWithFormat:@"Delete branch %@ on remote %@?",[ref remoteBranchName],[ref remoteName]]
                     runModal];
     
     if (alertRet == NSAlertDefaultReturn)
@@ -1544,7 +1544,7 @@ dispatch_queue_t PBGetWorkQueue() {
                                                 defaultButton:@"Yes"
                                               alternateButton:@"No"
                                                   otherButton:nil
-                                    informativeTextWithFormat:[NSString stringWithFormat:@"Delete tag %@ on remote %@?",[ref tagName],remotes[i]]]
+                                    informativeTextWithFormat:@"Delete tag %@ on remote %@?",[ref tagName],remotes[i]]
                                 runModal];
                 
                 if (alertRet == NSAlertDefaultReturn)
@@ -1565,7 +1565,7 @@ dispatch_queue_t PBGetWorkQueue() {
                                          defaultButton:@"OK" 
                                        alternateButton:nil 
                                            otherButton:nil
-                             informativeTextWithFormat:[NSString stringWithFormat:@"%@\n\n%@",argumentsString,output]
+                             informativeTextWithFormat:@"%@\n\n%@",argumentsString,output
                           ] runModal];
                     }
                     

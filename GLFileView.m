@@ -277,7 +277,7 @@
 		[res appendString:[NSString stringWithFormat:@"<span class='add' style='width:%ld%%'></span>",((add*100)/granTotal)]];
 		[res appendString:[NSString stringWithFormat:@"<span class='rem' style='width:%ld%%'></span>",((rem*100)/granTotal)]];
 		[res appendString:@"</div>"];
-		[res appendString:[NSString stringWithFormat:@"</td><td class='add'>+ %d</td><td class='rem'>- %ld</td></tr>",add,rem]];
+		[res appendString:[NSString stringWithFormat:@"</td><td class='add'>+ %ld</td><td class='rem'>- %ld</td></tr>",add,rem]];
 	}
 	[res appendString:@"</table>"];
 	return res;

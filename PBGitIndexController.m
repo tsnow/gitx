@@ -235,7 +235,7 @@
 									 defaultButton:@"Delete"
 								   alternateButton:@"Cancel"
 									   otherButton:nil
-						 informativeTextWithFormat:informativeText];
+						 informativeTextWithFormat: @"%@", informativeText];
     [alert setShowsSuppressionButton:YES];
 	
 	[alert beginSheetModalForWindow:[[commitController view] window]
