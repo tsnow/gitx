@@ -14,18 +14,11 @@
 {
 	IBOutlet NSWindow *window;
 	IBOutlet id firstResponder;
-	NSPersistentStoreCoordinator *persistentStoreCoordinator;
-	NSManagedObjectModel *managedObjectModel;
-	NSManagedObjectContext *managedObjectContext;
 
 	PBCloneRepositoryPanel *cloneRepositoryPanel;
     
     NSDictionary *notificationUserInfo;
 }
-
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
-- (NSManagedObjectModel *)managedObjectModel;
-- (NSManagedObjectContext *)managedObjectContext;
 
 - (IBAction)openPreferencesWindow:(id)sender;
 - (IBAction)showAboutPanel:(id)sender;
