@@ -59,7 +59,7 @@
 
 	[self.children addObject:child];
 	child.parent = self;
-	[self.children sortUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
+	[self.children sortUsingDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
 }
 
 - (void)addChildWithoutSort:(PBSourceViewItem *)child
@@ -89,7 +89,7 @@
 		return;
 	}
 
-	NSString *firstTitle = [path objectAtIndex:0];
+	NSString *firstTitle = path[0];
 	PBSourceViewItem *node = nil;
 	for (PBSourceViewItem *child in [self children])
 		if ([child.title isEqualToString:firstTitle])

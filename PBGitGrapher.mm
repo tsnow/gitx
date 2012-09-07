@@ -87,7 +87,7 @@ void add_line(struct PBGitGraphLine *lines, int *nLines, int upper, int from, in
 
 	// If we already did the first parent, don't do so again
 	if (!didFirst && currentLanes->size() < MAX_LANES && nParents) {
-		NSString *parentOID = [parents objectAtIndex:0];
+		NSString *parentOID = parents[0];
 		PBGitLane *newLane = new PBGitLane(parentOID);
 		currentLanes->push_back(newLane);
 		newPos = currentLanes->size();
@@ -102,7 +102,7 @@ void add_line(struct PBGitGraphLine *lines, int *nLines, int upper, int from, in
 
 	int parentIndex = 0;
 	for (parentIndex = 1; parentIndex < nParents; ++parentIndex) {
-		NSString *parentOID = [parents objectAtIndex:parentIndex];
+		NSString *parentOID = parents[parentIndex];
 		int i = 0;
 		BOOL was_displayed = NO;
 		std::list<PBGitLane *>::iterator it = currentLanes->begin();
@@ -149,7 +149,7 @@ void add_line(struct PBGitGraphLine *lines, int *nLines, int upper, int from, in
 
 	// Update the current lane to point to the new parent
 	if (currentLane && nParents > 0)
-		currentLane->setSha([parents objectAtIndex:0]);
+		currentLane->setSha(parents[0]);
 	else
 		currentLanes->remove(currentLane);
 

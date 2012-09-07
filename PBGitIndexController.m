@@ -34,8 +34,8 @@
 	[unstagedTable setTarget:self];
 	[stagedTable setTarget:self];
 
-	[unstagedTable registerForDraggedTypes: [NSArray arrayWithObject:FileChangesTableViewType]];
-	[stagedTable registerForDraggedTypes: [NSArray arrayWithObject:FileChangesTableViewType]];
+	[unstagedTable registerForDraggedTypes: @[FileChangesTableViewType]];
+	[stagedTable registerForDraggedTypes: @[FileChangesTableViewType]];
 }
 
 // FIXME: Find a proper place for this method -- this is not it.
@@ -128,7 +128,7 @@
 		[menu addItem:ignoreItem];
 		
 		if ([selectedFiles count] == 1) {
-			NSString *path = [[selectedFiles objectAtIndex:0] path];
+			NSString *path = [selectedFiles[0] path];
 			NSString *extension = [path pathExtension];
 			if ([extension length] > 0) {
 				ignoreText = [NSString stringWithFormat:@"Ignore Files with Extension (.%@)", extension];
@@ -205,7 +205,7 @@
     
 	for (PBChangedFile *file in files) {
 		path = [workingDirectory stringByAppendingPathComponent:[file path]];
-        filenamesArray = [NSArray arrayWithObject:[path lastPathComponent]];
+        filenamesArray = @[[path lastPathComponent]];
         [ws performFileOperation:NSWorkspaceRecycleOperation source:[path stringByDeletingLastPathComponent] destination:@"" files:filenamesArray tag:nil];
 	}
 	[commitController.index refresh];
@@ -223,7 +223,7 @@
     }
     else {
         messageText = @"Delete file?";
-        informativeText = [NSString stringWithFormat:@"Are you sure you want to move the file \"%@\" to the trash?\n\nYou cannot undo this operation.",[[[files objectAtIndex:0] path] lastPathComponent]];
+        informativeText = [NSString stringWithFormat:@"Are you sure you want to move the file \"%@\" to the trash?\n\nYou cannot undo this operation.",[[files[0] path] lastPathComponent]];
     }
     
     if ([PBGitDefaults isDialogWarningSuppressedForDialog:kDialogDeleteFiles]) {
@@ -273,7 +273,7 @@
 	PBChangedFile *file = [[PBChangedFile alloc] initWithPath:[NSString stringWithFormat:@"*.%@", extension]];
 	
 	
-	[self ignoreFiles:[NSArray arrayWithObject:file]];
+	[self ignoreFiles:@[file]];
 	[commitController.index refresh];
 }
 
@@ -297,7 +297,7 @@
 	if ([selectedFiles count] == 0)
 		return;
 	NSString *workingDirectory = [[commitController.repository workingDirectory] stringByAppendingString:@"/"];
-	NSString *path = [workingDirectory stringByAppendingPathComponent:[[selectedFiles objectAtIndex:0] path]];
+	NSString *path = [workingDirectory stringByAppendingPathComponent:[selectedFiles[0] path]];
 	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
 	[ws selectFile: path inFileViewerRootedAtPath:nil];
 }
@@ -333,7 +333,7 @@
 - (void)tableView:(NSTableView*)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn*)tableColumn row:(NSInteger)rowIndex
 {
 	id controller = [tableView tag] == 0 ? unstagedFilesController : stagedFilesController;
-	PBChangedFile *changedFile = [[controller arrangedObjects] objectAtIndex:rowIndex];
+	PBChangedFile *changedFile = [controller arrangedObjects][rowIndex];
 	PBChangedFileStatus status = [changedFile status];
 	NSImage *imageToSet = [changedFile icon];
 	if (controller == stagedFilesController && status == NEW) {
@@ -367,7 +367,7 @@ writeRowsWithIndexes:(NSIndexSet *)rowIndexes
 	 toPasteboard:(NSPasteboard*)pboard
 {
     // Copy the row numbers to the pasteboard.
-    [pboard declareTypes:[NSArray arrayWithObjects:FileChangesTableViewType, NSFilenamesPboardType, nil] owner:self];
+    [pboard declareTypes:@[FileChangesTableViewType, NSFilenamesPboardType] owner:self];
 
 	// Internal, for dragging from one tableview to the other
 	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];

@@ -37,9 +37,9 @@
 	NSString *repository = [command directParameter];
 	if (repository) {
 		NSDictionary *arguments = [command arguments];
-		NSURL *destinationURL = [arguments objectForKey:kGitXCloneDestinationURLKey];
+		NSURL *destinationURL = arguments[kGitXCloneDestinationURLKey];
 		if (destinationURL) {
-			BOOL isBare = [[arguments objectForKey:kGitXCloneIsBareKey] boolValue];
+			BOOL isBare = [arguments[kGitXCloneIsBareKey] boolValue];
 
 			[PBCloneRepositoryPanel beginCloneRepository:repository toURL:destinationURL isBare:isBare];
 		}

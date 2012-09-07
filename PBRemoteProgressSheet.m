@@ -92,7 +92,7 @@ static PBGitRepository *repository;
     NSRect attributedFrame;
     NSAttributedString *attributedString;
 
-    if ([(NSString*)[arguments objectAtIndex:0] compare:@"clone"] != NSOrderedSame)
+    if ([(NSString*)arguments[0] compare:@"clone"] != NSOrderedSame)
     {
         // resize window if the description is larger than the default text field
         [self.progressDescription setStringValue:[self progressTitle]];
@@ -121,7 +121,7 @@ static PBGitRepository *repository;
     {
         float  maxWidth;
         
-        NSString *sourceURLString = [arguments objectAtIndex:[arguments count]-2];
+        NSString *sourceURLString = arguments[[arguments count]-2];
         if ([sourceURLString compare:@"."] == NSOrderedSame ) 
         {
             sourceURLString = dir;
@@ -129,7 +129,7 @@ static PBGitRepository *repository;
         sourceURL = [NSURL URLWithString:[sourceURLString stringByAddingPercentEscapesUsingEncoding:NSStringEncodingConversionExternalRepresentation]];
         sourceURL = [sourceURL URLByResolvingSymlinksInPath];
         
-        NSString *destinationURLString = [arguments objectAtIndex:[arguments count]-1];
+        NSString *destinationURLString = arguments[[arguments count]-1];
         if ([destinationURLString compare:@"."] == NSOrderedSame ) 
         {
             destinationURLString = dir;
@@ -198,7 +198,7 @@ static PBGitRepository *repository;
     
     for (int i=0; i<[arguments count]; i++)
     {
-        [argDict setValue:[arguments objectAtIndex:i] forKey:[NSString stringWithFormat:@"Arg%d",i]];
+        [argDict setValue:arguments[i] forKey:[NSString stringWithFormat:@"Arg%d",i]];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"GitCommandSent" object:self userInfo:argDict];
 
@@ -299,10 +299,8 @@ static PBGitRepository *repository;
 	[info appendString:[self standardOutputDescription]];
 	[info appendString:[self standardErrorDescription]];
 
-	NSDictionary *errorUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-								   [self errorTitle], NSLocalizedDescriptionKey,
-								   info, NSLocalizedRecoverySuggestionErrorKey,
-								   nil];
+	NSDictionary *errorUserInfo = @{NSLocalizedDescriptionKey: [self errorTitle],
+								   NSLocalizedRecoverySuggestionErrorKey: info};
 	NSError *error = [NSError errorWithDomain:PBGitRepositoryErrorDomain code:0 userInfo:errorUserInfo];
 
     [(NSWindowController<Messages>*)controller showErrorSheet:error];
@@ -420,7 +418,7 @@ static PBGitRepository *repository;
     }
     
     
-    return [NSNumber numberWithInt:filesCount];    
+    return @(filesCount);    
 }
 
 

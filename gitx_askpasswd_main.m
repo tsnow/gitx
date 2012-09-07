@@ -235,7 +235,7 @@ int	main( int argc, const char* argv[] )
 	
     char c_args[4024];
     getproclline(getppid(),c_args);
-    NSString *cmd=[NSString stringWithFormat:@"%@",[NSString stringWithUTF8String:c_args]];
+    NSString *cmd=[NSString stringWithFormat:@"%@",@(c_args)];
     
     NSLog(@"cmd: '%@'",cmd);
     
@@ -248,12 +248,12 @@ int	main( int argc, const char* argv[] )
         prompt=@"Enter your OpenSSH passphrase:";
         url=@"private key";
     }else{
-        prompt=[NSString stringWithFormat:@"%@",[NSString stringWithCString:argv[1] encoding:NSASCIIStringEncoding]];
+        prompt=[NSString stringWithFormat:@"%@",@(argv[1])];
         if([[prompt lowercaseString] rangeOfString:@"yes/no"].location==NSNotFound){
-            url=[args objectAtIndex:[args count]-1];
+            url=args[[args count]-1];
         }else{
             yesno=YES;
-            url=[args objectAtIndex:1];
+            url=args[1];
         }
     }
     

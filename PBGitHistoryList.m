@@ -127,10 +127,10 @@
 
 - (void) updateCommitsFromGrapher:(NSDictionary *)commitData
 {
-	if ([commitData objectForKey:kCurrentQueueKey] != graphQueue)
+	if (commitData[kCurrentQueueKey] != graphQueue)
 		return;
 
-	[self addCommitsFromArray:[commitData objectForKey:kNewCommitsKey]];
+	[self addCommitsFromArray:commitData[kNewCommitsKey]];
 }
 
 - (void) finishedGraphing
@@ -170,7 +170,7 @@
 	NSDictionary *refs = repository.refs;
 
 	for (NSString *sha in refs)
-		for (PBGitRef *ref in [refs objectForKey:sha])
+		for (PBGitRef *ref in refs[sha])
 			if ([ref isBranch] || [ref isTag])
 				[baseCommitSHAs addObject:sha];
 
@@ -189,7 +189,7 @@
 	PBGitRef *remoteRef = [[repository.currentBranch ref] remoteRef];
 
 	for (NSString *sha in refs)
-		for (PBGitRef *ref in [refs objectForKey:sha])
+		for (PBGitRef *ref in refs[sha])
 			if ([remoteRef isEqualToRef:[ref remoteRef]])
 				[baseCommitSHAs addObject:sha];
 
@@ -358,9 +358,9 @@
 	}
 
 	if ([@"commitsUpdated" isEqualToString:(__bridge NSString *)context]) {
-		NSInteger changeKind = [(NSNumber *)[change objectForKey:NSKeyValueChangeKindKey] intValue];
+		NSInteger changeKind = [(NSNumber *)change[NSKeyValueChangeKindKey] intValue];
 		if (changeKind == NSKeyValueChangeInsertion) {
-			NSArray *newCommits = [change objectForKey:NSKeyValueChangeNewKey];
+			NSArray *newCommits = change[NSKeyValueChangeNewKey];
 			if ([repository.currentBranch isSimpleRef])
 				[graphQueue addOperation:[self operationForCommits:newCommits]];
 			else

@@ -77,7 +77,7 @@
 
 - (NSArray*) menuItemsForPath:(NSString*)path
 {
-	return [historyController menuItemsForPaths:[NSArray arrayWithObject:path]];
+	return [historyController menuItemsForPaths:@[path]];
 }
 
 @end

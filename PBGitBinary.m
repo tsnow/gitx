@@ -21,7 +21,7 @@ static NSString* gitPath = nil;
 	if (![[NSFileManager defaultManager] fileExistsAtPath:path])
 		return nil;
 
-	NSString *version = [PBEasyPipe outputForCommand:path withArgs:[NSArray arrayWithObject:@"--version"]];
+	NSString *version = [PBEasyPipe outputForCommand:path withArgs:@[@"--version"]];
 	if ([version hasPrefix:@"git version "])
 		return [version substringFromIndex:12];
 
@@ -66,11 +66,11 @@ static NSString* gitPath = nil;
 
 	// Try to find the path of the Git binary
 	char* path = getenv("GIT_PATH");
-	if (path && [self acceptBinary:[NSString stringWithUTF8String:path]])
+	if (path && [self acceptBinary:@(path)])
 		return;
 
 	// No explicit path. Try it with "which"
-	NSString *whichPath = [PBEasyPipe outputForCommand:@"/usr/bin/which" withArgs:[NSArray arrayWithObject:@"git"]];
+	NSString *whichPath = [PBEasyPipe outputForCommand:@"/usr/bin/which" withArgs:@[@"git"]];
 	if ([self acceptBinary:whichPath])
 		return;
 

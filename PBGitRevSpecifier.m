@@ -25,7 +25,7 @@
 	if (([parameters count] > 1) || ([parameters count] == 0))
 		isSimpleRef =  NO;
 	else {
-		NSString *param = [parameters objectAtIndex:0];
+		NSString *param = parameters[0];
 		if ([param hasPrefix:@"-"] ||
 			[param rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"^@{}~:"]].location != NSNotFound ||
 			[param rangeOfString:@".."].location != NSNotFound)
@@ -45,7 +45,7 @@
 
 - (id) initWithRef:(PBGitRef *)ref
 {
-	self = [self initWithParameters:[NSArray arrayWithObject:ref.ref] description:ref.shortName];
+	self = [self initWithParameters:@[ref.ref] description:ref.shortName];
 	return self;
 }
 
@@ -57,19 +57,19 @@
 
 + (PBGitRevSpecifier *)allBranchesRevSpec
 {
-	return [[PBGitRevSpecifier alloc] initWithParameters:[NSArray arrayWithObject:@"--all"] description:@"All branches"];
+	return [[PBGitRevSpecifier alloc] initWithParameters:@[@"--all"] description:@"All branches"];
 }
 
 + (PBGitRevSpecifier *)localBranchesRevSpec
 {
-	return [[PBGitRevSpecifier alloc] initWithParameters:[NSArray arrayWithObject:@"--branches"] description:@"Local branches"];
+	return [[PBGitRevSpecifier alloc] initWithParameters:@[@"--branches"] description:@"Local branches"];
 }
 
 - (NSString*) simpleRef
 {
 	if (![self isSimpleRef])
 		return nil;
-	return [parameters objectAtIndex:0];
+	return parameters[0];
 }
 
 - (PBGitRef *) ref
@@ -132,7 +132,7 @@
 		return NO;
 	
 	if ([self isSimpleRef])
-		return [[[self parameters] objectAtIndex:0] isEqualToString:[other.parameters objectAtIndex:0]];
+		return [[self parameters][0] isEqualToString:(other.parameters)[0]];
 
 	return [self.description isEqualToString:other.description];
 }
@@ -140,7 +140,7 @@
 - (NSUInteger) hash
 {
 	if ([self isSimpleRef])
-		return [[[self parameters] objectAtIndex:0] hash];
+		return [[self parameters][0] hash];
 
 	return [self.description hash];
 }

@@ -103,8 +103,8 @@ const NSString *kAuthorKeyDate = @"date";
         NSMutableArray *allParents = [NSMutableArray array];
 
         for (NSDictionary *item in headerItems)
-            if ([[item objectForKey:kHeaderKeyName] isEqualToString:@"parent"])
-                [allParents addObject:[item objectForKey:kHeaderKeyContent]];
+            if ([item[kHeaderKeyName] isEqualToString:@"parent"])
+                [allParents addObject:item[kHeaderKeyContent]];
 
         NSArray *parents = [self chooseDiffParents:allParents];
 
@@ -141,7 +141,7 @@ const NSString *kAuthorKeyDate = @"date";
         dispatch_async(dispatch_get_main_queue(), ^{
             // If a bunch of commits were selected quickly we check to make sure the commit we requested is still active
             if ([currentSha isEqualToString:loadingSha]) {
-                [[view windowScriptObject] callWebScriptMethod:@"showCommit" withArguments:[NSArray arrayWithObject:html]];
+                [[view windowScriptObject] callWebScriptMethod:@"showCommit" withArguments:@[html]];
                 
     #ifdef DEBUG_BUILD
                 NSString *dom = [(DOMHTMLElement*)[[[view mainFrame] DOMDocument] documentElement] outerHTML];
@@ -174,7 +174,7 @@ const NSString *kAuthorKeyDate = @"date";
 		}else if(black==2){
 			NSArray *file=[line componentsSeparatedByString:@"\t"];
 			if([file count]==3){
-				[stats setObject:file forKey:[file objectAtIndex:2]];
+				stats[file[2]] = file;
 			}
 		}
 	}
@@ -196,14 +196,12 @@ const NSString *kAuthorKeyDate = @"date";
 		} else {
 			if (parsingSubject) {
 				NSString *trimmedLine = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-				[result addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-						@"subject", kHeaderKeyName, trimmedLine, kHeaderKeyContent, nil]];
+				[result addObject:@{kHeaderKeyName: @"subject", kHeaderKeyContent: trimmedLine}];
 			} else {
 				NSArray *comps = [line componentsSeparatedByString:@" "];
 				if ([comps count] == 2) {
-					[result addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-							[comps objectAtIndex:0], kHeaderKeyName,
-							[comps objectAtIndex:1], kHeaderKeyContent, nil]];
+					[result addObject:@{kHeaderKeyName: comps[0],
+							kHeaderKeyContent: comps[1]}];
 				} else if ([comps count] > 2) {
 					NSRange r_email_i = [line rangeOfString:@"<"];
 					NSRange r_email_e = [line rangeOfString:@">"];
@@ -213,17 +211,13 @@ const NSString *kAuthorKeyDate = @"date";
 					NSString *email = [line substringWithRange:NSMakeRange(r_email_i.location+1,((r_email_e.location-1)-r_email_i.location))];
 					
 					NSArray *t=[[line substringFromIndex:r_email_e.location+2] componentsSeparatedByString:@" "];
-					NSDate *date=[NSDate dateWithTimeIntervalSince1970:[[t objectAtIndex:0] doubleValue]];
+					NSDate *date=[NSDate dateWithTimeIntervalSince1970:[t[0] doubleValue]];
 					
-					NSDictionary *content = [NSDictionary dictionaryWithObjectsAndKeys:
-							name, kAuthorKeyName,
-							email, kAuthorKeyEmail,
-							date, kAuthorKeyDate,
-							nil];
-					[result addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-							[comps objectAtIndex:0], kHeaderKeyName,
-							content, kHeaderKeyContent,
-							nil]];
+					NSDictionary *content = @{kAuthorKeyName: name,
+							kAuthorKeyEmail: email,
+							kAuthorKeyDate: date};
+					[result addObject:@{kHeaderKeyName: comps[0],
+							kHeaderKeyContent: content}];
 				}
 			}
 		}
@@ -242,39 +236,39 @@ const NSString *kAuthorKeyDate = @"date";
 	NSMutableString *all=[NSMutableString string];
 	
 	for (NSDictionary *item in header) {
-		if ([[item objectForKey:kHeaderKeyName] isEqualToString:@"subject"]) {
+		if ([item[kHeaderKeyName] isEqualToString:@"subject"]) {
 			if ([subjectFirst isEqualToString:@""]) {
-				[subjectFirst appendString:[NSString stringWithFormat:@"%@",[GLFileView escapeHTML:[item objectForKey:kHeaderKeyContent]]]];
+				[subjectFirst appendString:[NSString stringWithFormat:@"%@",[GLFileView escapeHTML:item[kHeaderKeyContent]]]];
 			} else {
-				[subject appendString:[NSString stringWithFormat:@"%@<br/>",[GLFileView escapeHTML:[item objectForKey:kHeaderKeyContent]]]];
+				[subject appendString:[NSString stringWithFormat:@"%@<br/>",[GLFileView escapeHTML:item[kHeaderKeyContent]]]];
 			}
 
 		}else{
-			if([[item objectForKey:kHeaderKeyContent] isKindOfClass:[NSString class]]){
-                NSString *name=[item objectForKey:kHeaderKeyName];
+			if([item[kHeaderKeyContent] isKindOfClass:[NSString class]]){
+                NSString *name=item[kHeaderKeyName];
                 if([name isEqualToString:@"commit"]){
-                    [refs appendString:[NSString stringWithFormat:@"<tr><td>%@&nbsp;:</td><td><p>%@</p></td></tr>",name,[item objectForKey:kHeaderKeyContent]]];
+                    [refs appendString:[NSString stringWithFormat:@"<tr><td>%@&nbsp;:</td><td><p>%@</p></td></tr>",name,item[kHeaderKeyContent]]];
                 }else{
-                    [refs appendString:[NSString stringWithFormat:@"<tr><td>%@&nbsp;:</td><td><a href='' onclick='selectCommit(this.innerHTML); return false;'>%@</a></td></tr>",name,[item objectForKey:kHeaderKeyContent]]];
+                    [refs appendString:[NSString stringWithFormat:@"<tr><td>%@&nbsp;:</td><td><a href='' onclick='selectCommit(this.innerHTML); return false;'>%@</a></td></tr>",name,item[kHeaderKeyContent]]];
                 }
 			}else{  // NSDictionary: author or committer
-				NSDictionary *content = [item objectForKey:kHeaderKeyContent];
-				NSString *email = [content objectForKey:kAuthorKeyEmail];
+				NSDictionary *content = item[kHeaderKeyContent];
+				NSString *email = content[kAuthorKeyEmail];
 				
 				if(![email isEqualToString:last_mail]){
-					NSString *name = [content objectForKey:kAuthorKeyName];
-					NSDate *date = [content objectForKey:kAuthorKeyDate];
+					NSString *name = content[kAuthorKeyName];
+					NSDate *date = content[kAuthorKeyDate];
 					NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];  
 					[theDateFormatter setDateStyle:NSDateFormatterMediumStyle];  
 					[theDateFormatter setTimeStyle:NSDateFormatterMediumStyle];  
 					NSString *dateString=[theDateFormatter stringForObjectValue:date];
 									
-					[auths appendString:[NSString stringWithFormat:@"<div class='user %@ clearfix'>",[item objectForKey:kHeaderKeyName]]];
+					[auths appendString:[NSString stringWithFormat:@"<div class='user %@ clearfix'>",item[kHeaderKeyName]]];
 					if([self isFeatureEnabled:@"gravatar"]){
 						NSString *hash=[self arbitraryHashForString:email];
 						[auths appendString:[NSString stringWithFormat:@"<img class='avatar' src='http://www.gravatar.com/avatar/%@?d=wavatar&s=30'/>",hash]];
 					}
-					[auths appendString:[NSString stringWithFormat:@"<p class='name'>%@ <span class='rol'>(%@)</span></p>",name,[item objectForKey:kHeaderKeyName]]];
+					[auths appendString:[NSString stringWithFormat:@"<p class='name'>%@ <span class='rol'>(%@)</span></p>",name,item[kHeaderKeyName]]];
 					[auths appendString:[NSString stringWithFormat:@"<p class='time'>%@</p></div>",dateString]];
 				}
 				last_mail=email;
@@ -316,7 +310,7 @@ const NSString *kAuthorKeyDate = @"date";
 // TODO: this is duplicated in PBWebDiffController
 - (void) openFileMerge:(NSString*)file sha:(NSString *)sha sha2:(NSString *)sha2
 {
-	NSArray *args=[NSArray arrayWithObjects:@"difftool",@"--no-prompt",@"--tool=opendiff",sha,sha2,@"--",file,nil];
+	NSArray *args=@[@"difftool",@"--no-prompt",@"--tool=opendiff",sha,sha2,@"--",file];
 	[repository handleInWorkDirForArguments:args];
 }
 
@@ -324,14 +318,14 @@ const NSString *kAuthorKeyDate = @"date";
 - (void) sendKey: (NSString*) key
 {
 	id script = [view windowScriptObject];
-	[script callWebScriptMethod:@"handleKeyFromCocoa" withArguments: [NSArray arrayWithObject:key]];
+	[script callWebScriptMethod:@"handleKeyFromCocoa" withArguments: @[key]];
 }
 
 - (void) copySource
 {
 	NSString *source = [(DOMHTMLElement *)[[[view mainFrame] DOMDocument] documentElement] outerHTML];
 	NSPasteboard *a =[NSPasteboard generalPasteboard];
-	[a declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
+	[a declareTypes:@[NSStringPboardType] owner:self];
 	[a setString:source forType: NSStringPboardType];
 }
 
@@ -369,7 +363,7 @@ contextMenuItemsForElement:(NSDictionary *)element
 			// current implementation these two entries can crash GitX anyway)
 			for (NSMenuItem *item in defaultMenuItems)
 				if ([item tag] == WebMenuItemTagCopyImageToClipboard)
-					return [NSArray arrayWithObject:item];
+					return @[item];
 			return nil;
 		}
 		

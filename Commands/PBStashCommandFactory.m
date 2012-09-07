@@ -41,7 +41,7 @@
 	BOOL isHead = [ref isEqualToRef:headRef];
 	
 	if (isHead) {
-		NSArray *args = [NSArray arrayWithObject:@"stash"];
+		NSArray *args = @[@"stash"];
 		PBCommand *command = [[PBCommand alloc] initWithDisplayName:@"Stash local changes..." parameters:args repository:repository];
 		command.commandTitle = command.displayName;
 		command.commandDescription = @"Stashing local changes";
@@ -49,7 +49,7 @@
 		PBCommandWithParameter *cmd = [[PBCommandWithParameter alloc] initWithCommand:command parameterName:@"save" parameterDisplayName:@"Stash message (optional)"];
 		[commands addObject:cmd];
 		
-		command = [[PBCommand alloc] initWithDisplayName:@"Clear stashes" parameters:[NSArray arrayWithObjects:@"stash", @"clear", nil] repository:repository];
+		command = [[PBCommand alloc] initWithDisplayName:@"Clear stashes" parameters:@[@"stash", @"clear"] repository:repository];
 		command.commandTitle = command.displayName;
 		command.commandDescription = @"Clearing stashes";
 		[commands addObject:command];
@@ -61,19 +61,19 @@
 + (NSArray *) commandsForStash:(PBGitStash *) stash repository:(PBGitRepository *) repository {
 	NSMutableArray *commands = [[NSMutableArray alloc] init];
 	
-	NSArray *args = [NSArray arrayWithObjects:@"stash", @"apply", [stash name], nil];
+	NSArray *args = @[@"stash", @"apply", [stash name]];
 	PBCommand *command = [[PBCommand alloc] initWithDisplayName:@"Apply" parameters:args repository:repository confirmAction:TRUE];
 	command.commandTitle = command.displayName;
 	command.commandDescription = [NSString stringWithFormat:@"Applying stash: '%@'", stash];
 	[commands addObject:command];
 	
-	args = [NSArray arrayWithObjects:@"stash", @"pop", [stash name], nil];
+	args = @[@"stash", @"pop", [stash name]];
 	command = [[PBCommand alloc] initWithDisplayName:@"Pop" parameters:args repository:repository confirmAction:TRUE];
 	command.commandTitle = command.displayName;
 	command.commandDescription = [NSString stringWithFormat:@"Poping stash: '%@'", stash];
 	[commands addObject:command];
 	
-	args = [NSArray arrayWithObjects:@"stash", @"drop", [stash name], nil];
+	args = @[@"stash", @"drop", [stash name]];
 	command = [[PBCommand alloc] initWithDisplayName:@"Drop" parameters:args repository:repository confirmAction:TRUE];
 	command.commandTitle = command.displayName;
 	command.commandDescription = [NSString stringWithFormat:@"Dropping stash: '%@'", stash];

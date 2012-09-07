@@ -107,7 +107,7 @@
 
 	// Try to find the current directory, to open that as a repository
 	if ([PBGitDefaults openCurDirOnLaunch] && !hasOpenedDocuments) {
-		NSString *curPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"PWD"];
+		NSString *curPath = [[NSProcessInfo processInfo] environment][@"PWD"];
         NSURL *url = nil;
 		if (curPath)
 			url = [NSURL fileURLWithPath:curPath];
@@ -152,16 +152,16 @@
 
 - (IBAction)showAboutPanel:(id)sender
 {
-	NSString *gitversion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleGitVersion"];
+	NSString *gitversion = [[NSBundle mainBundle] infoDictionary][@"CFBundleGitVersion"];
 	NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
 	if (gitversion)
-		[dict addEntriesFromDictionary:[[NSDictionary alloc] initWithObjectsAndKeys:gitversion, @"Version", nil]];
+		[dict addEntriesFromDictionary:@{@"Version": gitversion}];
 
-	[dict addEntriesFromDictionary:[[NSDictionary alloc] initWithObjectsAndKeys:@"GitX (L)", @"ApplicationName", nil]];
-	[dict addEntriesFromDictionary:[[NSDictionary alloc] initWithObjectsAndKeys:@"(c) Pieter de Bie,2008\n(c) German Laullon,2011\nAnd more...", @"Copyright", nil]];
+	[dict addEntriesFromDictionary:@{@"ApplicationName": @"GitX (L)"}];
+	[dict addEntriesFromDictionary:@{@"Copyright": @"(c) Pieter de Bie,2008\n(c) German Laullon,2011\nAnd more..."}];
 
 	#ifdef DEBUG_BUILD
-		[dict addEntriesFromDictionary:[[NSDictionary alloc] initWithObjectsAndKeys:@"GitX (DEBUG)", @"ApplicationName", nil]];
+		[dict addEntriesFromDictionary:@{@"ApplicationName": @"GitX (DEBUG)"}];
 	#endif
 
 	[NSApp orderFrontStandardAboutPanelWithOptions:dict];
@@ -227,7 +227,7 @@
 - (NSString *)applicationSupportFolder {
 
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
+    NSString *basePath = ([paths count] > 0) ? paths[0] : NSTemporaryDirectory();
     return [basePath stringByAppendingPathComponent:@"GitTest"];
 }
 

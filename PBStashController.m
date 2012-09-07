@@ -31,7 +31,7 @@ static NSString * const kCommandName = @"stash";
 
 
 - (void) reload {
-    NSArray *arguments = [NSArray arrayWithObjects:kCommandName, @"list", nil];
+    NSArray *arguments = @[kCommandName, @"list"];
 	NSString *output = [repository outputInWorkdirForArguments:arguments];
 	NSArray *lines = [output componentsSeparatedByString:@"\n"];
 	
@@ -51,7 +51,7 @@ static NSString * const kCommandName = @"stash";
 #pragma mark Actions
 
 - (void) stashLocalChanges {
-	NSArray *args = [NSArray arrayWithObject:kCommandName];
+	NSArray *args = @[kCommandName];
 	PBCommand *command = [[PBCommand alloc] initWithDisplayName:@"Stash local changes..." parameters:args repository:repository];
 	command.commandTitle = command.displayName;
 	command.commandDescription = @"Stashing local changes";
@@ -62,7 +62,7 @@ static NSString * const kCommandName = @"stash";
 }
 
 - (void) clearAllStashes {
-	PBCommand *command = [[PBCommand alloc] initWithDisplayName:@"Clear stashes" parameters:[NSArray arrayWithObjects:kCommandName, @"clear", nil] repository:repository];
+	PBCommand *command = [[PBCommand alloc] initWithDisplayName:@"Clear stashes" parameters:@[kCommandName, @"clear"] repository:repository];
 	command.commandTitle = command.displayName;
 	command.commandDescription = @"Clearing stashes";
 	[command invoke];

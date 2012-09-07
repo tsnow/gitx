@@ -105,7 +105,7 @@
 	NSFileManager* fs = [NSFileManager defaultManager];
 	if (localFileName && [fs fileExistsAtPath:localFileName])
 	{
-		NSDate* mtime = [[fs attributesOfItemAtPath:localFileName error: nil] objectForKey:NSFileModificationDate];
+		NSDate* mtime = [fs attributesOfItemAtPath:localFileName error: nil][NSFileModificationDate];
 		if ([mtime compare:localMtime] == 0)
 			return YES;
 	}
@@ -115,7 +115,7 @@
 - (BOOL)hasBinaryAttributes
 {
 	// First ask git check-attr if the file has a binary attribute custom set
-	NSFileHandle *handle = [repository handleInWorkDirForArguments:[NSArray arrayWithObjects:@"check-attr", @"binary", [self fullPath], nil]];
+	NSFileHandle *handle = [repository handleInWorkDirForArguments:@[@"check-attr", @"binary", [self fullPath]]];
 	NSData *data = [handle readDataToEndOfFile];
 	NSString *string = [[NSString alloc] initWithData:data encoding:NSISOLatin1StringEncoding];
 
@@ -130,7 +130,7 @@
 		return NO;
 
 	// Binary state unknown, do a check on common filename-extensions
-	for (NSString *extension in [NSArray arrayWithObjects:@".pdf", @".jpg", @".jpeg", @".png", @".bmp", @".gif", @".o", nil]) {
+	for (NSString *extension in @[@".pdf", @".jpg", @".jpeg", @".png", @".bmp", @".gif", @".o"]) {
 		if ([[self fullPath] hasSuffix:extension])
 			return YES;
 	}
@@ -151,7 +151,7 @@
 		return string;
 	}
 	
-	return [repository outputForArguments:[NSArray arrayWithObjects:@"show", [self refSpec], nil]];
+	return [repository outputForArguments:@[@"show", [self refSpec]]];
 }
 
 - (NSString *) blame:(NSError **)anError
@@ -168,10 +168,10 @@
 		error=[NSString stringWithFormat:@"%@ is too big to be displayed (%lld bytes)", [self fullPath], [self fileSize]];
 	
 	if(error==nil){
-		res=[repository outputInWorkdirForArguments:[NSArray arrayWithObjects:@"blame", @"-p",  sha, @"--", [self fullPath], nil]];
+		res=[repository outputInWorkdirForArguments:@[@"blame", @"-p",  sha, @"--", [self fullPath]]];
 	}else{
 		if (anError != NULL) {
-			*anError = [NSError errorWithDomain:@"blame" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:error,NSLocalizedDescriptionKey,nil]];
+			*anError = [NSError errorWithDomain:@"blame" code:1 userInfo:@{NSLocalizedDescriptionKey: error}];
 		}
 	}
 	
@@ -186,10 +186,10 @@
 		error=[NSString stringWithFormat:@"This is a tree with path %@", [self fullPath]];
 	
 	if(error==nil){
-		res=[repository outputInWorkdirForArguments:[NSArray arrayWithObjects:@"log", [NSString stringWithFormat:@"--pretty=format:%@",format], @"--", [self fullPath], nil]];
+		res=[repository outputInWorkdirForArguments:@[@"log", [NSString stringWithFormat:@"--pretty=format:%@",format], @"--", [self fullPath]]];
 	}else{
 		if (anError != NULL) {
-			*anError = [NSError errorWithDomain:@"log" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:error,NSLocalizedDescriptionKey,nil]];
+			*anError = [NSError errorWithDomain:@"log" code:1 userInfo:@{NSLocalizedDescriptionKey: error}];
 		}
 	}
 	
@@ -218,18 +218,18 @@
 		}else{
 			des=@"--";
 		}
-		res=[repository outputInWorkdirForArguments:[NSArray arrayWithObjects:@"diff", sha, des,[self fullPath], nil]];
+		res=[repository outputInWorkdirForArguments:@[@"diff", sha, des,[self fullPath]]];
 		if ([res length]==0) {
 			DLog(@"--%lu",[res length]);
 			if (anError != NULL) {
-				*anError = [NSError errorWithDomain:@"diff" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"No Diff",NSLocalizedDescriptionKey,nil]];
+				*anError = [NSError errorWithDomain:@"diff" code:1 userInfo:@{NSLocalizedDescriptionKey: @"No Diff"}];
 			}
 		}else{
 			DLog(@"--%@",[res substringToIndex:80]);
 		}
 	}else{
 		if (anError != NULL) {
-			*anError = [NSError errorWithDomain:@"diff" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:error,NSLocalizedDescriptionKey,nil]];
+			*anError = [NSError errorWithDomain:@"diff" code:1 userInfo:@{NSLocalizedDescriptionKey: error}];
 		}
 	}
 
@@ -253,7 +253,7 @@
 		res = [self contents];
 	}else{
 		if (anError != NULL) {
-			*anError = [NSError errorWithDomain:@"show" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:error,NSLocalizedDescriptionKey,nil]];
+			*anError = [NSError errorWithDomain:@"show" code:1 userInfo:@{NSLocalizedDescriptionKey: error}];
 		}
 	}
 
@@ -265,7 +265,7 @@
 	if (_fileSize)
 		return _fileSize;
 
-	NSFileHandle *handle = [repository handleForArguments:[NSArray arrayWithObjects:@"cat-file", @"-s", [self refSpec], nil]];
+	NSFileHandle *handle = [repository handleForArguments:@[@"cat-file", @"-s", [self refSpec]]];
 	NSString *sizeString = [[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSISOLatin1StringEncoding];
 
 	if (!sizeString)
@@ -281,7 +281,7 @@
 	NSString* newName = [dir stringByAppendingPathComponent:path];
 
 	if (leaf) {
-		NSFileHandle* handle = [repository handleForArguments:[NSArray arrayWithObjects:@"show", [self refSpec], nil]];
+		NSFileHandle* handle = [repository handleForArguments:@[@"show", [self refSpec]]];
 		NSData* data = [handle readDataToEndOfFile];
 		[data writeToFile:newName atomically:YES];
 	} else { // Directory
@@ -319,12 +319,12 @@
 	if (!localFileName)
 		localFileName = [[PBEasyFS tmpDirWithPrefix: sha] stringByAppendingPathComponent:path];
 	
-	NSFileHandle* handle = [repository handleForArguments:[NSArray arrayWithObjects:@"show", [self refSpec], nil]];
+	NSFileHandle* handle = [repository handleForArguments:@[@"show", [self refSpec]]];
 	NSData* data = [handle readDataToEndOfFile];
 	[data writeToFile:localFileName atomically:YES];
 	
 	NSFileManager* fs = [NSFileManager defaultManager];
-	localMtime = [[fs attributesOfItemAtPath:localFileName error: nil] objectForKey:NSFileModificationDate];
+	localMtime = [fs attributesOfItemAtPath:localFileName error: nil][NSFileModificationDate];
 
 	return localFileName;
 }
@@ -336,7 +336,7 @@
 	
 	NSString* ref = [self refSpec];
 
-	NSFileHandle* handle = [repository handleForArguments:[NSArray arrayWithObjects:@"show", ref, nil]];
+	NSFileHandle* handle = [repository handleForArguments:@[@"show", ref]];
 	[handle readLine];
 	[handle readLine];
 	

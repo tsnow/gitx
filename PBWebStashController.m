@@ -18,12 +18,12 @@
 
 - (NSArray*) menuItemsForPath:(NSString*)path
 {
-	return [[stashController superController] menuItemsForPaths:[NSArray arrayWithObject:path]];
+	return [[stashController superController] menuItemsForPaths:@[path]];
 }
 
 - (NSArray*) chooseDiffParents:(NSArray *)parents
 {
-	return [NSArray arrayWithObject:[parents lastObject]];
+	return @[[parents lastObject]];
 }
 
 @end

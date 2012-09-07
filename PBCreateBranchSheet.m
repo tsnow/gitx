@@ -92,10 +92,8 @@ static PBCreateBranchSheet *sheet;
     {
         NSError  *error = [NSError errorWithDomain:PBGitRepositoryErrorDomain 
                                               code:0
-                                          userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    refExistsReturnMessage, NSLocalizedDescriptionKey,
-                                                    @"Select other branchname.", NSLocalizedRecoverySuggestionErrorKey,
-                                                    nil]
+                                          userInfo:@{NSLocalizedDescriptionKey: refExistsReturnMessage,
+                                                    NSLocalizedRecoverySuggestionErrorKey: @"Select other branchname."}
                            ];
         [[NSAlert alertWithError:error]runModal];
         return;

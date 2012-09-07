@@ -26,14 +26,12 @@
 {
 	static NSArray *laneColors = nil;
 	if (!laneColors)
-		laneColors = [NSArray arrayWithObjects:
-					  [NSColor colorWithCalibratedRed: 0X4e/256.0 green:0X9A/256.0 blue: 0X06/256.0 alpha: 1.0],
+		laneColors = @[[NSColor colorWithCalibratedRed: 0X4e/256.0 green:0X9A/256.0 blue: 0X06/256.0 alpha: 1.0],
 					  [NSColor colorWithCalibratedRed: 0X20/256.0 green:0X4A/256.0 blue: 0X87/256.0 alpha: 1.0],
 					  [NSColor colorWithCalibratedRed: 0XC4/256.0 green:0XA0/256.0 blue: 0 alpha: 1.0],
 					  [NSColor colorWithCalibratedRed: 0X5C/256.0 green:0X35/256.0 blue: 0X66/256.0 alpha: 1.0],
 					  [NSColor colorWithCalibratedRed: 0XA4/256.0 green:0X00/256.0 blue: 0X00/256.0 alpha: 1.0],
-					  [NSColor colorWithCalibratedRed: 0XCE/256.0 green:0X5C/256.0 blue: 0 alpha: 1.0],
-					  nil];
+					  [NSColor colorWithCalibratedRed: 0XCE/256.0 green:0X5C/256.0 blue: 0 alpha: 1.0]];
 
 	return laneColors;
 }
@@ -48,7 +46,7 @@
 	NSPoint center = NSMakePoint( origin.x + columnWidth * to, origin.y + r.size.height * 0.5 + 0.5);
 
 	NSArray* colors = [PBGitRevisionCell laneColors];
-    NSColor *color = [colors objectAtIndex: c % [colors count]];
+    NSColor *color = colors[c % [colors count]];
 	[color set];
 	
 	NSBezierPath * path = [NSBezierPath bezierPath];
@@ -136,8 +134,8 @@
 	NSMutableParagraphStyle* style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	
 	[style setAlignment:NSCenterTextAlignment];
-	[attributes setObject:style forKey:NSParagraphStyleAttributeName];
-	[attributes setObject:[NSFont fontWithName:@"Helvetica" size:9] forKey:NSFontAttributeName];
+	attributes[NSParagraphStyleAttributeName] = style;
+	attributes[NSFontAttributeName] = [NSFont fontWithName:@"Helvetica" size:9];
 
 	//if (selected)
 	//	[attributes setObject:[NSColor alternateSelectedControlTextColor] forKey:NSForegroundColorAttributeName];
@@ -196,7 +194,7 @@
 - (void) drawLabelAtIndex:(int)index inRect:(NSRect)rect
 {
 	NSArray *refs = self.objectValue.refs;
-	PBGitRef *ref = [refs objectAtIndex:index];
+	PBGitRef *ref = refs[index];
 	
 	NSMutableDictionary* attributes = [self attributesForRefLabelSelected:[self isHighlighted]];
 	NSBezierPath *border = [NSBezierPath bezierPathWithRoundedRect:rect cornerRadius: 2.0];
@@ -297,7 +295,7 @@
 		pathWidth = 10 + 10 * cellInfo.numColumns;
 	NSRect refRect = NSMakeRect(pathWidth, 0, 1000, 10000);
 
-	return [[[self rectsForRefsinRect:refRect] objectAtIndex:index] rectValue];
+	return [[self rectsForRefsinRect:refRect][index] rectValue];
 }
 
 # pragma mark context menu delegate methods
@@ -311,7 +309,7 @@
 
 	id ref = nil;
 	if (i >= 0)
-		ref = [[[self objectValue] refs] objectAtIndex:i];
+		ref = [[self objectValue] refs][i];
 
 	NSArray *items = nil;
 	if (ref)

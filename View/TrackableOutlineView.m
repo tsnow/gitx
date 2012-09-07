@@ -80,7 +80,7 @@
 - (void)updateTrackingAreas {
     for (NSTrackingArea *area in [self trackingAreas]) {
         // We have to uniquely identify our own tracking areas
-        if (([area owner] == self) && ([[area userInfo] objectForKey:@"Row"] != nil)) {
+        if (([area owner] == self) && ([area userInfo][@"Row"] != nil)) {
             [self removeTrackingArea:area];
         }
     }
@@ -97,7 +97,7 @@
         if (fullWidthCell) {
             if ([fullWidthCell respondsToSelector:@selector(addTrackingAreasForView:inRect:withUserInfo:mouseLocation:)]) {
                 NSInteger col = -1;
-                NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:col], @"Col", [NSNumber numberWithInteger:row], @"Row", nil];
+                NSDictionary *userInfo = @{@"Col": @(col), @"Row": @(row)};
 				[fullWidthCell addTrackingAreasForView:self inRect:[self frameOfCellAtColumn:col row:row] withUserInfo:userInfo mouseLocation:mouseLocation];
             }
         } else {
@@ -105,7 +105,7 @@
             for (col = [visibleColIndexes firstIndex]; col != NSNotFound; col = [visibleColIndexes indexGreaterThanIndex:col]) {
                 NSCell *cell = [self preparedCellAtColumn:col row:row];
                 if ([cell respondsToSelector:@selector(addTrackingAreasForView:inRect:withUserInfo:mouseLocation:)]) {
-                    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:col], @"Col", [NSNumber numberWithInteger:row], @"Row", nil];
+                    NSDictionary *userInfo = @{@"Col": @(col), @"Row": @(row)};
                     [cell addTrackingAreasForView:self inRect:[self frameOfCellAtColumn:col row:row] withUserInfo:userInfo mouseLocation:mouseLocation];
                 }
             }

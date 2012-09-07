@@ -17,7 +17,7 @@
 {
 	id a = [super initWithCoder:coder];
 	[a setDataSource: a];
-	[a registerForDraggedTypes: [NSArray arrayWithObject:NSFilesPromisePboardType]];
+	[a registerForDraggedTypes: @[NSFilesPromisePboardType]];
 	return a;
 }
 
@@ -43,7 +43,7 @@
 	for (id tree in items)
 		[fileNames addObject: [[[tree representedObject] path] pathExtension]];
 
-	[pb declareTypes:[NSArray arrayWithObject:NSFilesPromisePboardType] owner:self];
+	[pb declareTypes:@[NSFilesPromisePboardType] owner:self];
     [pb setPropertyList:fileNames forType:NSFilesPromisePboardType];
 
 	return YES;

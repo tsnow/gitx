@@ -195,10 +195,8 @@
 {
 	NSString *command = [arguments componentsJoinedByString:@" "];
 	NSString *reason = [NSString stringWithFormat:@"%@\n\ncommand: git %@\n%@", message, command, output];
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-							  title, NSLocalizedDescriptionKey,
-							  reason, NSLocalizedRecoverySuggestionErrorKey,
-							  nil];
+	NSDictionary *userInfo = @{NSLocalizedDescriptionKey: title,
+							  NSLocalizedRecoverySuggestionErrorKey: reason};
 	NSError *error = [NSError errorWithDomain:PBGitRepositoryErrorDomain code:0 userInfo:userInfo];
 	[self showErrorSheet:error];
 }
@@ -296,11 +294,11 @@
 #pragma mark - SplitView changeLayout
 -(void)initChangeLayout
 {
-    splitViews=[NSArray arrayWithObjects:mainSplitView,[[sidebarController historyViewController] historySplitView], nil];
+    splitViews=@[mainSplitView,[[sidebarController historyViewController] historySplitView]];
     splitViewsSize=[NSMutableArray arrayWithCapacity:[splitViews count]];
     for (int n=0; n<[splitViews count]; n++) {
-        NSSplitView *splitView=[splitViews objectAtIndex:n];
-        NSView *left=[[splitView subviews] objectAtIndex:0];
+        NSSplitView *splitView=splitViews[n];
+        NSView *left=[splitView subviews][0];
         [splitViewsSize addObject:[NSNumber numberWithInt:[left frame].size.width]];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -314,12 +312,12 @@
 - (IBAction)changeLayout:(id)sender
 {
     NSInteger index=[sender selectedSegment];
-    NSSplitView *splitView=[splitViews objectAtIndex:index];
-    NSView *left=[[splitView subviews] objectAtIndex:0];
+    NSSplitView *splitView=splitViews[index];
+    NSView *left=[splitView subviews][0];
     
     CGFloat pos;
     if ([splitView isSubviewCollapsed:left])
-        pos=[[splitViewsSize objectAtIndex:index] intValue];
+        pos=[splitViewsSize[index] intValue];
     else
         pos=[splitView minPossiblePositionOfDividerAtIndex:0];
 
@@ -330,7 +328,7 @@
 {
     NSSplitView *splitView=[notif object];
     NSInteger index=[splitViews indexOfObject:splitView];
-    NSView *left=[[splitView subviews] objectAtIndex:0];
+    NSView *left=[splitView subviews][0];
 
     NSNumber *pos;
     if([splitView isVertical]){
@@ -383,11 +381,11 @@
     
 	float dividerThickness = [sender dividerThickness];
     
-	NSView *sourceView = [[sender subviews] objectAtIndex:0];
+	NSView *sourceView = [sender subviews][0];
 	NSRect sourceFrame = [sourceView frame];
 	sourceFrame.size.height = newFrame.size.height;
     
-	NSView *mainView = [[sender subviews] objectAtIndex:1];
+	NSView *mainView = [sender subviews][1];
 	NSRect mainFrame = [mainView frame];
 	mainFrame.origin.x = sourceFrame.size.width + dividerThickness;
 	mainFrame.size.width = newFrame.size.width - mainFrame.origin.x;
@@ -402,7 +400,7 @@
 - (void)cloneToInProgress:(NSNotification*)notification
 {
     addRemoteAfterCloneTo = YES;
-    remoteURL = [[notification userInfo] objectForKey:@"CloneToPath"];
+    remoteURL = [notification userInfo][@"CloneToPath"];
 }
 
 

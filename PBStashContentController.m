@@ -28,7 +28,7 @@ const CGFloat kMinPaneSize = 32.0;
 	NSString *stashRef = [NSString stringWithFormat:@"refs/%@", [stash name]];
 	NSString *stashSHA = [repository shaForRef:[PBGitRef refFromString:stashRef]];
 	PBGitCommit *commit = [repository commitForSHA:stashSHA];
-	NSString *indexSHA = [commit.parents objectAtIndex:1];
+	NSString *indexSHA = (commit.parents)[1];
 	PBGitCommit *indexCommit = [repository commitForSHA:indexSHA];
 
   [unstagedController changeContentTo:commit];

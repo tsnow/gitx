@@ -179,12 +179,12 @@
 	}
 
 	[callbacks removeObjectForKey:object];
-	[a callWebScriptMethod:@"call" withArguments:[NSArray arrayWithObjects:@"", data, nil]];
+	[a callWebScriptMethod:@"call" withArguments:@[@"", data]];
 }
 
 - (void) threadFinished:(NSArray *)arguments
 {
-	[self returnCallBackForObject:[arguments objectAtIndex:0] withData:[arguments objectAtIndex:1]];
+	[self returnCallBackForObject:arguments[0] withData:arguments[1]];
 }
 
 - (void) JSRunCommandDone:(NSNotification *)notification

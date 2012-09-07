@@ -88,8 +88,7 @@ static PBGitXMessageSheet *sheet;
 
 - (void)setInfoString:(NSString *)info
 {
-	NSDictionary *attributes = [NSDictionary dictionaryWithObject:[NSFont labelFontOfSize:[NSFont smallSystemFontSize]]
-														   forKey:NSFontAttributeName];
+	NSDictionary *attributes = @{NSFontAttributeName: [NSFont labelFontOfSize:[NSFont smallSystemFontSize]]};
 	NSAttributedString *attributedInfoString = [[NSAttributedString alloc] initWithString:info attributes:attributes];
 	[[self.infoView textStorage] setAttributedString:attributedInfoString];
 }

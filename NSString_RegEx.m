@@ -42,7 +42,7 @@
 
 	if (nmatch == -1)
 	{
-		outMatches = [NSArray arrayWithObject:self];
+		outMatches = @[self];
 		goto catch_exit;	// simple match
 	}
 
@@ -77,7 +77,7 @@ catch_error:
 		char errbuf[256];
 		int len = regerror(errcode, &preg, errbuf, sizeof(errbuf));
 		if (len > 0)
-			[userInfo setObject:[NSString stringWithUTF8String:errbuf] forKey:NSLocalizedDescriptionKey];
+			userInfo[NSLocalizedDescriptionKey] = @(errbuf);
 		*error = [NSError errorWithDomain:@"regerror" code:errcode userInfo:userInfo];
 	}
 

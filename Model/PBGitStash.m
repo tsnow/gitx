@@ -22,9 +22,9 @@
 		if ([lineComponents count] != 3) {
 			return nil;
 		}
-		name = [lineComponents objectAtIndex:0];
-		stashSourceMessage = [[lineComponents objectAtIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		message = [[lineComponents objectAtIndex:2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		name = lineComponents[0];
+		stashSourceMessage = [lineComponents[1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		message = [lineComponents[2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	}
 	return self;
 }

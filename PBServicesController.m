@@ -18,7 +18,7 @@
 	for (PBGitRepository *repo in documents)
 	{
 		int ret = 1;
-		NSString *s = [repo outputForArguments:[NSArray arrayWithObjects:@"log", @"-1", @"--pretty=format:%h (%s)", sha, nil] retValue:&ret];
+		NSString *s = [repo outputForArguments:@[@"log", @"-1", @"--pretty=format:%h (%s)", sha] retValue:&ret];
 		if (!ret)
 			return s;
 	}
@@ -30,9 +30,9 @@
 	NSArray *repositories = [[NSApplication sharedApplication] orderedDocuments];
 	if ([repositories count] == 0)
 		return s;
-	PBGitRepository *repo = [repositories objectAtIndex:0];
+	PBGitRepository *repo = repositories[0];
 	int ret = 1;
-	NSString *returnString = [repo outputForArguments:[NSArray arrayWithObjects:@"name-rev", @"--stdin", nil] inputString:s retValue:&ret];
+	NSString *returnString = [repo outputForArguments:@[@"name-rev", @"--stdin"] inputString:s retValue:&ret];
 	if (ret)
 		return s;
 	return returnString;
@@ -53,7 +53,7 @@
 	else
 		s = [self runNameRevFor:s];
 
-	[pboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+	[pboard declareTypes:@[NSStringPboardType] owner:nil];
 	[pboard setString:s forType:NSStringPboardType];
 }
 @end

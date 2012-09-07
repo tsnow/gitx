@@ -48,46 +48,26 @@
 	
 	self.groups = [NSMutableArray arrayWithCapacity:0];
 	
-	NSArray *items = [NSArray arrayWithObjects:
-					  [NSDictionary dictionaryWithObjectsAndKeys:
-					   startFile, ITEM_IDENTIFIER, 
-					   @"Source", ITEM_NAME, 
-					   nil], 
-					  [NSDictionary dictionaryWithObjectsAndKeys:
-					   @"blame", ITEM_IDENTIFIER, 
-					   @"Blame", ITEM_NAME, 
-					   nil], 
-					  [NSDictionary dictionaryWithObjectsAndKeys:
-					   @"log", ITEM_IDENTIFIER, 
-					   @"History", ITEM_NAME, 
-					   nil], 
-					  [NSDictionary dictionaryWithObjectsAndKeys:
-					   @"diff", ITEM_IDENTIFIER, 
-					   @"Diff", ITEM_NAME, 
-					   nil], 
-					  nil];
-	[self.groups addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-							[NSNumber numberWithBool:NO], GROUP_SEPARATOR, 
-							[NSNumber numberWithInt:MGRadioSelectionMode], GROUP_SELECTION_MODE, // single selection group.
-							items, GROUP_ITEMS, 
-							nil]];
+	NSArray *items = @[@{ITEM_IDENTIFIER: startFile, 
+					   ITEM_NAME: @"Source"}, 
+					  @{ITEM_IDENTIFIER: @"blame", 
+					   ITEM_NAME: @"Blame"}, 
+					  @{ITEM_IDENTIFIER: @"log", 
+					   ITEM_NAME: @"History"}, 
+					  @{ITEM_IDENTIFIER: @"diff", 
+					   ITEM_NAME: @"Diff"}];
+	[self.groups addObject:@{GROUP_SEPARATOR: @NO, 
+							GROUP_SELECTION_MODE: @(MGRadioSelectionMode), // single selection group.
+							GROUP_ITEMS: items}];
 	
-	NSArray *difft = [NSArray arrayWithObjects:
-					  [NSDictionary dictionaryWithObjectsAndKeys:
-					   @"l", ITEM_IDENTIFIER, 
-					   @"Local", ITEM_NAME, 
-					   nil], 
-					  [NSDictionary dictionaryWithObjectsAndKeys:
-					   @"h", ITEM_IDENTIFIER, 
-					   @"HEAD", ITEM_NAME, 
-					   nil], 
-					  nil];
-	[self.groups addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-							[NSNumber numberWithBool:NO], GROUP_SEPARATOR, 
-							[NSNumber numberWithInt:MGRadioSelectionMode], GROUP_SELECTION_MODE, // single selection group.
-							difft, GROUP_ITEMS, 
-							@"Diff with:",GROUP_LABEL,
-							nil]]; 
+	NSArray *difft = @[@{ITEM_IDENTIFIER: @"l", 
+					   ITEM_NAME: @"Local"}, 
+					  @{ITEM_IDENTIFIER: @"h", 
+					   ITEM_NAME: @"HEAD"}];
+	[self.groups addObject:@{GROUP_SEPARATOR: @NO, 
+							GROUP_SELECTION_MODE: @(MGRadioSelectionMode), // single selection group.
+							GROUP_ITEMS: difft, 
+							GROUP_LABEL: @"Diff with:"}]; 
 	
 	[typeBar reloadData];
 	
@@ -105,7 +85,7 @@
 	NSError *theError = nil;
 	NSArray *files=[historyController.treeController selectedObjects];
 	if ([files count]>0) {
-		PBGitTree *file=[files objectAtIndex:0];
+		PBGitTree *file=files[0];
 		DLog(@"file=%@ == %@ => %d",file,lastFile,[file isEqualTo:lastFile]);
         if(![file isEqualTo:lastFile]){
             lastFile=file;
@@ -138,9 +118,9 @@
                 }else {
                     fileTxt=[fileTxt stringByReplacingOccurrencesOfString:@"{SHA}" withString:@"--"];
                 }
-                [script callWebScriptMethod:@"showFile" withArguments:[NSArray arrayWithObjects:fileTxt, filePath, nil]];
+                [script callWebScriptMethod:@"showFile" withArguments:@[fileTxt, filePath]];
             }else{
-                [script callWebScriptMethod:@"setMessage" withArguments:[NSArray arrayWithObjects:[theError localizedDescription], nil]];
+                [script callWebScriptMethod:@"setMessage" withArguments:@[[theError localizedDescription]]];
             }
             [self updateSearch];
         }
@@ -165,7 +145,7 @@
 // TODO: need to be refactoring
 - (void) openFileMerge:(NSString*)file sha:(NSString *)sha sha2:(NSString *)sha2;
 {
-	NSArray *args=[NSArray arrayWithObjects:@"difftool",@"--no-prompt",@"--tool=opendiff",sha,sha2,file,nil];
+	NSArray *args=@[@"difftool",@"--no-prompt",@"--tool=opendiff",sha,sha2,file];
 	[historyController.repository handleInWorkDirForArguments:args];
 }
 
@@ -179,23 +159,23 @@
 
 - (NSArray *)scopeBar:(MGScopeBar *)theScopeBar itemIdentifiersForGroup:(int)groupNumber
 {
-	return [[self.groups objectAtIndex:groupNumber] valueForKeyPath:[NSString stringWithFormat:@"%@.%@", GROUP_ITEMS, ITEM_IDENTIFIER]];
+	return [(self.groups)[groupNumber] valueForKeyPath:[NSString stringWithFormat:@"%@.%@", GROUP_ITEMS, ITEM_IDENTIFIER]];
 }
 
 
 - (NSString *)scopeBar:(MGScopeBar *)theScopeBar labelForGroup:(int)groupNumber
 {
-	return [[self.groups objectAtIndex:groupNumber] objectForKey:GROUP_LABEL]; // might be nil, which is fine (nil means no label).
+	return (self.groups)[groupNumber][GROUP_LABEL]; // might be nil, which is fine (nil means no label).
 }
 
 
 - (NSString *)scopeBar:(MGScopeBar *)theScopeBar titleOfItem:(NSString *)identifier inGroup:(int)groupNumber
 {
-	NSArray *items = [[self.groups objectAtIndex:groupNumber] objectForKey:GROUP_ITEMS];
+	NSArray *items = (self.groups)[groupNumber][GROUP_ITEMS];
 	if (items) {
 		for (NSDictionary *item in items) {
-			if ([[item objectForKey:ITEM_IDENTIFIER] isEqualToString:identifier]) {
-				return [item objectForKey:ITEM_NAME];
+			if ([item[ITEM_IDENTIFIER] isEqualToString:identifier]) {
+				return item[ITEM_NAME];
 				break;
 			}
 		}
@@ -206,7 +186,7 @@
 
 - (MGScopeBarGroupSelectionMode)scopeBar:(MGScopeBar *)theScopeBar selectionModeForGroup:(int)groupNumber
 {
-	return [[[self.groups objectAtIndex:groupNumber] objectForKey:GROUP_SELECTION_MODE] intValue];
+	return [(self.groups)[groupNumber][GROUP_SELECTION_MODE] intValue];
 }
 
 - (void)scopeBar:(MGScopeBar *)theScopeBar selectedStateChanged:(BOOL)selected forItem:(NSString *)identifier inGroup:(int)groupNumber
@@ -262,12 +242,12 @@
 {
 	NSInteger granTotal=1;
 	for(NSArray *stat in [stats allValues]){
-		NSInteger add=[[stat objectAtIndex:0] integerValue];
-		NSInteger rem=[[stat objectAtIndex:1] integerValue];
+		NSInteger add=[stat[0] integerValue];
+		NSInteger rem=[stat[1] integerValue];
 		NSInteger tot=add+rem;
 		if(tot>granTotal)
 			granTotal=tot;
-		[stats setObject:[NSArray arrayWithObjects:[NSNumber numberWithInteger:add],[NSNumber numberWithInteger:rem],[NSNumber numberWithInteger:tot],nil] forKey:[stat objectAtIndex:2]];
+		stats[stat[2]] = @[@(add),@(rem),@(tot)];
 	}
 	
 	NSArray *lines = [txt componentsSeparatedByString:@"\n"];
@@ -277,18 +257,18 @@
 		if([line length]<98) continue;
 		line=[line substringFromIndex:97];
 		NSArray *fileStatus=[line componentsSeparatedByString:@"\t"];
-		NSString *status=[[fileStatus objectAtIndex:0] substringToIndex:1]; // ignore the score
-		NSString *file=[fileStatus objectAtIndex:1];
+		NSString *status=[fileStatus[0] substringToIndex:1]; // ignore the score
+		NSString *file=fileStatus[1];
 		NSString *txt=file;
 		NSString *fileName=file;
 		if([status isEqualToString:@"C"] || [status isEqualToString:@"R"]){
-			txt=[NSString stringWithFormat:@"%@ -&gt; %@",file,[fileStatus objectAtIndex:2]];
-			fileName=[fileStatus objectAtIndex:2];
+			txt=[NSString stringWithFormat:@"%@ -&gt; %@",file,fileStatus[2]];
+			fileName=fileStatus[2];
 		}
 		
-		NSArray *stat=[stats objectForKey:fileName];
-		NSInteger add=[[stat objectAtIndex:0] integerValue];
-		NSInteger rem=[[stat objectAtIndex:1] integerValue];
+		NSArray *stat=stats[fileName];
+		NSInteger add=[stat[0] integerValue];
+		NSInteger rem=[stat[1] integerValue];
 		
 		[res appendString:@"<tr><td class='name'>"];
 		[res appendString:[NSString stringWithFormat:@"<a class='%@' href='#%@' representedFile='%@'>%@</a>",status,file,fileName,txt]];
@@ -358,17 +338,17 @@
     
     NSArray *files=[self getFilesNames:block];
     [res appendString:@"<tr class='images'><td>"];
-    [res appendString:[NSString stringWithFormat:@"%@<br/>",[files objectAtIndex:0]]];
-    if(![[files objectAtIndex:0] isAbsolutePath]){
-        if([GLFileView isImage:[files objectAtIndex:0]]){
-            [res appendString:[NSString stringWithFormat:@"<img src='GitX://{SHA}:/prev/%@'/>",[files objectAtIndex:0]]];
+    [res appendString:[NSString stringWithFormat:@"%@<br/>",files[0]]];
+    if(![files[0] isAbsolutePath]){
+        if([GLFileView isImage:files[0]]){
+            [res appendString:[NSString stringWithFormat:@"<img src='GitX://{SHA}:/prev/%@'/>",files[0]]];
         }
     }
     [res appendString:@"</td><td>=&gt;</td><td>"];
-    [res appendString:[NSString stringWithFormat:@"%@<br/>",[files objectAtIndex:1]]];
-    if(![[files objectAtIndex:1] isAbsolutePath]){
-        if([GLFileView isImage:[files objectAtIndex:1]]){
-            [res appendString:[NSString stringWithFormat:@"<img src='GitX://{SHA}:/%@'/>",[files objectAtIndex:1]]];
+    [res appendString:[NSString stringWithFormat:@"%@<br/>",files[1]]];
+    if(![files[1] isAbsolutePath]){
+        if([GLFileView isImage:files[1]]){
+            [res appendString:[NSString stringWithFormat:@"<img src='GitX://{SHA}:/%@'/>",files[1]]];
         }
     }
     [res appendString:@"</td></tr>"];
@@ -396,13 +376,13 @@
     NSString *header=[line substringWithRange:hr];
     
     NSArray *pos=[header componentsSeparatedByString:@" "];
-    NSArray *pos_r=[[pos objectAtIndex:arity-1] componentsSeparatedByString:@","];
+    NSArray *pos_r=[pos[arity-1] componentsSeparatedByString:@","];
     
 	for(int i=0; i<arity-1; i++){
-		NSArray *pos_l=[[pos objectAtIndex:i] componentsSeparatedByString:@","];
-		l_line[i]=abs([[pos_l objectAtIndex:0]integerValue]);
+		NSArray *pos_l=[pos[i] componentsSeparatedByString:@","];
+		l_line[i]=abs([pos_l[0]integerValue]);
 	}
-    r_line=[[pos_r objectAtIndex:0]integerValue];
+    r_line=[pos_r[0]integerValue];
     
     [res appendString:[NSString stringWithFormat:@"<tr class='header'><td colspan='%d'>%@</td></tr>",arity+1,line]];
     while((line=[lines nextObject])){
@@ -494,7 +474,7 @@
         b=[b substringFromIndex:2];
     }
     
-    return [NSArray arrayWithObjects:a,b,nil];
+    return @[a,b];
 }
 
 +(NSString*)mimeTypeForFileName:(NSString*)name
@@ -557,28 +537,28 @@
     [res appendString:@"<table class='blocks'>\n"];
     int i=0;
     while(i<[lines count]){
-        line=[lines objectAtIndex:i];
+        line=lines[i];
         NSArray *header=[line componentsSeparatedByString:@" "];
         if([header count]==4){
-            NSString *commitID = (NSString *)[header objectAtIndex:0];
-            int nLines=[(NSString *)[header objectAtIndex:3] intValue];
+            NSString *commitID = (NSString *)header[0];
+            int nLines=[(NSString *)header[3] intValue];
             [res appendFormat:@"<tr class='block l%d'>\n",nLines];
-            line=[lines objectAtIndex:++i];
-            if([[[line componentsSeparatedByString:@" "] objectAtIndex:0] isEqual:@"author"]){
+            line=lines[++i];
+            if([[line componentsSeparatedByString:@" "][0] isEqual:@"author"]){
                 NSString *author=[line stringByReplacingOccurrencesOfString:@"author " withString:@""];
                 
                 NSString *timestamp=nil;
                 while(timestamp==nil){
-                    line=[lines objectAtIndex:i++];
-                    if([[[line componentsSeparatedByString:@" "] objectAtIndex:0] isEqual:@"author-time"]){
+                    line=lines[i++];
+                    if([[line componentsSeparatedByString:@" "][0] isEqual:@"author-time"]){
                         timestamp=[line stringByReplacingOccurrencesOfString:@"author-time " withString:@""];
                     }
                 }
 
                 NSString *timezone=nil;
                 while(timezone==nil){
-                    line=[lines objectAtIndex:i++];
-                    if([[[line componentsSeparatedByString:@" "] objectAtIndex:0] isEqual:@"author-tz"]){
+                    line=lines[i++];
+                    if([[line componentsSeparatedByString:@" "][0] isEqual:@"author-tz"]){
                         timezone=[line stringByReplacingOccurrencesOfString:@"author-tz " withString:@""];
                     }
                 }
@@ -588,8 +568,8 @@
                 
                 NSString *summary=nil;
                 while(summary==nil){
-                    line=[lines objectAtIndex:i++];
-                    if([[[line componentsSeparatedByString:@" "] objectAtIndex:0] isEqual:@"summary"]){
+                    line=lines[i++];
+                    if([[line componentsSeparatedByString:@" "][0] isEqual:@"summary"]){
                         summary=[line stringByReplacingOccurrencesOfString:@"summary " withString:@""];
                     }
                 }
@@ -609,13 +589,13 @@
                 }
                 NSString *tooltip = [NSString stringWithFormat:@"%@\nAuthor: %@\nDate: %@\n\n%@",commitID,author,dateString,summary];
                 NSString *block=[NSString stringWithFormat:@"<td><p class='author'><a title='%@' href='' onclick='selectCommit(\"%@\"); return false;'>%@</a> %@</p><p class='summary'>%@</p></td>\n<td>\n",tooltip,commitID,truncate_c,truncate_a,truncate_s];
-                [headers setObject:block forKey:[header objectAtIndex:0]];
+                headers[header[0]] = block;
             }
-            [res appendString:[headers objectForKey:[header objectAtIndex:0]]];
+            [res appendString:headers[header[0]]];
             
             NSMutableString *code=[NSMutableString string];
             do{
-                line=[lines objectAtIndex:i++];
+                line=lines[i++];
             }while([line characterAtIndex:0]!='\t');
             line=[line substringFromIndex:1];
             [code appendString:line];
@@ -624,13 +604,13 @@
             int n;
             for(n=1;n<nLines;n++){
                 do{
-                    line=[lines objectAtIndex:i++];
+                    line=lines[i++];
                 }while([line characterAtIndex:0]!='\t');
                 line=[line substringFromIndex:1];
                 [code appendString:line];
                 [code appendString:@"\n"];
             }
-            [res appendFormat:@"<pre class='first-line: %@;brush: objc'>%@</pre>",[header objectAtIndex:2],code];
+            [res appendFormat:@"<pre class='first-line: %@;brush: objc'>%@</pre>",header[2],code];
             [res appendString:@"</td>\n"];
         }else{
             break;
@@ -669,7 +649,7 @@
     
     float dividerThickness = [splitView dividerThickness];
     
-    NSView *leftView = [[splitView subviews] objectAtIndex:0];
+    NSView *leftView = [splitView subviews][0];
     NSRect leftFrame = [leftView frame];
     leftFrame.size.height = newFrame.size.height;
     
@@ -677,7 +657,7 @@
         leftFrame.size.width = newFrame.size.width - kFileListSplitViewRightMin - dividerThickness;
     }
     
-    NSView *rightView = [[splitView subviews] objectAtIndex:1];
+    NSView *rightView = [splitView subviews][1];
     NSRect rightFrame = [rightView frame];
     rightFrame.origin.x = leftFrame.size.width + dividerThickness;
     rightFrame.size.width = newFrame.size.width - rightFrame.origin.x;
@@ -690,7 +670,7 @@
 // NSSplitView does not save and restore the position of the SplitView correctly so do it manually
 - (void)saveSplitViewPosition
 {
-	float position = [[[fileListSplitView subviews] objectAtIndex:0] frame].size.width;
+	float position = [[fileListSplitView subviews][0] frame].size.width;
 	[[NSUserDefaults standardUserDefaults] setFloat:position forKey:kHFileListSplitViewPositionDefault];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }

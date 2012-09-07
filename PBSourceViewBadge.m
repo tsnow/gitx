@@ -67,8 +67,8 @@
 		[centerStyle setAlignment:NSCenterTextAlignment];
 
 		badgeTextAttributes =  [NSMutableDictionary dictionary];
-		[badgeTextAttributes setObject:[NSFont fontWithName:@"Helvetica-Bold" size:[NSFont systemFontSize] - 2] forKey:NSFontAttributeName];
-		[badgeTextAttributes setObject:centerStyle forKey:NSParagraphStyleAttributeName];
+		badgeTextAttributes[NSFontAttributeName] = [NSFont fontWithName:@"Helvetica-Bold" size:[NSFont systemFontSize] - 2];
+		badgeTextAttributes[NSParagraphStyleAttributeName] = centerStyle;
 	}
 
 	return badgeTextAttributes;
@@ -85,7 +85,7 @@
 
 	NSColor *textColor = [self badgeTextColorForCell:cell];
 	NSMutableDictionary *badgeTextAttributes = [self badgeTextAttributes];
-	[badgeTextAttributes setObject:textColor forKey:NSForegroundColorAttributeName];
+	badgeTextAttributes[NSForegroundColorAttributeName] = textColor;
 	NSAttributedString *badgeString = [[NSAttributedString alloc] initWithString:badge attributes:badgeTextAttributes];
 
 	float imageHeight = ceilf([badgeString size].height);

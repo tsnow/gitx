@@ -56,16 +56,14 @@
 {
 	[super awakeFromNib];
 
-	[commitMessageView setTypingAttributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"Monaco" size:12.0] forKey:NSFontAttributeName]];
+	[commitMessageView setTypingAttributes:@{NSFontAttributeName: [NSFont fontWithName:@"Monaco" size:12.0]}];
 	
 	[unstagedFilesController setFilterPredicate:[NSPredicate predicateWithFormat:@"hasUnstagedChanges == 1"]];
 	[cachedFilesController setFilterPredicate:[NSPredicate predicateWithFormat:@"hasStagedChanges == 1"]];
 	
-	[unstagedFilesController setSortDescriptors:[NSArray arrayWithObjects:
-		[[NSSortDescriptor alloc] initWithKey:@"status" ascending:false],
-		[[NSSortDescriptor alloc] initWithKey:@"path" ascending:true], nil]];
-	[cachedFilesController setSortDescriptors:[NSArray arrayWithObject:
+	[unstagedFilesController setSortDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"status" ascending:false],
 		[[NSSortDescriptor alloc] initWithKey:@"path" ascending:true]]];
+	[cachedFilesController setSortDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"path" ascending:true]]];
 
 	[cachedFilesController setAutomaticallyRearrangesObjects:NO];
 	[unstagedFilesController setAutomaticallyRearrangesObjects:NO];
@@ -163,21 +161,21 @@
 
 - (void)commitStatusUpdated:(NSNotification *)notification
 {
-	self.status = [[notification userInfo] objectForKey:@"description"];
+	self.status = [notification userInfo][@"description"];
 }
 
 - (void)commitFinished:(NSNotification *)notification
 {
 	[commitMessageView setEditable:YES];
 	[commitMessageView setString:@""];
-	[webController setStateMessage:[NSString stringWithString:[[notification userInfo] objectForKey:@"description"]]];
+	[webController setStateMessage:[NSString stringWithString:[notification userInfo][@"description"]]];
 	[repository reloadRefs];
 }	
 
 - (void)commitFailed:(NSNotification *)notification
 {
 	self.isBusy = NO;
-	NSString *reason = [[notification userInfo] objectForKey:@"description"];
+	NSString *reason = [notification userInfo][@"description"];
 	self.status = [@"Commit failed: " stringByAppendingString:reason];
 	[commitMessageView setEditable:YES];
 	[[repository windowController] showMessageSheet:@"Commit failed" infoText:reason];
@@ -186,7 +184,7 @@
 - (void)commitHookFailed:(NSNotification *)notification
 {
 	self.isBusy = NO;
-	NSString *reason = [[notification userInfo] objectForKey:@"description"];
+	NSString *reason = [notification userInfo][@"description"];
 	self.status = [@"Commit hook failed: " stringByAppendingString:reason];
 	[commitMessageView setEditable:YES];
 	[[repository windowController] showCommitHookFailedSheet:@"Commit hook failed" infoText:reason commitController:self];
@@ -199,7 +197,7 @@
 	if ([[commitMessageView string] length] > 3)
 		return;
 	
-	NSString *message = [[notification userInfo] objectForKey:@"message"];
+	NSString *message = [notification userInfo][@"message"];
 	commitMessageView.string = message;
 }
 
@@ -217,7 +215,7 @@
 
 - (void)indexOperationFailed:(NSNotification *)notification
 {
-	[[repository windowController] showMessageSheet:@"Index operation failed" infoText:[[notification userInfo] objectForKey:@"description"]];
+	[[repository windowController] showMessageSheet:@"Index operation failed" infoText:[notification userInfo][@"description"]];
 }
 
 
@@ -250,11 +248,11 @@
 
 	float dividerThickness = [commitSplitView dividerThickness];
 
-	NSView *upperView = [[commitSplitView subviews] objectAtIndex:0];
+	NSView *upperView = [commitSplitView subviews][0];
 	NSRect upperFrame = [upperView frame];
 	upperFrame.size.width = newFrame.size.width;
 
-	NSView *lowerView = [[commitSplitView subviews] objectAtIndex:1];
+	NSView *lowerView = [commitSplitView subviews][1];
 	NSRect lowerFrame = [lowerView frame];
 	lowerFrame.size.width = newFrame.size.width;
 
@@ -278,7 +276,7 @@
 // NSSplitView does not save and restore the position of the splitView correctly so do it manually
 - (void)saveCommitSplitViewPosition
 {
-	float position = [[[commitSplitView subviews] objectAtIndex:0] frame].size.height;
+	float position = [[commitSplitView subviews][0] frame].size.height;
 	[[NSUserDefaults standardUserDefaults] setFloat:position forKey:kCommitSplitViewPositionDefault];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }

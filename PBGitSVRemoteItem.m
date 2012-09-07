@@ -12,6 +12,7 @@
 
 @implementation PBGitSVRemoteItem
 
+@synthesize loading;
 @synthesize alert;
 @synthesize helpText;
 
@@ -42,6 +43,6 @@
 
 - (NSString *)badge
 {
-	return (alert ? @"!" : nil);
+	return (self.loading ? @"?" : (self.alert ? @"!" : nil));
 }
 @end
