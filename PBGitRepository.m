@@ -921,8 +921,19 @@ dispatch_queue_t PBGetWorkQueue() {
 	if(!workingDirectory) {
 		if ([self.fileURL.path hasSuffix:@"/.git"])
 			workingDirectory = [self.fileURL.path substringToIndex:[self.fileURL.path length] - 5];
-		else if ([[self outputForCommand:@"rev-parse --is-inside-work-tree"] isEqualToString:@"true"])
-			workingDirectory = [PBGitBinary path];
+        else {
+            NSRange range = [self.fileURL.path rangeOfString: @"/.git/modules/"];
+            if (range.location != NSNotFound) {
+                NSString *relativeModulePath = [self.fileURL.path substringFromIndex: range.location + range.length ];
+                NSString *supermodulePath = [self.fileURL.path substringToIndex: range.location];
+                workingDirectory = [supermodulePath stringByAppendingPathComponent: relativeModulePath];
+            }
+            else if ([[self outputForCommand:@"rev-parse --is-inside-work-tree"] isEqualToString:@"true"])
+                workingDirectory = [PBGitBinary path];
+            else
+                workingDirectory = self.fileURL.path;
+        }
+        
 	}
 	
 	return workingDirectory;
