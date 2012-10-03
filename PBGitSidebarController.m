@@ -644,13 +644,13 @@ enum  {
 
 - (IBAction) svnFetch:(id)sender
 {
-    [repository svnFetch:nil];
+    [repository svnFetch:@"rws-svn"];
 }
 
 - (IBAction) svnRebase:(id)sender
 {
     printf("git svn rebase");
-    [repository svnRebase:nil];
+    [repository svnRebase:@"rws-svn"];
 }
 
 - (IBAction) svnDcommit:(id)sender
