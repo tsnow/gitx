@@ -10,11 +10,14 @@
 	margin-top: -5px;
 	padding-bottom: 1px;
 	font-weight: bold;
+	font-family: Menlo, monospace;
+	font-size: 9pt;
+	color: #222;
 }
 
 .diff .file .diffContent {
 	white-space: pre;
-	font-family: Menlo, Monaco;
+	font-family: 'Source Code Pro', Inconsolata, Monaco, Menlo, monospace;
 }
 
 .diff .file .diffcontent .lineno {

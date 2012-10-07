@@ -1,5 +1,10 @@
 body {
 	font-family: 'Lucida Grande';
+	margin: 0;
+}
+
+#subject_in_head, #rightcontent {
+	display: none;
 }
 
 #commit_header {
@@ -7,6 +12,10 @@ body {
 	font-size: 12px;
 	padding-left: 5px;
 	padding-right: 5px;
+	font-family: Menlo, monospace;
+	background-color: #f5f5f5;
+	width: 100%;
+	padding: 3px 0 1px;
 }
 
 #commit_header tr {
@@ -72,14 +81,17 @@ a.servicebutton {
 }
 
 #message {
-	font-family: Menlo, Monaco;
+	font-family: Monaco, monospace;
+	font-size: 9pt;
 	white-space: pre-wrap;
-	padding-top: 10px;
+	padding-top: 8px;
 }
 
 #files {
 	margin-top: 1em;
 	margin-left: 0.5em;
+	font-family: Monaco, monospace;
+	font-size: 8pt;
 }
 
 #files a {
@@ -121,8 +133,8 @@ a.servicebutton {
 hr {
 	border: 0;
 	height: 1px;
-	margin: 0 8px;
-	background-color: #DEDEDE;
+	margin: 0;
+	background-color: #ccc;
 	clear: both;
 }
 
@@ -137,11 +149,12 @@ a.showdiff {
 
 .refs {
 	font-size: 9px;
-	font-family: Helvetica;
+	font-family: Menlo, monospace;
 	border: 1px solid black;
-	margin-right: 2px;
+	margin-right: 5px;
 	padding: 1px 3px 1px 3px;
 	-webkit-border-radius: 2px;
+	float: left;
 }
 
 .refs.head {
