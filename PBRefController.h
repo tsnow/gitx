@@ -29,6 +29,7 @@
 
 - (void) fetchRemote:(PBRefMenuItem *)sender;
 - (void) pullRemote:(PBRefMenuItem *)sender;
+- (void) githubRemote:(PBRefMenuItem *)sender;
 - (void) pushUpdatesToRemote:(PBRefMenuItem *)sender;
 - (void) pushDefaultRemoteForRef:(PBRefMenuItem *)sender;
 - (void) pushToRemote:(PBRefMenuItem *)sender;
@@ -45,6 +46,7 @@
 - (void) diffWithHEAD:(PBRefMenuItem *)sender;
 - (void) createTag:(PBRefMenuItem *)sender;
 - (void) showTagInfoSheet:(PBRefMenuItem *)sender;
+- (void) openInGithub:(PBRefMenuItem *)sender;
 
 - (NSArray *) menuItemsForRef:(PBGitRef *)ref;
 - (NSArray *) menuItemsForCommit:(PBGitCommit *)commit;

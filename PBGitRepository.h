@@ -62,6 +62,7 @@ dispatch_queue_t PBGetWorkQueue();
 	BOOL didCheckBareRepository;
 	BOOL bareRepository;
 	NSString* workingDirectory;
+    NSString* remoteUrl;
 }
 
 @property (nonatomic, strong, readonly) PBStashController *stashController;

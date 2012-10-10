@@ -57,6 +57,10 @@
 {
 	[controller copyCommitSHA];
 }
+- (void) openInGithub:(id)sender
+{
+    [controller openInGithub];
+}
 
 // !!! Andre Berg 20100330: Used from -scrollSelectionToTopOfViewFrom: of PBGitHistoryController
 // so that when the history controller udpates the branch filter the origin of the superview gets

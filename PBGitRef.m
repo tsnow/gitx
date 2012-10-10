@@ -47,6 +47,11 @@ NSString * const kGitXRemoteRefPrefix = @"refs/remotes/";
 	return (NSString *)[ref componentsSeparatedByString:@"/"][2];
 }
 
+- (NSString *) githubUrl
+{
+    [self remoteName];
+}
+
 - (NSString *) remoteBranchName
 {
 	if (![self isRemoteBranch])

@@ -39,7 +39,7 @@ extern NSString * const kGitXRemoteRefPrefix;
 - (BOOL) isTag;
 - (BOOL) isRemote;
 - (BOOL) isRemoteBranch;
-
+- (NSString *) githubUrl;
 - (PBGitRef *) remoteRef;
 
 - (BOOL) isEqualToRef:(PBGitRef *)otherRef;

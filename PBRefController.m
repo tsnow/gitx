@@ -61,6 +61,36 @@
 	[historyController.repository beginPullFromRemote:nil forRef:refish];
 }
 
+#pragma mark Github
+- (void) githubRemote:(PBRefMenuItem *)sender
+{
+    
+    PBGitCommit * commit = nil;
+    if([[sender refish] refishType] == kGitXCommitType)
+        commit = (PBGitCommit *)[sender refish];
+    else
+        commit = [historyController.repository commitForRef:[sender refish]];
+
+    
+	PBGitRef* refish = (PBGitRef *)[sender refish];
+    
+//    [historyContrioller.repository beginPullFromRemote:nil forRef:refish];
+    PBGitRef * remoteRef;
+    remoteRef = refish;
+    // a nil remoteRef means lookup the ref's default remote
+	if ((!remoteRef) || (![remoteRef isRemote])) {
+		NSError *error = nil;
+		remoteRef = [historyController.repository remoteRefForBranch:refish error:&error];
+		if (!remoteRef) {
+			if (error)
+				[historyController.repository.windowController showErrorSheet:error];
+			return;
+		}
+	}
+	NSString *remoteName = [remoteRef remoteName];
+    
+}
+
 
 #pragma mark Push
 
@@ -201,6 +231,23 @@
 	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
 	[pasteboard declareTypes:@[NSStringPboardType] owner:nil];
 	[pasteboard setString:[commit realSha] forType:NSStringPboardType];
+}
+
+#pragma mark Open in Github
+- (void) openInGithub:(PBRefMenuItem *)sender
+{
+    PBGitCommit * commit = nil;
+    if([[sender refish] refishType] == kGitXCommitType)
+        commit = (PBGitCommit *)[sender refish];
+    else
+        commit = [historyController.repository commitForRef:[sender refish]];
+    /*
+    [[commit repository] outputInWorkdirForArguments: @[@"open",
+     [[[[[commit repository] remoteUrl: @"origin"]
+        stringByReplacingOccurancesOfString: ".git" withString: ""]
+         stringByAppendingString: @"commit/"]
+           stringByAppendingString: [commit realSha]]]];
+     */
 }
 
 - (void) copyPatch:(PBRefMenuItem *)sender

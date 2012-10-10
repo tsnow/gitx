@@ -99,6 +99,10 @@
 	NSString *pullTitle = hasRemote ? [NSString stringWithFormat:@"Pull %@ and Update %@", remoteName, headRefName] : @"Pull";
 	[items addObject:[PBRefMenuItem itemWithTitle:pullTitle action:@selector(pullRemote:) enabled:hasRemote]];
 
+    // Github
+    NSString *githubTitle = hasRemote ? [NSString stringWithFormat:@"Open %@/%@ in Github", remoteName, headRefName] : @"Github";
+	[items addObject:[PBRefMenuItem itemWithTitle:githubTitle action:@selector(githubRemote:) enabled:hasRemote]];
+
 	// push
 	if (isRemote || [ref isRemoteBranch]) {
 		// push updates to remote
@@ -187,6 +191,7 @@
 	[items addObject:[PBRefMenuItem separatorItem]];
 
 	[items addObject:[PBRefMenuItem itemWithTitle:@"Copy SHA" action:@selector(copySHA:) enabled:YES]];
+    [items addObject:[PBRefMenuItem itemWithTitle:@"Open in Github" action:@selector(openInGithub:) enabled:YES]];
 	[items addObject:[PBRefMenuItem itemWithTitle:@"Copy Patch" action:@selector(copyPatch:) enabled:YES]];
 	NSString *diffTitle = [NSString stringWithFormat:@"Diff with %@", headBranchName];
 	[items addObject:[PBRefMenuItem itemWithTitle:diffTitle action:@selector(diffWithHEAD:) enabled:!isHead]];

@@ -92,7 +92,7 @@
 
 - (void) copyCommitInfo;
 - (void) copyCommitSHA;
-
+- (void) openInGithub;
 - (BOOL) hasNonlinearPath;
 
 - (NSMenu *)tableColumnMenu;
