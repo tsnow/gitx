@@ -1,6 +1,8 @@
 # Alphabetical for a reason.
 
 before_install:
+- brew install libssh2
+- brew info libssh2
 - git submodule init
 - git submodule update
 - pushd objective-git; git submodule init; git submodule update; popd
