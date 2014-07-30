@@ -1,0 +1,11 @@
+# Alphabetical for a reason.
+
+before_install:
+- git submodule init
+- git submodule update
+
+language: objective-c
+
+xcode_project: GitX.xcodeproj
+xcode_scheme: GitX
+# xcode_sdk: iphonesimulator7.1
