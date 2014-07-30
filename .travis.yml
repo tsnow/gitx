@@ -7,5 +7,5 @@ before_install:
 language: objective-c
 
 xcode_project: GitX.xcodeproj
-xcode_scheme: GitX
+xcode_scheme: Release
 # xcode_sdk: iphonesimulator7.1
